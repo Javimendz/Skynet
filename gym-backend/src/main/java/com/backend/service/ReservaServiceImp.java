@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.backend.dto.OcupacionClaseDto;
 import com.backend.domain.Horario;
 import com.backend.domain.Reserva;
 import com.backend.domain.Usuario;
@@ -82,6 +82,34 @@ public class ReservaServiceImp implements IReservaService {
 
         return mapToDto(guardada);
     }
+
+    // En ReservaServiceImpl — siguiendo tu estilo con @Slf4j, ResourceNotFoundException, etc.
+@Override
+@Transactional(readOnly = true)
+public OcupacionClaseDto construirMensajeOcupacion(Long horarioId, String evento) {
+    log.info("Construyendo mensaje de ocupación para horario {}", horarioId);
+
+    Horario horario = horarioRepository.findById(horarioId)
+            .orElseThrow(() -> new ResourceNotFoundException("Horario " + horarioId + " no existe."));
+
+    List<Reserva> confirmadas = reservaRepository.findConfirmadasPorHorario(horarioId);
+
+    List<String> nombresVisibles = confirmadas.stream()
+        .map(Reserva::getUsuario)
+        .filter(u -> Boolean.TRUE.equals(u.getPerfilPublico())) // ← evita NullPointerException
+        .map(Usuario::getUsername)
+        .limit(5)
+        .collect(Collectors.toList());
+
+    return OcupacionClaseDto.builder()
+        .horarioId(horarioId)
+        .fecha(LocalDate.now())
+        .plazasOcupadas(confirmadas.size())
+        .aforoTotal(horario.getAforoMax())   // ← corregido, era getAforoMaximo()
+        .nombresVisibles(nombresVisibles)
+        .evento(evento)
+        .build();
+}
 
     @Override
     @Transactional(readOnly = true)

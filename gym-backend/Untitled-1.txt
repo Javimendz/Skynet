@@ -1,0 +1,68 @@
+1. Gamificación y Motivación (El "Hook" de Retención)
+•
+Widget: Centro de Logros Proyectados (Badges Hub)
+◦
+Dato/Endpoint: GET api/v1/perfil/logros (Requiere nuevo endpoint).
+◦
+Valor: Muestra el progreso hacia la próxima insignia (ej: "A 2 sesiones de: Guerrero de Acero"). Visualizar la meta cercana dispara la dopamina y reduce la deserción.
+◦
+Impacto: Alto | Esfuerzo: Medio.
+•
+Widget: El "Muro de la Racha" (Visual Stacking)
+◦
+Dato/Endpoint: api/v1/accesos/historial (Ya existe).
+◦
+Valor: Un calendario visual tipo GitHub que muestra los días de entrenamiento. Refuerza la identidad de "persona constante".
+◦
+Impacto: Alto | Esfuerzo: Bajo (UI).
+2. Progreso Físico y Salud (Visualización de Resultados)
+•
+Widget: Gráfico de Evolución de Composición (Weight Tracker)
+◦
+Dato/Endpoint: GET api/v1/salud/usuario/{id}/evolucion (Requiere nuevo endpoint que devuelva solo pesos y fechas).
+◦
+Valor: Un mini-gráfico de líneas. Los usuarios entrenan por estética/salud; ver la curva bajar (o subir en masa muscular) es el mayor validador de la app.
+◦
+Impacto: Muy Alto | Esfuerzo: Medio (Integrar MPAndroidChart).
+•
+Widget: Balance Calórico Diario (Net Calories)
+◦
+Dato/Endpoint: Cruce entre api/v1/nutricion/ultimo-plan (Ingesta) y un estimado de api/v1/rutinas/usuario (Gasto).
+◦
+Valor: Muestra "Calorías restantes = Objetivo - (Comida + Ejercicio)".
+◦
+Impacto: Medio | Esfuerzo: Alto (Lógica de cálculo en Backend).
+3. Social y Comunidad (El Gimnasio como Red Social)
+•
+Widget: "Entrenando Ahora" (Buddies Live)
+◦
+    Dato/Endpoint: WebSocket: /topic/occupancy (Extender para enviar nombres de amigos o perfiles públicos).
+◦
+Valor: "Tus amigos Juan y María están en el gym". Fomenta la competitividad sana y el sentimiento de pertenencia.
+◦
+Impacto: Alto | Esfuerzo: Alto (Infraestructura WebSocket avanzada).
+•
+Widget: Invitación Express (Pass Generator)
+◦
+Dato/Endpoint: POST api/v1/usuarios/invitar (Requiere nuevo endpoint).
+◦
+Valor: Botón rápido para generar un QR temporal para un amigo. Convierte al usuario en promotor del gimnasio.
+◦
+Impacto: Medio | Esfuerzo: Medio.
+4. Utilidad Rápida y Contexto (Reducción de Fricción)
+•
+Widget: Banner de Novedades (Broadcast)
+◦
+Dato/Endpoint: GET api/v1/gym/avisos (Requiere nuevo endpoint).
+◦
+Valor: Avisos críticos: "Mañana cerramos por festivo" o "Nueva clase de Yoga añadida". Evita frustraciones.
+◦
+Impacto: Medio | Esfuerzo: Bajo.
+•
+Widget: Selector de Zona de Aforo (Smart Capacity)
+◦
+Dato/Endpoint: api/v1/salas (Ya existe).
+◦
+Valor: No solo el aforo total, sino por salas (Musculación 80%, Piscina 20%). Permite al usuario elegir qué entrenar según la congestión.
+◦
+Impacto: Alto | Esfuerzo: Bajo (Ya tienes los datos).

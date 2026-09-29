@@ -7,9 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.backend.repository.NotificacionRepository;
-import com.backend.service.NotificacionService;
-import com.backend.dto.NotificacionRequestDto; 
 
 @Data
 @Builder

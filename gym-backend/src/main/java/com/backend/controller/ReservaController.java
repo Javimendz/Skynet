@@ -4,12 +4,13 @@ import com.backend.dto.HorarioResponseDto;
 import com.backend.dto.ReservaResponseDto;
 import com.backend.security.dto.ApiResponseDto;
 import com.backend.service.IReservaService;
-
+import com.backend.dto.OcupacionClaseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +40,11 @@ import java.util.List;
 public class ReservaController {
 
         private final IReservaService reservaService;
+private final SimpMessagingTemplate messagingTemplate; // añadir al constructor (Lombok lo genera solo)
+
+
+
+
 
         /**
          * Crea una nueva reserva para un usuario en un horario específico.
@@ -50,25 +56,25 @@ public class ReservaController {
          * @param hId el ID del horario a reservar
          * @return ResponseEntity con la reserva creada y mensaje de confirmación
          */
-        @PostMapping("/usuario/{uId}/horario/{hId}")
-        @PreAuthorize("hasAnyRole('ROLE_USUARIO', 'ROLE_ADMIN')")
-        @io.swagger.v3.oas.annotations.Operation(summary = "Reservar horario", description = "Permite a un usuario reservar un horario disponible")
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Reserva confirmada con éxito")
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Solicitud inválida, posiblemente el horario ya está reservado")
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Error interno del servidor")
-        public ResponseEntity<ApiResponseDto<ReservaResponseDto>> reservar(
-                        @PathVariable("uId") Long uId,
-                        @PathVariable("hId") Long hId) {
-                log.info("Creando reserva para usuario {} en horario {}", uId, hId);
-                ReservaResponseDto nuevaReserva = reservaService.crearReserva(uId, hId);
-                log.info("Reserva creada exitosamente con ID: {}", nuevaReserva.getId());
+       @PostMapping("/usuario/{uId}/horario/{hId}")
+@PreAuthorize("hasAnyRole('ROLE_USUARIO', 'ROLE_ADMIN')")
+public ResponseEntity<ApiResponseDto<ReservaResponseDto>> reservar(
+                @PathVariable("uId") Long uId,
+                @PathVariable("hId") Long hId) {
+        log.info("Creando reserva para usuario {} en horario {}", uId, hId);
+        ReservaResponseDto nuevaReserva = reservaService.crearReserva(uId, hId);
 
-                return ResponseEntity.ok(ApiResponseDto.<ReservaResponseDto>builder()
-                                .mensaje("¡Reserva confirmada! Te esperamos en clase.")
-                                .success(true)
-                                .datos(nuevaReserva)
-                                .build());
-        }
+        // --- líneas nuevas ---
+        OcupacionClaseDto mensajeOcupacion = reservaService.construirMensajeOcupacion(hId, "NUEVA_RESERVA");
+        messagingTemplate.convertAndSend("/topic/occupancy/" + hId, mensajeOcupacion);
+        // ---------------------
+
+        return ResponseEntity.ok(ApiResponseDto.<ReservaResponseDto>builder()
+                        .mensaje("¡Reserva confirmada! Te esperamos en clase.")
+                        .success(true)
+                        .datos(nuevaReserva)
+                        .build());
+}
 
         // ReservaController.java
         @GetMapping("/dia/{dia}")

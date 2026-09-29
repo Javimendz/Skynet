@@ -14,7 +14,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import jakarta.persistence.*;//Importar todo el paquete
 import lombok.*;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,7 +26,9 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "perfil_publico")
+@Builder.Default
+private Boolean perfilPublico = false;
     @Column(name = "username", nullable = false)
     private String username;
 
@@ -39,7 +40,6 @@ public class Usuario {
 
     @Column(name = "email", unique = true, nullable = false, length = 150)
     private String email;
-
 
     @Column(name = "face_embedding", columnDefinition = "TEXT")
     private String faceEmbedding;
@@ -91,11 +91,11 @@ public class Usuario {
                                                                                                               // par //
                                                                                                               // Login
     @OnDelete(action = OnDeleteAction.CASCADE)
-    
+
     @ToString.Exclude // Para evitar bucle infinito con Lombok
     private Perfil perfil; // Relación 1:1 con Perfil
 
-     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @Builder.Default
     private List<Notificacion> notificaciones = new ArrayList<>();
@@ -153,10 +153,10 @@ public class Usuario {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-@JoinColumn(name = "plan_activo_id")
-private PlanEntrenamiento planActivo;
+    @JoinColumn(name = "plan_activo_id")
+    private PlanEntrenamiento planActivo;
 
-@OneToMany(mappedBy = "entrenador")
-private List<Horario> horarios;
+    @OneToMany(mappedBy = "entrenador")
+    private List<Horario> horarios;
 
 }

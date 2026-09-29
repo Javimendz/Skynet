@@ -1,8 +1,7 @@
 package com.backend.service;
-
+import com.backend.dto.OcupacionClaseDto;
 import java.time.LocalDate;
 import java.util.List;
-
 import com.backend.dto.HorarioResponseDto;
 import com.backend.dto.ReservaResponseDto;
 import com.backend.exceptions.ResourceNotFoundException;
@@ -47,6 +46,8 @@ public interface IReservaService {
      * @return Lista de DTO con las reservas activas del usuario
      */
     List<ReservaResponseDto> obtenerReservasUsuario(Long usuarioId);
+OcupacionClaseDto construirMensajeOcupacion(Long horarioId, String evento);
+
 
 List<HorarioResponseDto> obtenerHorariosConPlazas(LocalDate fecha);
     List<ReservaResponseDto> obtenerReservasPorDia(String dia);

@@ -55,5 +55,11 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
                         Long usuarioId, LocalDate fecha, java.time.LocalTime horaInicio, EnumEstado estado);
 
         long countByHorarioIdAndEstadoIn(Long horarioId, List<EnumEstado> estados);
+@Query("SELECT COUNT(r) FROM Reserva r " +
+       "WHERE r.usuario.id = :usuarioId AND r.estado = com.backend.domain.enums.EnumEstado.CONFIRMADA")
+int contarReservasConfirmadas(@Param("usuarioId") Long usuarioId);
 
+@Query("SELECT r FROM Reserva r JOIN FETCH r.usuario " +
+       "WHERE r.horario.id = :horarioId AND r.estado = com.backend.domain.enums.EnumEstado.CONFIRMADA")
+List<Reserva> findConfirmadasPorHorario(@Param("horarioId") Long horarioId);
 }

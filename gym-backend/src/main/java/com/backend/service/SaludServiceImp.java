@@ -1,12 +1,17 @@
 package com.backend.service;
 
 import java.util.List;
+
+import com.backend.domain.RegistroPeso;
 import com.backend.domain.Salud;
 import com.backend.domain.Usuario;
+import com.backend.dto.EvolucionPesoDto;
 import com.backend.dto.SaludRequestDto;
 import com.backend.dto.SaludResponseDto;
 import com.backend.exceptions.ResourceNotFoundException;
+import com.backend.mapper.EvolucionPesoMapper;
 import com.backend.mapper.SaludMapper;
+import com.backend.repository.RegistroPesoRepository;
 import com.backend.repository.SaludRepository;
 import com.backend.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
@@ -33,12 +38,12 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Transactional
 public class SaludServiceImp implements ISaludService {
-
     /** Repositorio para el acceso a datos de salud */
     private final SaludRepository saludRepository;
 
     /** Repositorio para el acceso a datos de usuarios */
     private final UsuarioRepository usuarioRepository;
+    private final RegistroPesoRepository registroPesoRepository;
 
     /** Mapper para convertir entre entidades y DTOs de salud */
     private final SaludMapper saludMapper;
@@ -163,4 +168,10 @@ public class SaludServiceImp implements ISaludService {
         log.info("Registro de salud eliminado exitosamente", id);
     }
 
+    @Override
+    public List<EvolucionPesoDto> obtenerEvolucionPeso(Long usuarioId) {
+        log.info("Consultando evolución de peso para usuario: {}", usuarioId);
+        List<RegistroPeso> registros = registroPesoRepository.findEvolucionPorUsuario(usuarioId);
+        return EvolucionPesoMapper.toDtoList(registros);
+    }
 }

@@ -14,12 +14,11 @@
     <name>demo</name>
     <description>Demo project for Spring Boot</description>
 
-    <properties>
-        <java.version>17</java.version>
-        <org.mapstruct.version>1.6.3</org.mapstruct.version>
-        <!-- Definimos la versión de lombok explícitamente para el plugin -->
-        <lombok.version>1.18.30</lombok.version>
-    </properties>
+   <properties>
+    <java.version>17</java.version>
+    <org.mapstruct.version>1.6.3</org.mapstruct.version>
+    <lombok.version>1.18.38</lombok.version>
+</properties>
 
     <dependencies>
         <!-- Spring Boot Starters -->
@@ -147,21 +146,20 @@
         <target>17</target>
         <annotationProcessorPaths>
             <path>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <!-- Hardcodeamos la versión para asegurar la compatibilidad -->
-                <version>1.18.30</version> 
-            </path>
-            <path>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok-mapstruct-binding</artifactId>
-                <version>0.2.0</version>
-            </path>
-            <path>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct-processor</artifactId>
-                <version>1.6.3</version>
-            </path>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>${lombok.version}</version>
+    </path>
+    <path>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-mapstruct-binding</artifactId>
+        <version>0.2.0</version>
+    </path>
+    <path>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct-processor</artifactId>
+        <version>${org.mapstruct.version}</version>
+    </path>
         </annotationProcessorPaths>
     </configuration>
 </plugin>

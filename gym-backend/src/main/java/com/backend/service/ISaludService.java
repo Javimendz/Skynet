@@ -1,8 +1,11 @@
 package com.backend.service;
 
 import java.util.List;
+
+import com.backend.dto.EvolucionPesoDto;
 import com.backend.dto.SaludRequestDto;
 import com.backend.dto.SaludResponseDto;
+import com.backend.exceptions.ResourceNotFoundException;
 
 /**
  * Interfaz del servicio para la gestión de datos de salud y progreso físico.
@@ -78,4 +81,6 @@ public interface ISaludService {
      * @throws ResourceNotFoundException si el registro no existe
      */
     void eliminarRegistro(Long id);
+
+    List<EvolucionPesoDto> obtenerEvolucionPeso(Long usuarioId);
 }

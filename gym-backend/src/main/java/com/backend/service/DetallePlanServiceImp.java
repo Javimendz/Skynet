@@ -12,6 +12,7 @@ import com.backend.dto.DetallePlanResponseDto;
 import com.backend.mapper.DetallePlanMapper;
 import com.backend.repository.DetallePlanRepository;
 import com.backend.repository.PlanEntrenamientoRepository;
+import com.backend.repository.RutinaRepository;
 import com.backend.repository.EntrenamientoRepository;
 
 import lombok.RequiredArgsConstructor;

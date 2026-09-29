@@ -56,4 +56,23 @@ List<Rutina> findByUsuarioIdAndFechaAsignacionOrderByOrdenAsc(@Param("usuarioId"
     List<Rutina> findByUsuarioIdAndCompletadoFalse(Long usuarioId);
 
     boolean existsByUsuarioIdAndFechaAsignacionAndOrden(Long usuarioId, LocalDate fechaAsignacion, Integer orden);
+@Query("SELECT COUNT(r) FROM Rutina r " +
+           "WHERE r.usuario.id = :usuarioId AND r.completado = true")
+    int contarSesionesCompletadas(@Param("usuarioId") Long usuarioId);
+
+    @Query("SELECT COUNT(r) FROM Rutina r " +
+           "WHERE r.usuario.id = :usuarioId AND r.completado = true " +
+           "AND r.entrenamiento.intensidad = :intensidad")
+    int contarSesionesPorIntensidad(@Param("usuarioId") Long usuarioId,
+                                     @Param("intensidad") String intensidad);
+
+    @Query("SELECT r.fechaAsignacion FROM Rutina r " +
+           "WHERE r.usuario.id = :usuarioId AND r.completado = true " +
+           "ORDER BY r.fechaAsignacion DESC")
+    List<LocalDate> findFechasSesionesOrdenadas(@Param("usuarioId") Long usuarioId);
+
+
+ 
+
+  
 }
