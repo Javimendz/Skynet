@@ -88,18 +88,29 @@ public class EjecucionRutinaActivity extends AppCompatActivity implements Ejerci
             startActivityForResult(intent, 1001);
         });
 
-        // Iniciar cronómetro
+        // Iniciar cronómetro - Priorizando el estado del WorkoutManager para evitar reinicios
         WorkoutManager wm = WorkoutManager.getInstance();
-        wm.restoreState(this);
+        
+        // Si el gestor ya está activo en memoria, evitamos restaurar para no pisar datos vivos
+        if (!wm.isActive()) {
+            wm.restoreState(this);
+        }
         
         if (wm.isActive()) {
+            // Recuperamos el tiempo de inicio persistido en el gestor
             startTime = wm.getStartTime();
-            // Si la lista del intent está vacía pero tenemos una activa, recuperamos la activa
-            if (listaEjercicios.isEmpty() && !wm.getCurrentExercises().isEmpty()) {
-                listaEjercicios.addAll(wm.getCurrentExercises());
+            
+            // Si hay un entrenamiento activo, recuperamos los ejercicios guardados para mantener el progreso
+            List<Ejercicio> exercisesInProgress = wm.getCurrentExercises();
+            if (exercisesInProgress != null && !exercisesInProgress.isEmpty()) {
+                listaEjercicios.clear();
+                listaEjercicios.addAll(exercisesInProgress);
+                // Sincronizamos la referencia para que los cambios en el adaptador se reflejen en el gestor
+                wm.setExercises(this, listaEjercicios);
                 adapter.notifyDataSetChanged();
             }
         } else {
+            // Si no hay nada activo, iniciamos el cronómetro y el estado global
             startTime = SystemClock.elapsedRealtime();
             wm.startWorkout(this, listaEjercicios);
         }
@@ -147,9 +158,12 @@ public class EjecucionRutinaActivity extends AppCompatActivity implements Ejerci
     @Override
     public void onWorkoutUpdate() {
         updateStats();
+        // Persistir el estado actual para evitar pérdida de datos si la app se cierra
+        WorkoutManager.getInstance().saveState(this);
     }
 
     private void terminarEntrenamiento() {
+        findViewById(R.id.btnTerminar).setEnabled(false);
         timerHandler.removeCallbacks(timerRunnable);
         guardarEstadisticasYFinalizar();
     }
@@ -165,99 +179,88 @@ public class EjecucionRutinaActivity extends AppCompatActivity implements Ejerci
         }
 
         String fechaActual = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-        
-        List<EjercicioHistorialDto> dtosParaGuardar = new ArrayList<>();
-        List<Long> ejerciciosIds = new ArrayList<>();
+        final int[] totalSeriesAGuardar = {0};
+        final int[] guardadosCount = {0};
 
+        // Primero contamos cuántas series tienen datos válidos para guardar
         for (Ejercicio ejercicio : listaEjercicios) {
-            List<Ejercicio.Serie> seriesCompletadas = new ArrayList<>();
-            double volumenTotal = 0;
-            double mejorPeso = 0;
-            double mejor1RM = 0;
-
             if (ejercicio.getSeriesList() != null) {
+                if (ejercicio.getId() == null) {
+                    android.util.Log.e("EjecucionRutina", "El ejercicio '" + ejercicio.getNombre() + "' no tiene ID. No se podrá guardar.");
+                    continue;
+                }
                 for (Ejercicio.Serie s : ejercicio.getSeriesList()) {
-                    if (s.isCompletada()) {
-                        seriesCompletadas.add(s);
-                        double peso = s.getKg();
-                        int reps = s.getReps();
-                        volumenTotal += (peso * reps);
-                        if (peso > mejorPeso) mejorPeso = peso;
-                        
-                        double rm = peso * (1 + 0.0333 * reps);
-                        if (rm > mejor1RM) mejor1RM = rm;
+                    // Consideramos válida si tiene peso y reps, o si está marcada como completada
+                    if (s.isCompletada() || (s.getKg() > 0 && s.getReps() > 0)) {
+                        totalSeriesAGuardar[0]++;
                     }
                 }
             }
-
-            if (!seriesCompletadas.isEmpty()) {
-                String duracion = tvDuracionRun.getText().toString();
-                EjercicioHistorialDto dto = new EjercicioHistorialDto(fechaActual, mejorPeso, mejor1RM, volumenTotal, duracion);
-                List<EjercicioHistorialDto.SerieDto> seriesDto = new ArrayList<>();
-                for (Ejercicio.Serie s : seriesCompletadas) {
-                    seriesDto.add(new EjercicioHistorialDto.SerieDto(s.getKg(), s.getReps(), fechaActual));
-                }
-                dto.setSeries(seriesDto);
-                
-                if (ejercicio.getId() == null || ejercicio.getId() <= 0) {
-                    android.util.Log.e("EjecucionRutina", "El ejercicio " + ejercicio.getNombre() + " no tiene una ID válida. Saltando guardado.");
-                    continue;
-                }
-                
-                dtosParaGuardar.add(dto);
-                ejerciciosIds.add(ejercicio.getId());
-                
-                android.util.Log.d("EjecucionRutina", "Preparado para guardar ejercicio ID: " + ejercicio.getId() + " con " + seriesCompletadas.size() + " series");
-            }
         }
 
-        if (dtosParaGuardar.isEmpty()) {
+        if (totalSeriesAGuardar[0] == 0) {
             marcarRutinaComoCompletadaSiEsNecesario();
-            Toast.makeText(this, "Entrenamiento finalizado. No se completaron series (debes marcar el checkbox verde) o faltan IDs de ejercicio.", Toast.LENGTH_LONG).show();
-            finish();
+            Toast.makeText(this, "Introduce peso y reps en las series para guardar.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        final int totalAGuardar = dtosParaGuardar.size();
-        final int[] guardadosCount = {0};
+        // Mostrar diálogo de progreso
+        android.app.ProgressDialog progressDialog = new android.app.ProgressDialog(this);
+        progressDialog.setMessage("Guardando estadísticas (0/" + totalSeriesAGuardar[0] + ")...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
-        for (int i = 0; i < totalAGuardar; i++) {
-            EjercicioHistorialDto dto = dtosParaGuardar.get(i);
-            Long ejercicioId = ejerciciosIds.get(i);
-            
-            android.util.Log.d("EjecucionRutina", "Enviando POST a /api/v1/ejercicios/" + ejercicioId + "/historial/usuario/" + usuarioId);
-            android.util.Log.d("EjecucionRutina", "Payload: " + new com.google.gson.Gson().toJson(dto));
-            
-            RetrofitClient.getApiService().guardarHistorialEjercicio(ejercicioId, usuarioId, dto)
-                    .enqueue(new Callback<EjercicioHistorialDto>() {
-                        @Override
-                        public void onResponse(Call<EjercicioHistorialDto> call, Response<EjercicioHistorialDto> response) {
-                            if (response.isSuccessful()) {
-                                android.util.Log.d("EjecucionRutina", "Historial guardado exitosamente en servidor para ID: " + ejercicioId);
-                            } else {
-                                String errorMsg = "Desconocido";
-                                try {
-                                    errorMsg = response.errorBody().string();
-                                } catch (Exception ignored) {}
-                                android.util.Log.e("EjecucionRutina", "Error en servidor (" + response.code() + ") para ID: " + ejercicioId + ". Detalle: " + errorMsg);
+        final int total = totalSeriesAGuardar[0];
+
+        // Enviamos cada serie individualmente
+        for (Ejercicio ejercicio : listaEjercicios) {
+            if (ejercicio.getSeriesList() == null || ejercicio.getId() == null) continue;
+
+            for (Ejercicio.Serie s : ejercicio.getSeriesList()) {
+                if (!s.isCompletada() && (s.getKg() <= 0 || s.getReps() <= 0)) continue;
+
+                EjercicioHistorialDto dto = new EjercicioHistorialDto(
+                        fechaActual,
+                        s.getKg(),
+                        s.getReps(),
+                        tvDuracionRun.getText().toString()
+                );
+
+                android.util.Log.d("EjecucionRutina", "Enviando serie: Ejercicio=" + ejercicio.getId() + ", Usuario=" + usuarioId + ", Peso=" + s.getKg());
+
+                RetrofitClient.getApiService().guardarHistorialEjercicio(ejercicio.getId(), usuarioId, dto)
+                        .enqueue(new Callback<EjercicioHistorialDto>() {
+                            @Override
+                            public void onResponse(Call<EjercicioHistorialDto> call, Response<EjercicioHistorialDto> response) {
+                                synchronized (guardadosCount) {
+                                    guardadosCount[0]++;
+                                    if (response.isSuccessful()) {
+                                        android.util.Log.d("EjecucionRutina", "Serie guardada con éxito");
+                                    } else {
+                                        android.util.Log.e("EjecucionRutina", "Error del servidor: " + response.code() + " " + response.message());
+                                    }
+
+                                    progressDialog.setMessage("Guardando estadísticas (" + guardadosCount[0] + "/" + total + ")...");
+                                    if (guardadosCount[0] >= total) {
+                                        progressDialog.dismiss();
+                                        marcarRutinaComoCompletadaSiEsNecesario();
+                                    }
+                                }
                             }
-                            checkFinalizacion(guardadosCount, totalAGuardar);
-                        }
 
-                        @Override
-                        public void onFailure(Call<EjercicioHistorialDto> call, Throwable t) {
-                            android.util.Log.e("EjecucionRutina", "Fallo de red al guardar historial para ID: " + ejercicioId, t);
-                            checkFinalizacion(guardadosCount, totalAGuardar);
-                        }
-                    });
-        }
-    }
-
-    private void checkFinalizacion(int[] count, int total) {
-        synchronized (count) {
-            count[0]++;
-            if (count[0] >= total) {
-                marcarRutinaComoCompletadaSiEsNecesario();
+                            @Override
+                            public void onFailure(Call<EjercicioHistorialDto> call, Throwable t) {
+                                android.util.Log.e("EjecucionRutina", "Error al guardar serie: " + t.getMessage());
+                                synchronized (guardadosCount) {
+                                    guardadosCount[0]++;
+                                    progressDialog.setMessage("Guardando estadísticas (" + guardadosCount[0] + "/" + total + ")...");
+                                    if (guardadosCount[0] >= total) {
+                                        progressDialog.dismiss();
+                                        marcarRutinaComoCompletadaSiEsNecesario();
+                                    }
+                                }
+                            }
+                        });
             }
         }
     }

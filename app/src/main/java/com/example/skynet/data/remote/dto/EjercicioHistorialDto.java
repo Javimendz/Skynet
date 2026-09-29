@@ -1,15 +1,17 @@
 package com.example.skynet.data.remote.dto;
 
 import com.google.gson.annotations.SerializedName;
-import java.util.List;
 
 public class EjercicioHistorialDto {
     @SerializedName("fecha")
     private String fecha;
     
-    @SerializedName("mejorPeso")
-    private double mejorPeso;
+    @SerializedName("peso")
+    private double peso;
     
+    @SerializedName("repeticiones")
+    private int repeticiones;
+
     @SerializedName("mejor1RM")
     private double mejor1RM;
     
@@ -19,39 +21,42 @@ public class EjercicioHistorialDto {
     @SerializedName("duracion")
     private String duracion;
 
-    @SerializedName("series")
-    private List<SerieDto> series;
+    public EjercicioHistorialDto() {}
 
-    public static class SerieDto {
-        private double kg;
-        private int reps;
-        private String fecha;
-
-        public SerieDto(double kg, int reps, String fecha) {
-            this.kg = kg;
-            this.reps = reps;
-            this.fecha = fecha;
-        }
-
-        public double getKg() { return kg; }
-        public int getReps() { return reps; }
-        public String getFecha() { return fecha; }
-    }
-
-    public EjercicioHistorialDto(String fecha, double mejorPeso, double mejor1RM, double volumenTotal, String duracion) {
+    public EjercicioHistorialDto(String fecha, double peso, int repeticiones, String duracion) {
         this.fecha = fecha;
-        this.mejorPeso = mejorPeso;
-        this.mejor1RM = mejor1RM;
-        this.volumenTotal = volumenTotal;
+        this.peso = peso;
+        this.repeticiones = repeticiones;
         this.duracion = duracion;
     }
 
     public String getFecha() { return fecha; }
-    public double getMejorPeso() { return mejorPeso; }
-    public double getMejor1RM() { return mejor1RM; }
-    public double getVolumenTotal() { return volumenTotal; }
+    public void setFecha(String fecha) { this.fecha = fecha; }
+    
+    public double getPeso() { return peso; }
+    public void setPeso(double peso) { this.peso = peso; }
+    
+    public int getRepeticiones() { return repeticiones; }
+    public void setRepeticiones(int repeticiones) { this.repeticiones = repeticiones; }
+
+    public double getMejor1RM() { 
+        if (mejor1RM <= 0 && peso > 0 && repeticiones > 0) {
+            return peso * (1 + 0.0333 * repeticiones);
+        }
+        return mejor1RM; 
+    }
+    
+    public void setMejor1RM(double mejor1RM) { this.mejor1RM = mejor1RM; }
+
+    public double getVolumenTotal() { 
+        if (volumenTotal <= 0) {
+            return peso * repeticiones;
+        }
+        return volumenTotal; 
+    }
+    
+    public void setVolumenTotal(double volumenTotal) { this.volumenTotal = volumenTotal; }
+
     public String getDuracion() { return duracion; }
     public void setDuracion(String duracion) { this.duracion = duracion; }
-    public List<SerieDto> getSeries() { return series; }
-    public void setSeries(List<SerieDto> series) { this.series = series; }
 }

@@ -32,9 +32,10 @@ public class WorkoutManager {
     }
 
     public void startWorkout(Context context, List<Ejercicio> exercises) {
+        if (this.isActive) return; // Ya hay un entrenamiento en curso, no sobreescribir startTime
         this.startTime = SystemClock.elapsedRealtime();
         this.isActive = true;
-        this.currentExercises = exercises != null ? exercises : new ArrayList<>();
+        this.currentExercises = exercises != null ? new ArrayList<>(exercises) : new ArrayList<>();
         updateLastExercise();
         saveState(context);
     }

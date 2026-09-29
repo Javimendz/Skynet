@@ -205,10 +205,14 @@ public class ActividadesFragment extends Fragment implements ActividadesAdapter.
 
     private void setupSearch() {
         if (searchView != null) {
-            // Deshabilitar sugerencias del sistema para evitar OneSearchSuggestProvider crash
+            // Fix para el crash de AppSearch/OneSearchSuggestProvider
             searchView.setSuggestionsAdapter(null);
-            searchView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-            searchView.setImeOptions(searchView.getImeOptions() | EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING);
+            
+            EditText searchEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+            if (searchEditText != null) {
+                searchEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_CLASS_TEXT);
+                searchEditText.setImeOptions(searchEditText.getImeOptions() | EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING);
+            }
 
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override

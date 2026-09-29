@@ -1,5 +1,7 @@
 package com.example.skynet.data.remote;
 
+import com.example.skynet.data.remote.dto.EvolucionPesoDto;
+import com.example.skynet.data.remote.dto.LogroResponseDto;
 import com.example.skynet.data.remote.dto.FaceLoginRequest;
 import com.example.skynet.data.remote.dto.AuthResponse;
 import com.example.skynet.data.remote.dto.CategoriaRequestDto;
@@ -110,6 +112,12 @@ public interface ApiService {
     @PUT("api/v1/perfil/{id}")
     Call<ApiResponseDto<PerfilResponseDto>> updatePerfil(@Path("id") Long id, @Body PerfilRequestDto perfilRequestDto);
 
+    @GET("api/v1/perfil/logros")
+    Call<ApiResponseDto<List<LogroResponseDto>>> obtenerLogros();
+
+    @GET("api/v1/perfil/logros/proximo")
+    Call<ApiResponseDto<LogroResponseDto>> obtenerProximoLogro();
+
     @GET("api/v1/perfil")
     Call<ApiResponseDto<List<PerfilResponseDto>>> findAllPerfiles();
 
@@ -122,6 +130,9 @@ public interface ApiService {
 
     @GET("api/v1/salud/usuario/{id}/historial")
     Call<ApiResponseDto<List<SaludResponseDto>>> getHistorialSalud(@Path("id") Long id);
+
+    @GET("api/v1/salud/usuario/{id}/evolucion")
+    Call<ApiResponseDto<List<EvolucionPesoDto>>> getEvolucionPeso(@Path("id") Long id);
 
     @POST("api/v1/salud/usuario/{id}")
     Call<ApiResponseDto<SaludResponseDto>> registrarSalud(@Path("id") Long id, @Body SaludRequestDto saludRequestDto);

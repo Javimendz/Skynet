@@ -166,11 +166,14 @@ public class ClasesFragment extends Fragment implements ClasesAdapter.OnClaseCli
 
     private void setupSearchActividades() {
         if (searchViewActividades != null) {
-            // Prevenir crash de OneSearchSuggestProvider
+            // Fix para el crash de OneSearchSuggestProvider
             searchViewActividades.setSuggestionsAdapter(null);
-            searchViewActividades.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-            // Evitar que el teclado intente aprender de este campo, lo que puede disparar AppSearch
-            searchViewActividades.setImeOptions(searchViewActividades.getImeOptions() | EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING);
+
+            EditText searchEditText = searchViewActividades.findViewById(androidx.appcompat.R.id.search_src_text);
+            if (searchEditText != null) {
+                searchEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_CLASS_TEXT);
+                searchEditText.setImeOptions(searchEditText.getImeOptions() | EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING);
+            }
 
             searchViewActividades.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override

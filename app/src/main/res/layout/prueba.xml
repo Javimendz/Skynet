@@ -136,10 +136,9 @@
 
                 <!-- Tarjeta de Ejercicio 1 -->
                 <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.App.Card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="2dp"
                     android:layout_marginBottom="16dp">
 
                     <LinearLayout
@@ -200,10 +199,9 @@
 
                 <!-- Tarjeta de Ejercicio 2 -->
                 <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.App.Card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="2dp"
                     android:layout_marginBottom="16dp">
 
                     <LinearLayout

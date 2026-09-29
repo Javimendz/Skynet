@@ -25,7 +25,21 @@ public class StompManager {
         void onNotification(NotificacionResponseDto notification);
     }
 
-    public void connect(String url, Long usuarioId, String token, OnNotificationReceivedListener listener) {
+    public interface OnActiveFriendsReceivedListener {
+        void onActiveFriendsUpdate(String payload);
+    }
+
+    public interface OnOccupancyReceivedListener {
+        void onOccupancyUpdate(Long count);
+    }
+
+    public interface OnConnectionStateChangeListener {
+        void onStateChange(boolean connected);
+    }
+
+    public void connect(String url, Long usuarioId, String token, OnNotificationReceivedListener listener, 
+                        OnOccupancyReceivedListener occupancyListener, OnActiveFriendsReceivedListener friendsListener, 
+                        OnConnectionStateChangeListener stateListener) {
         // Configuración de OkHttpClient para mejorar la estabilidad de la conexión
         OkHttpClient httpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -53,16 +67,24 @@ public class StompManager {
             switch (lifecycleEvent.getType()) {
                 case OPENED:
                     Log.d(TAG, "STOMP connection opened");
+                    if (stateListener != null) stateListener.onStateChange(true);
                     subscribeToNotifications(usuarioId, listener);
+                    subscribeToOccupancy(occupancyListener);
+                    subscribeToActiveFriends(friendsListener);
                     break;
                 case ERROR:
                     Log.e(TAG, "STOMP connection error", lifecycleEvent.getException());
+                    if (stateListener != null) stateListener.onStateChange(false);
                     break;
                 case CLOSED:
                     Log.d(TAG, "STOMP connection closed");
+                    if (stateListener != null) stateListener.onStateChange(false);
                     break;
             }
-        }, throwable -> Log.e(TAG, "Lifecycle error", throwable));
+        }, throwable -> {
+            Log.e(TAG, "Lifecycle error", throwable);
+            if (stateListener != null) stateListener.onStateChange(false);
+        });
 
         mStompClient.connect(headers);
     }
@@ -77,6 +99,31 @@ public class StompManager {
                     }
                 }, throwable -> {
                     Log.e(TAG, "Error en suscripción", throwable);
+                });
+    }
+
+    private void subscribeToOccupancy(OnOccupancyReceivedListener listener) {
+        if (listener == null) return;
+        mStompClient.topic("/topic/club/ocupacion")
+                .subscribe(topicMessage -> {
+                    try {
+                        Long count = Long.parseLong(topicMessage.getPayload());
+                        listener.onOccupancyUpdate(count);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error parsing occupancy", e);
+                    }
+                }, throwable -> {
+                    Log.e(TAG, "Error en suscripción a ocupación", throwable);
+                });
+    }
+
+    private void subscribeToActiveFriends(OnActiveFriendsReceivedListener listener) {
+        if (listener == null) return;
+        mStompClient.topic("/topic/social/active-friends")
+                .subscribe(topicMessage -> {
+                    listener.onActiveFriendsUpdate(topicMessage.getPayload());
+                }, throwable -> {
+                    Log.e(TAG, "Error en suscripción a amigos activos", throwable);
                 });
     }
 

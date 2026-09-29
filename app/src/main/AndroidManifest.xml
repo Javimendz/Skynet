@@ -126,6 +126,11 @@
             android:exported="false" />
 
         <activity
+            android:name=".ui.salud.RegistroSaludActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GYMCrush.Light" />
+
+        <activity
             android:name=".ui.ejercicios.DetalleEjercicioActivity"
             android:exported="false"
             android:theme="@style/Theme.GYMCrush" />

@@ -26,6 +26,7 @@ zxingCore = "3.5.3"
 media3 = "1.5.1"
 youtubePlayer = "12.1.0"
 slidingRootNav = "v1.1.1"
+circleimageview = "3.1.0"
 stomp = "1.6.6"
 rxjava2 = "2.2.21"
 rxandroid2 = "2.1.1"
@@ -53,6 +54,7 @@ mlkit-face-detection = { group = "com.google.mlkit", name = "face-detection", ve
 tensorflow-lite = { group = "org.tensorflow", name = "tensorflow-lite", version.ref = "tensorflowLite" }
 tensorflow-lite-support = { group = "org.tensorflow", name = "tensorflow-lite-support", version.ref = "tensorflowLiteSupport" }
 
+circleimageview = { group = "de.hdodenhof", name = "circleimageview", version.ref = "circleimageview" }
 mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpandroidchart" }
 rxjava2 = { group = "io.reactivex.rxjava2", name = "rxjava", version.ref = "rxjava2" }
 rxandroid2 = { group = "io.reactivex.rxjava2", name = "rxandroid", version.ref = "rxandroid2" }

@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#0A1128"
     android:padding="16dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Volumen Total (kg)"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -25,72 +26,81 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Récords Personales"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="2dp">
+        app:cardBackgroundColor="#1A2238"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:strokeColor="#1AFFFFFF"
+        app:strokeWidth="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="1RM Estimado"
-                    android:textColor="@color/gray" />
+                    android:textColor="#99FFFFFF"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv1RM"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 kg"
-                    android:textColor="@color/black"
+                    android:textColor="#CD0277"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginVertical="8dp"
-                android:background="#EEEEEE" />
+                android:layout_marginVertical="12dp"
+                android:background="#1AFFFFFF" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Mejor Volumen"
-                    android:textColor="@color/gray" />
+                    android:textColor="#99FFFFFF"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvMejorVolumen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 kg"
-                    android:textColor="@color/black"
+                    android:textColor="#4FC3F7"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

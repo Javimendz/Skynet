@@ -78,15 +78,13 @@ public class StaffFragment extends Fragment {
 
     private void setupSearch() {
         if (searchView != null) {
-            // Aplicar fix para el crash de AppSearch (OneSearchSuggestProvider)
+            // Fix para el crash de AppSearch/OneSearchSuggestProvider
             searchView.setSuggestionsAdapter(null);
-            searchView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-            // Evitar que el teclado intente aprender de este campo, lo que puede disparar AppSearch
-            searchView.setImeOptions(searchView.getImeOptions() | EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING);
-
-            // Cambiar color de texto a gris claro
+            
             EditText searchEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
             if (searchEditText != null) {
+                searchEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_CLASS_TEXT);
+                searchEditText.setImeOptions(searchEditText.getImeOptions() | EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING);
                 searchEditText.setTextColor(Color.parseColor("#CCCCCC"));
                 searchEditText.setHintTextColor(Color.parseColor("#999999"));
             }

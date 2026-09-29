@@ -43,9 +43,9 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
         holder.tvDayName.setText(item.getDiaSemana());
         holder.tvClassTime.setText(item.getHoraInicio() + " - " + item.getHoraFin());
         
-        int cupo = item.getCupoMaximo() != null ? item.getCupoMaximo() : 20;
-        // Simulamos plazas disponibles si no viene del DTO
-        holder.tvAvailability.setText("Cupo: " + cupo);
+        int cupo = item.getAforoMax() != null ? item.getAforoMax() : 20;
+        int libres = item.getPlazasLibres();
+        holder.tvAvailability.setText(libres + "/" + cupo + " plazas");
 
         holder.btnQuickReserve.setOnClickListener(v -> {
             if (listener != null) listener.onBookingClick(item);

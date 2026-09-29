@@ -1,20 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="entrar_login">#0A1128</color>
-    <color name="primary_dark">#0A1128</color>
-    <color name="brand_pink">#CD0277</color>
-    <color name="macro_protein">#F06292</color>
-    <color name="macro_carbs">#4FC3F7</color>
-    <color name="macro_fats">#FFD54F</color>
+    <color name="nike_black">#000000</color>
+    <color name="black">#000000</color>
+    <color name="nike_white">#FFFFFF</color>
+    <color name="nike_gray">#F5F5F5</color>
+    <color name="nike_dark_gray">#111111</color>
+    <color name="nike_accent">#E53935</color> <!-- Skynet Red/Orange Accent -->
+    <color name="text_secondary_light">#707072</color>
+    <color name="glass_background">#0F172A</color>
+    <color name="glass_card">#1AFFFFFF</color>
+    <color name="glass_border">#33FFFFFF</color>
+    <color name="neon_primary">#00F2FF</color>
+    <color name="neon_secondary">#7000FF</color>
+    <color name="neon_accent">#FF007A</color>
+    <color name="accent_color">#FF007A</color>
+    <color name="brand_pink">#FF007A</color>
+    <color name="white">#FFFFFF</color>
     <color name="card_surface">#1A2238</color>
-    <color name="card_surface_light">#252D4A</color>
-    <color name="accent_color">#FF4081</color>
-    <color name="google_red">#EA4335</color>
-    <color name="divider_color">#DDDDDD</color>
-    <color name="input_stroke_color">#0A1128</color>
-    <color name="card_background">#1E2640</color>
-    <color name="gray">#888888</color>
-    <color name="azulito">#0088CC</color>
+    <color name="text_primary">#F8FAFC</color>
+    <color name="text_secondary">#94A3B8</color>
+
+    <color name="card_background">#1A2238</color>
+    <color name="azulito">#2196F3</color>
+    <color name="gray">#808080</color>
+    <color name="primary_dark">#000000</color>
+    <color name="bg_light">#F5F5F5</color>
+    <color name="surface_white">#FFFFFF</color>
+    <color name="text_black">#000000</color>
+    <color name="accent_purple">#7000FF</color>
+    <color name="text_gray">#808080</color>
+    <color name="macro_protein">#FF4500</color>
+    <color name="macro_carbs">#32CD32</color>
+    <color name="macro_fats">#1E90FF</color>
+    <color name="accent_blue">#2196F3</color>
+    <color name="soft_blue">#ADD8E6</color>
+    <color name="soft_purple">#E6E6FA</color>
+
+    <!-- Skynet Dark Mode Palette -->
+    <color name="skynet_bg">#0D0B14</color>
+    <color name="skynet_card">#1A1625</color>
+    <color name="skynet_primary">#8B5CF6</color>
+    <color name="skynet_secondary">#A78BFA</color>
+    <color name="skynet_text_main">#F5F3FF</color>
+    <color name="skynet_text_secondary">#B8B0C7</color>
+    <color name="skynet_border">#268B5CF6</color>
+
+    <!-- Palette of Purples for Contrast and Visibility -->
+    <color name="purple_50">#F5F3FF</color>
+    <color name="purple_100">#EDE9FE</color>
+    <color name="purple_200">#DDD6FE</color>
+    <color name="purple_500">#8B5CF6</color>
+    <color name="purple_600">#7C3AED</color>
+    <color name="purple_700">#6D28D9</color>
+    <color name="purple_900">#4C1D95</color>
+    <color name="purple_text">#2E1065</color>
+    <color name="body_background">#F0F0F5</color>
+    <color name="header_dark">#0F0F1A</color>
+    <color name="card_white">#FFFFFF</color>
+    <color name="card_stroke">#000000</color>
+    <color name="text_title">#111111</color>
+    <color name="text_caption">#6B6B7B</color>
+    <color name="accent_purple_brand">#6200FF</color>
+    <color name="pill_indicator">#E9E7FF</color>
 </resources>

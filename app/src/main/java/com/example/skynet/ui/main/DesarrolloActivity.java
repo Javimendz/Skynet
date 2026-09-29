@@ -39,6 +39,7 @@ import com.example.skynet.data.remote.dto.PerfilResponseDto;
 import com.example.skynet.data.remote.dto.ReservaResponseDto;
 import com.example.skynet.data.remote.dto.RutinaResponseDto;
 import com.example.skynet.data.remote.dto.TutorialResponseDto;
+import com.example.skynet.data.remote.dto.HorarioResponseDto;
 import com.example.skynet.ui.ejercicios.ReproductorFragment;
 import com.google.gson.Gson;
 import com.example.skynet.ui.auth.LoginActivity;
@@ -57,17 +58,30 @@ import com.example.skynet.ui.social.SocialFragment;
 import com.example.skynet.ui.notificaciones.NotificacionesFragment;
 import com.example.skynet.ui.salud.SaludFragment;
 import com.example.skynet.ui.staff.StaffFragment;
+import com.example.skynet.data.remote.dto.EvolucionPesoDto;
+import com.example.skynet.data.remote.dto.LogroResponseDto;
 import com.example.skynet.data.remote.dto.VisualizacionResponseDto;
 import com.example.skynet.ui.ejercicios.TutorialViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import java.util.Collections;
 import com.example.skynet.ui.view.EspacioFragment;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -86,6 +100,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import android.content.res.ColorStateList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -93,6 +108,7 @@ import retrofit2.Response;
 
 import androidx.annotation.OptIn;
 import androidx.media3.common.util.UnstableApi;
+import kotlin.Unit;
 
 public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -108,10 +124,29 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
     private TextView tvNombrePlanWidget, tvCaloriasWidget;
     private TextView tvProtLabel, tvCarbLabel, tvGrasLabel;
     private TextView tvIANewsTitle, tvIANewsContent;
-    private TextView tvActividadPorcentaje, tvReservasValor;
+    private com.google.android.material.chip.ChipGroup chipGroupCategories;
+    private TextView tvStreakCount, tvAforoPorcentaje;
+    private View statusAforoIndicator;
+    private com.google.android.material.card.MaterialCardView cardAforoWidget, cardResumeWorkout, cardQuickLogNutricion;
+    private TextView tvLastExerciseName;
     private com.google.android.material.progressindicator.CircularProgressIndicator progressCircularStat;
     private com.google.android.material.progressindicator.LinearProgressIndicator progressProt, progressCarb, progressGras, progressReservas;
+    private View wsStatusIndicator;
+    private View dotL, dotM, dotMi, dotJ, dotV, dotS, dotD;
+    private View layoutBroadcast;
+    private TextView tvActividadPorcentaje, tvReservasValor, tvBroadcastTitle, tvBroadcastContent;
+    private androidx.compose.ui.platform.ComposeView composeWeeklyPerformance, composeCategorySelector;
+    private List<Boolean> diasCompletadosGlobal = new ArrayList<>(Collections.nCopies(7, false));
+    private int actividadPorcentajeGlobal = 0;
+    private int reservasCountGlobal = 0;
+    private FriendAdapter friendAdapter;
+    private LineChart weightLineChart;
     private SlidingRootNav slidingRootNav;
+    private androidx.recyclerview.widget.RecyclerView rvReservasRapidas;
+    private androidx.recyclerview.widget.RecyclerView rvAchievements;
+    private TextView tvEmptyAchievements;
+    private TextView tvWeightChartError;
+    private androidx.recyclerview.widget.RecyclerView rvFriendsTraining;
 
     // Carrusel
     private androidx.viewpager2.widget.ViewPager2 viewPagerCarousel, viewPagerExerciseCarousel;
@@ -121,8 +156,9 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
 
     private com.example.skynet.data.remote.StompManager stompManager;
     private LottieAnimationView notificationsAnim;
-    private TextView notificationBadge;
+    private View notificationBadge;
     private List<com.example.skynet.data.remote.dto.NotificacionResponseDto> notificacionesSesion = new ArrayList<>();
+    private BookingAdapter bookingAdapter;
 
     private TutorialViewModel tutorialViewModel;
 
@@ -139,11 +175,13 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         long usuarioId = prefs.getLong("user_id", -1);
 
         // 1. Configurar Fecha Actual
-        TextView tvFecha = findViewById(R.id.tvFecha);
-        Date calendario = Calendar.getInstance().getTime();
-        SimpleDateFormat formato = new SimpleDateFormat("EEEE, d MMMM", new Locale("es", "ES"));
-        String fechaFormateada = formato.format(calendario);
-        tvFecha.setText(fechaFormateada.substring(0, 1).toUpperCase() + fechaFormateada.substring(1));
+        TextView tvFecha = findViewById(R.id.tvSaludoLabel);
+        if (tvFecha != null) {
+            Date calendario = Calendar.getInstance().getTime();
+            SimpleDateFormat formato = new SimpleDateFormat("EEEE, d MMMM", new Locale("es", "ES"));
+            String fechaFormateada = formato.format(calendario);
+            tvFecha.setText(fechaFormateada.substring(0, 1).toUpperCase() + fechaFormateada.substring(1));
+        }
 
         // 2. Configurar Saludo e Imagen con SharedPreferences
         profileImage = findViewById(R.id.profile_image);
@@ -166,6 +204,79 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         tvReservasValor = findViewById(R.id.tvReservasValor);
         progressCircularStat = findViewById(R.id.progressCircularStat);
         progressReservas = findViewById(R.id.progressReservas);
+
+        tvStreakCount = findViewById(R.id.tvStreakCount);
+        tvAforoPorcentaje = findViewById(R.id.tvAforoPorcentaje);
+        statusAforoIndicator = findViewById(R.id.statusAforoIndicator);
+        cardAforoWidget = findViewById(R.id.cardAforoWidget);
+
+        // Inicialización de nuevos widgets de utilidad (Smart Actions)
+        cardResumeWorkout = findViewById(R.id.cardResumeWorkout);
+        tvLastExerciseName = findViewById(R.id.tvLastExerciseName);
+        cardQuickLogNutricion = findViewById(R.id.cardQuickLogNutricion);
+
+        if (cardResumeWorkout != null) {
+            cardResumeWorkout.setOnClickListener(v -> {
+                // Lógica para saltar directamente a la ejecución del último ejercicio guardado
+                Toast.makeText(this, "Retomando sesión: Press Banca...", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        if (cardQuickLogNutricion != null) {
+            cardQuickLogNutricion.setOnClickListener(v -> {
+                // Navega al fragmento de dieta con el buscador pre-enfocado
+                DietaFragment fragment = new DietaFragment();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("focusSearch", true);
+                fragment.setArguments(bundle);
+                cargarFragmento(fragment);
+            });
+        }
+
+        dotL = findViewById(R.id.dotL);
+        dotM = findViewById(R.id.dotM);
+        dotMi = findViewById(R.id.dotMi);
+        dotJ = findViewById(R.id.dotJ);
+        dotV = findViewById(R.id.dotV);
+        dotS = findViewById(R.id.dotS);
+        dotD = findViewById(R.id.dotD);
+
+        layoutBroadcast = findViewById(R.id.layoutBroadcast);
+        tvBroadcastTitle = findViewById(R.id.tvBroadcastTitle);
+        tvBroadcastContent = findViewById(R.id.tvBroadcastContent);
+        View btnCerrarBroadcast = findViewById(R.id.btnCerrarBroadcast);
+        if (btnCerrarBroadcast != null) {
+            btnCerrarBroadcast.setOnClickListener(v -> layoutBroadcast.setVisibility(View.GONE));
+        }
+
+        rvReservasRapidas = findViewById(R.id.rvReservasRapidas);
+        rvAchievements = findViewById(R.id.rvAchievements);
+        tvEmptyAchievements = findViewById(R.id.tvEmptyAchievements);
+        tvWeightChartError = findViewById(R.id.tvWeightChartError);
+        rvFriendsTraining = findViewById(R.id.rvFriendsTraining);
+
+        composeWeeklyPerformance = findViewById(R.id.composeWeeklyPerformance);
+        composeCategorySelector = findViewById(R.id.composeCategorySelector);
+        setupWeeklyPerformanceCompose();
+        setupCategorySelectorCompose();
+        friendAdapter = new FriendAdapter();
+        if (rvFriendsTraining != null) {
+            rvFriendsTraining.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
+            rvFriendsTraining.setAdapter(friendAdapter);
+        }
+
+        weightLineChart = findViewById(R.id.weightLineChart);
+        View cardWeightChart = findViewById(R.id.cardWeightChart);
+        if (cardWeightChart != null) {
+            cardWeightChart.setOnClickListener(v -> {
+                Intent intent = new Intent(DesarrolloActivity.this, com.example.skynet.ui.salud.RegistroSaludActivity.class);
+                startActivityForResult(intent, 102);
+            });
+        }
+        updateWeightChart();
+
+        // chipGroupCategories = findViewById(R.id.chipGroupCategories);
+        // setupCategoryChips();
 
         progressProt = findViewById(R.id.progressProt);
         progressCarb = findViewById(R.id.progressCarb);
@@ -209,6 +320,8 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         // Ocultamos el NavigationView viejo pero lo dejamos por si acaso o lo borramos después
         navigationView.setVisibility(View.GONE);
         
+        drawer = findViewById(R.id.drawer_layout_root);
+        
         cargarDatosYFotoPerfil();
 
         // Configurar roles y listener del menú
@@ -244,7 +357,9 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
             } else if (id == R.id.nav_staff) {
                 cargarFragmento(new StaffFragment());
             }
-            drawer.closeDrawer(GravityCompat.START);
+            if (drawer != null) {
+                drawer.closeDrawer(GravityCompat.START);
+            }
             return true;
         });
 
@@ -260,14 +375,8 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
             } else if (id == R.id.nav_entrenamiento) {
                 cargarFragmento(new EntrenamientoFragment());
                 return true;
-            } else if (id == R.id.nav_workout) {
-                cargarFragmento(new RutinasFragment());
-                return true;
             } else if (id == R.id.nav_social) {
                 cargarFragmento(new SocialFragment());
-                return true;
-            } else if (id == R.id.nav_clases) {
-                cargarFragmento(new ClasesFragment());
                 return true;
             } else if (id == R.id.nav_perfil) {
                 cargarFragmento(new PerfilFragment());
@@ -289,24 +398,62 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
             cargarFragmento(new NotificacionesFragment());
         });
 
-        // 6. Iniciar WebSockets para Notificaciones
+        notificationsAnim.setOnLongClickListener(v -> {
+            simulateActiveFriendsUpdate();
+            return true;
+        });
+
+        // 6. Iniciar WebSockets para Notificaciones y Aforo
         iniciarWebSockets(usuarioId);
 
         // Configurar el carrusel
         setupCarousel();
         setupExerciseCarousel();
+        setupBookingCarousel();
+        setupAchievements();
         cargarNoticiasIA();
         actualizarRendimientoSemanal();
+        calcularRachaActual(usuarioId);
 
         // Listener único para manejar la visibilidad del Home y refrescar datos al volver de fragmentos
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                 homeContent.setVisibility(View.VISIBLE);
+                findViewById(R.id.fragment_container).setVisibility(View.GONE);
                 bottomNav.setSelectedItemId(R.id.nav_home);
-                cargarDatosYFotoPerfil();
+                drawer = findViewById(R.id.drawer_layout_root);
+        
+        cargarDatosYFotoPerfil();
                 actualizarRendimientoSemanal();
+                calcularRachaActual(usuarioId);
             }
         });
+    }
+
+    private void setupCategorySelectorCompose() {
+        if (composeCategorySelector == null) return;
+        
+        List<String> categories = java.util.Arrays.asList("Todos", "Fuerza", "Cardio", "Yoga", "Hipertrofia", "Resistencia");
+        
+        WeeklyPerformanceComposeKt.setupGlassCategorySelector(
+            composeCategorySelector,
+            categories,
+            "Todos",
+            category -> {
+                String catCode = category.toUpperCase();
+                if (catCode.equals("TODOS")) catCode = "ALL";
+                filtrarCarruselPorCategoria(catCode);
+                return kotlin.Unit.INSTANCE;
+            }
+        );
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 102 && resultCode == RESULT_OK) {
+            updateWeightChart();
+        }
     }
 
     private void cargarNoticiasIA() {
@@ -338,6 +485,149 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
             findViewById(R.id.cardIANews).animate().alpha(1).setDuration(800).start();
 
         }, 2000);
+    }
+
+    private void setupBookingCarousel() {
+        rvReservasRapidas = findViewById(R.id.rvReservasRapidas);
+        bookingAdapter = new BookingAdapter(horario -> {
+            SharedPreferences prefs = getSharedPreferences("DatosUsuario", MODE_PRIVATE);
+            long usuarioId = prefs.getLong("user_id", -1);
+            if (usuarioId != -1) {
+                RetrofitClient.getApiService().crearReserva(usuarioId, horario.getId()).enqueue(new Callback<ApiResponseDto<ReservaResponseDto>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponseDto<ReservaResponseDto>> call, Response<ApiResponseDto<ReservaResponseDto>> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(DesarrolloActivity.this, "¡Reserva realizada con éxito!", Toast.LENGTH_SHORT).show();
+                            actualizarRendimientoSemanal();
+                        } else {
+                            Toast.makeText(DesarrolloActivity.this, "Error al reservar", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ApiResponseDto<ReservaResponseDto>> call, Throwable t) {
+                        Toast.makeText(DesarrolloActivity.this, "Fallo de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        rvReservasRapidas.setAdapter(bookingAdapter);
+
+        // Cargar horarios disponibles
+        RetrofitClient.getApiService().getTodosLosHorarios().enqueue(new Callback<ApiResponseDto<List<HorarioResponseDto>>>() {
+            @Override
+            public void onResponse(Call<ApiResponseDto<List<HorarioResponseDto>>> call, Response<ApiResponseDto<List<HorarioResponseDto>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    bookingAdapter.updateItems(response.body().getDatos());
+                }
+            }
+            @Override public void onFailure(Call<ApiResponseDto<List<HorarioResponseDto>>> call, Throwable t) {}
+        });
+    }
+
+    private void setupWeeklyPerformanceCompose() {
+        if (composeWeeklyPerformance == null) return;
+        composeWeeklyPerformance.setViewCompositionStrategy(
+            androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed.INSTANCE
+        );
+        updateWeeklyPerformanceComposeContent();
+    }
+
+    private void updateWeeklyPerformanceComposeContent() {
+        if (composeWeeklyPerformance == null) return;
+        
+        WeeklyPerformanceData data = new WeeklyPerformanceData(
+            (float) actividadPorcentajeGlobal,
+            reservasCountGlobal,
+            5,
+            diasCompletadosGlobal
+        );
+        
+        WeeklyPerformanceComposeKt.setupWeeklyPerformanceCompose(composeWeeklyPerformance, data);
+    }
+
+    private void setupAchievements() {
+        if (rvAchievements == null) return;
+        rvAchievements.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
+        
+        RetrofitClient.getApiService().obtenerLogros().enqueue(new Callback<ApiResponseDto<List<LogroResponseDto>>>() {
+            @Override
+            public void onResponse(Call<ApiResponseDto<List<LogroResponseDto>>> call, Response<ApiResponseDto<List<LogroResponseDto>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getDatos() != null) {
+                    List<LogroResponseDto> logros = response.body().getDatos();
+                    if (logros.isEmpty()) {
+                        runOnUiThread(() -> {
+                            if (tvEmptyAchievements != null) tvEmptyAchievements.setVisibility(View.VISIBLE);
+                            rvAchievements.setVisibility(View.GONE);
+                        });
+                        return;
+                    }
+                    runOnUiThread(() -> {
+                        if (tvEmptyAchievements != null) tvEmptyAchievements.setVisibility(View.GONE);
+                        rvAchievements.setVisibility(View.VISIBLE);
+                    });
+                    List<Achievement> achievements = new ArrayList<>();
+                    for (LogroResponseDto l : logros) {
+                        String fecha = l.getFechaDesbloqueo() != null ? l.getFechaDesbloqueo() : 
+                                     (l.getPorcentajeProgreso() != null ? l.getPorcentajeProgreso().intValue() + "%" : "En progreso");
+                        achievements.add(new Achievement(l.getNombre(), l.getIcono(), fecha));
+                    }
+                    AchievementAdapter adapter = new AchievementAdapter(achievements);
+                    rvAchievements.setAdapter(adapter);
+                } else {
+                    Log.e("API_LOGROS", "Respuesta no exitosa al cargar logros: " + response.code());
+                    runOnUiThread(() -> {
+                        if (tvEmptyAchievements != null) {
+                            tvEmptyAchievements.setText("Error al cargar logros. Revisa tu conexión. 🔄");
+                            tvEmptyAchievements.setVisibility(View.VISIBLE);
+                        }
+                        rvAchievements.setVisibility(View.GONE);
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponseDto<List<LogroResponseDto>>> call, Throwable t) {
+                Log.e("API_LOGROS", "Error al cargar logros", t);
+                runOnUiThread(() -> {
+                    if (tvEmptyAchievements != null) {
+                        tvEmptyAchievements.setText("Error de red al cargar logros. Inténtalo de nuevo. 🔄");
+                        tvEmptyAchievements.setVisibility(View.VISIBLE);
+                    }
+                    rvAchievements.setVisibility(View.GONE);
+                });
+            }
+        });
+    }
+
+    private void setupCategoryChips() {
+        chipGroupCategories.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            if (checkedIds.isEmpty()) return;
+            
+            int checkedId = checkedIds.get(0);
+            String categoria = "";
+            
+            if (checkedId == R.id.chipAll) categoria = "ALL";
+            else if (checkedId == R.id.chipFuerza) categoria = "FUERZA";
+            else if (checkedId == R.id.chipCardio) categoria = "CARDIO";
+            else if (checkedId == R.id.chipHipertrofia) categoria = "HIPERTROFIA";
+            else if (checkedId == R.id.chipResistencia) categoria = "RESISTENCIA";
+            
+            filtrarCarruselPorCategoria(categoria);
+        });
+    }
+
+    private void filtrarCarruselPorCategoria(String categoria) {
+        // Lógica para filtrar los carruseles. 
+        // Por ahora, simularemos un refresco de datos o filtrado en la lista local.
+        if ("ALL".equals(categoria)) {
+            cargarDatosDinamicosCarrusel();
+            tutorialViewModel.cargarPopulares();
+        } else {
+            // Aquí llamarías a un endpoint filtrado o filtrarías carouselItemsList / exerciseCarouselItemsList
+            // Ejemplo simple:
+            Toast.makeText(this, "Filtrando por: " + categoria, Toast.LENGTH_SHORT).show();
+            // tutorialViewModel.cargarPorCategoria(categoria); // Si existiera en el ViewModel
+        }
     }
 
     private void setupCarousel() {
@@ -722,49 +1012,54 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
 
         ApiService apiService = RetrofitClient.getApiService();
 
-        // 1. Rendimiento de Actividad (Media de los últimos 7 días)
-        final int diasAtras = 7;
-        final int[] totalCompletadas = {0};
-        final int[] totalAsignadas = {0};
-        final int[] respuestasActividad = {0};
-        
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        // 1. Meta Semanal (Días asistidos vs Objetivo de 4 días)
+        apiService.obtenerHistorialAccesos().enqueue(new Callback<ApiResponseDto<List<com.example.skynet.data.remote.dto.AccesoResponseDto>>>() {
+            @Override
+            public void onResponse(Call<ApiResponseDto<List<com.example.skynet.data.remote.dto.AccesoResponseDto>>> call, Response<ApiResponseDto<List<com.example.skynet.data.remote.dto.AccesoResponseDto>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<com.example.skynet.data.remote.dto.AccesoResponseDto> accesos = response.body().getDatos();
+                    
+                    Calendar cal = Calendar.getInstance();
+                    cal.setFirstDayOfWeek(Calendar.MONDAY);
+                    cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                    cal.set(Calendar.HOUR_OF_DAY, 0);
+                    long inicioSemanaMs = cal.getTimeInMillis();
 
-        for (int i = 0; i < diasAtras; i++) {
-            Calendar diaConsulta = (Calendar) cal.clone();
-            diaConsulta.add(Calendar.DAY_OF_YEAR, -i);
-            String fechaStr = sdf.format(diaConsulta.getTime());
+                    Set<String> diasEstaSemana = new HashSet<>();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    boolean[] dotsSemana = new boolean[7];
 
-            apiService.getRutinaDiaria(usuarioId, fechaStr).enqueue(new Callback<ApiResponseDto<List<RutinaResponseDto>>>() {
-                @Override
-                public void onResponse(Call<ApiResponseDto<List<RutinaResponseDto>>> call, Response<ApiResponseDto<List<RutinaResponseDto>>> response) {
-                    synchronized (respuestasActividad) {
-                        respuestasActividad[0]++;
-                        if (response.isSuccessful() && response.body() != null && response.body().getDatos() != null) {
-                            List<RutinaResponseDto> rutinas = response.body().getDatos();
-                            totalAsignadas[0] += rutinas.size();
-                            for (RutinaResponseDto r : rutinas) {
-                                if (Boolean.TRUE.equals(r.getCompletado())) totalCompletadas[0]++;
-                            }
-                        }
-                        if (respuestasActividad[0] == diasAtras) {
-                            actualizarUIActividadSemanal(totalCompletadas[0], totalAsignadas[0]);
+                    if (accesos != null) {
+                        for (com.example.skynet.data.remote.dto.AccesoResponseDto acceso : accesos) {
+                            try {
+                                String fechaRaw = acceso.getFechaHoraEntrada();
+                                String fechaStr = fechaRaw.contains("T") ? fechaRaw.split("T")[0] : fechaRaw.split(" ")[0];
+                                Date fechaAcceso = sdf.parse(fechaStr);
+                                
+                                if (fechaAcceso != null && fechaAcceso.getTime() >= inicioSemanaMs) {
+                                    diasEstaSemana.add(fechaStr);
+                                    
+                                    // Marcar el día en el tracker (L=0, D=6)
+                                    Calendar tempCal = Calendar.getInstance();
+                                    tempCal.setTime(fechaAcceso);
+                                    int dayOfWeek = tempCal.get(Calendar.DAY_OF_WEEK); // Dom=1, Lun=2...
+                                    int index = (dayOfWeek == Calendar.SUNDAY) ? 6 : dayOfWeek - 2;
+                                    if (index >= 0 && index < 7) dotsSemana[index] = true;
+                                }
+                            } catch (Exception ignored) {}
                         }
                     }
-                }
-                @Override public void onFailure(Call<ApiResponseDto<List<RutinaResponseDto>>> call, Throwable t) {
-                    synchronized (respuestasActividad) {
-                        respuestasActividad[0]++;
-                        if (respuestasActividad[0] == diasAtras) {
-                            actualizarUIActividadSemanal(totalCompletadas[0], totalAsignadas[0]);
-                        }
-                    }
-                }
-            });
-        }
 
-        // 2. Contador de Reservas Activas
+                    int diasAsistidos = diasEstaSemana.size();
+                    int metaObjetivo = 4; // Puedes hacerlo dinámico después
+                    actualizarUIActividadSemanal(diasAsistidos, metaObjetivo);
+                    actualizarTrackerSemanal(dotsSemana);
+                }
+            }
+            @Override public void onFailure(Call<ApiResponseDto<List<com.example.skynet.data.remote.dto.AccesoResponseDto>>> call, Throwable t) {}
+        });
+
+        // 2. Contador de Reservas Activas (Se mantiene)
         apiService.getMisReservas(usuarioId).enqueue(new Callback<ApiResponseDto<List<ReservaResponseDto>>>() {
             @Override
             public void onResponse(Call<ApiResponseDto<List<ReservaResponseDto>>> call, Response<ApiResponseDto<List<ReservaResponseDto>>> response) {
@@ -784,43 +1079,133 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         });
     }
 
-    private void actualizarUIActividadSemanal(int completadas, int asignadas) {
+    private void actualizarTrackerSemanal(boolean[] diasCompletados) {
         runOnUiThread(() -> {
-            int porcentaje = (asignadas > 0) ? (completadas * 100) / asignadas : 0;
-            tvActividadPorcentaje.setText(porcentaje + "%");
-            progressCircularStat.setProgress(porcentaje, true);
+            diasCompletadosGlobal.clear();
+            for (boolean d : diasCompletados) diasCompletadosGlobal.add(d);
             
-            // Colores Neon Dinámicos según el diseño (Rosa/Amarillo/Azul)
-            if (porcentaje >= 50) {
-                // De medio a completo: Rosa Intenso (Antes era amarillo a partir del 50%)
-                progressCircularStat.setIndicatorColor(Color.parseColor("#CD0277"));
-                tvActividadPorcentaje.setTextColor(Color.parseColor("#CD0277"));
-            } else {
-                // Bajo: Azul Neón (del borde del widget)
-                progressCircularStat.setIndicatorColor(Color.parseColor("#4FC3F7"));
-                tvActividadPorcentaje.setTextColor(Color.parseColor("#4FC3F7"));
+            View[] dots = {dotL, dotM, dotMi, dotJ, dotV, dotS, dotD};
+            int azulito = Color.parseColor("#0088CC");
+            int divider = Color.parseColor("#E0E0E0");
+
+            for (int i = 0; i < dots.length; i++) {
+                if (dots[i] != null) {
+                    dots[i].setBackgroundTintList(ColorStateList.valueOf(diasCompletados[i] ? azulito : divider));
+                }
             }
+            updateWeeklyPerformanceComposeContent();
+        });
+    }
+
+    private void actualizarUIActividadSemanal(int asistidos, int meta) {
+        runOnUiThread(() -> {
+            int porcentaje = (meta > 0) ? (asistidos * 100) / meta : 0;
+            if (porcentaje > 100) porcentaje = 100;
+            
+            actividadPorcentajeGlobal = porcentaje;
+            
+            if (tvActividadPorcentaje != null) {
+                // Cambiamos el texto de "0%" a "2/4" para que sea más claro
+                tvActividadPorcentaje.setText(asistidos + "/" + meta);
+                tvActividadPorcentaje.setTextColor(Color.parseColor("#00E5FF")); // Cyan neón
+            }
+            
+            if (progressCircularStat != null) {
+                progressCircularStat.setProgress(porcentaje, true);
+                progressCircularStat.setIndicatorColor(Color.parseColor("#00E5FF"));
+            }
+            
+            updateWeeklyPerformanceComposeContent();
         });
     }
 
     private void actualizarUIReservas(int activas) {
         runOnUiThread(() -> {
-            tvReservasValor.setText(String.valueOf(activas));
+            reservasCountGlobal = activas;
             
-            // Calculamos un progreso visual (ej: sobre 5 reservas máximo para llenar la barra)
+            if (tvReservasValor != null) {
+                tvReservasValor.setText(String.valueOf(activas));
+            }
+            
             int porcentaje = Math.min((activas * 100) / 5, 100);
-            progressReservas.setProgress(porcentaje, true);
+            if (progressReservas != null) {
+                progressReservas.setProgress(porcentaje, true);
+            }
 
             // Colores Neon Dinámicos
+            int color;
             if (activas >= 3) {
-                tvReservasValor.setTextColor(Color.parseColor("#CD0277")); // Rosa (Mucho compromiso)
-                progressReservas.setIndicatorColor(Color.parseColor("#CD0277"));
+                color = Color.parseColor("#CD0277"); // Rosa (Mucho compromiso)
             } else if (activas >= 1) {
-                tvReservasValor.setTextColor(Color.parseColor("#FFD600")); // Amarillo (Activo)
-                progressReservas.setIndicatorColor(Color.parseColor("#FFD600"));
+                color = Color.parseColor("#FFD600"); // Amarillo (Activo)
             } else {
-                tvReservasValor.setTextColor(Color.parseColor("#4FC3F7")); // Azul (Sin reservas)
-                progressReservas.setIndicatorColor(Color.parseColor("#4FC3F7"));
+                color = Color.parseColor("#4FC3F7"); // Azul (Sin reservas)
+            }
+            
+            if (tvReservasValor != null) tvReservasValor.setTextColor(color);
+            if (progressReservas != null) progressReservas.setIndicatorColor(color);
+
+            updateWeeklyPerformanceComposeContent();
+        });
+    }
+
+    private void calcularRachaActual(long usuarioId) {
+        RetrofitClient.getApiService().obtenerHistorialAccesos().enqueue(new Callback<ApiResponseDto<List<com.example.skynet.data.remote.dto.AccesoResponseDto>>>() {
+            @Override
+            public void onResponse(Call<ApiResponseDto<List<com.example.skynet.data.remote.dto.AccesoResponseDto>>> call, Response<ApiResponseDto<List<com.example.skynet.data.remote.dto.AccesoResponseDto>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<com.example.skynet.data.remote.dto.AccesoResponseDto> accesos = response.body().getDatos();
+                    int racha = 0;
+                    if (accesos != null && !accesos.isEmpty()) {
+                        Set<String> diasEntrenados = new HashSet<>();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        
+                        for (com.example.skynet.data.remote.dto.AccesoResponseDto acceso : accesos) {
+                            String fechaFull = acceso.getFechaHoraEntrada();
+                            if (fechaFull != null) {
+                                try {
+                                    // Extraer solo la parte de la fecha (yyyy-MM-dd)
+                                    String fecha = fechaFull.contains("T") ? fechaFull.split("T")[0] : 
+                                                  (fechaFull.contains(" ") ? fechaFull.split(" ")[0] : fechaFull);
+                                    diasEntrenados.add(fecha.trim());
+                                } catch (Exception e) {
+                                    android.util.Log.e("Racha", "Error parseando fecha: " + fechaFull);
+                                }
+                            }
+                        }
+
+                        Calendar cal = Calendar.getInstance();
+                        // IMPORTANTE: Si tus logs dicen 2026, asegúrate que cal.getTime() también sea 2026
+                        String hoy = sdf.format(cal.getTime());
+                        
+                        // Si hoy no hay registro, probamos desde ayer
+                        if (!diasEntrenados.contains(hoy)) {
+                            cal.add(Calendar.DAY_OF_YEAR, -1);
+                        }
+
+                        while (diasEntrenados.contains(sdf.format(cal.getTime()))) {
+                            racha++;
+                            cal.add(Calendar.DAY_OF_YEAR, -1);
+                            if (racha > 1000) break; // Seguridad
+                        }
+                    }
+                    
+                    final int finalRacha = racha;
+                    runOnUiThread(() -> {
+                        if (tvStreakCount != null) {
+                            tvStreakCount.setText(String.valueOf(finalRacha));
+                            if (finalRacha > 0) {
+                                tvStreakCount.animate().scaleX(1.3f).scaleY(1.3f).setDuration(200).withEndAction(() -> 
+                                    tvStreakCount.animate().scaleX(1.0f).scaleY(1.0f).setDuration(200).start()
+                                ).start();
+                            }
+                        }
+                    });
+                }
+            }
+            @Override 
+            public void onFailure(Call<ApiResponseDto<List<com.example.skynet.data.remote.dto.AccesoResponseDto>>> call, Throwable t) {
+                android.util.Log.e("API_ERROR", "Fallo al obtener historial", t);
             }
         });
     }
@@ -842,7 +1227,9 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         
         // Actualizar datos del header en el menú
         SharedPreferences prefs = getSharedPreferences("DatosUsuario", MODE_PRIVATE);
-        tvNombre.setText(prefs.getString("nombre_usuario", "Usuario GymCrush"));
+        if (tvNombre != null) {
+            tvNombre.setText(prefs.getString("nombre_usuario", "Usuario GymCrush"));
+        }
 
         // Verificar si es ADMIN para mostrar gestión de staff
         java.util.Set<String> roles = prefs.getStringSet("roles", new java.util.HashSet<>());
@@ -894,7 +1281,8 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         });
         menuView.findViewById(R.id.menu_salud).setOnClickListener(v -> {
             slidingRootNav.closeMenu();
-            cargarFragmento(new SaludFragment());
+            Intent intent = new Intent(DesarrolloActivity.this, com.example.skynet.ui.salud.RegistroSaludActivity.class);
+            startActivityForResult(intent, 102);
         });
         menuView.findViewById(R.id.menu_suplementacion).setOnClickListener(v -> {
             slidingRootNav.closeMenu();
@@ -987,6 +1375,8 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     protected void onRestart() {
         super.onRestart();
+        drawer = findViewById(R.id.drawer_layout_root);
+        
         cargarDatosYFotoPerfil();
         cargarDatosDinamicosCarrusel();
         actualizarRendimientoSemanal();
@@ -1008,6 +1398,7 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
 
     private void cargarFragmento(Fragment fragment) {
         homeContent.setVisibility(View.GONE);
+        findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_container, fragment);
@@ -1017,7 +1408,10 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
 
     public void mostrarHome() {
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        findViewById(R.id.fragment_container).setVisibility(View.GONE);
         homeContent.setVisibility(View.VISIBLE);
+        drawer = findViewById(R.id.drawer_layout_root);
+
         cargarDatosYFotoPerfil();
         cargarDatosDinamicosCarrusel();
         actualizarRendimientoSemanal();
@@ -1090,9 +1484,40 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        LatLng gymLocation = new LatLng(39.4699, -0.3763);
-        map.addMarker(new MarkerOptions().position(gymLocation).title("GYMCrush Valencia"));
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(gymLocation, 15f));
+        
+        // Aplicar estilo oscuro al mapa para que combine con la App
+        try {
+            boolean success = map.setMapStyle(
+                com.google.android.gms.maps.model.MapStyleOptions.loadRawResourceStyle(
+                    this, R.raw.map_style));
+            if (!success) android.util.Log.e("MAP", "Error al aplicar estilo oscuro.");
+        } catch (android.content.res.Resources.NotFoundException e) {
+            android.util.Log.e("MAP", "No se encontró el recurso de estilo: R.raw.map_style");
+        }
+
+        // Lista de sedes aleatorias de Skynet Club
+        LatLng[] sedes = {
+            new LatLng(39.4699, -0.3763),  // Valencia
+            new LatLng(40.4168, -3.7038),  // Madrid
+            new LatLng(41.3851, 2.1734),   // Barcelona
+            new LatLng(37.3891, -5.9845),  // Sevilla
+            new LatLng(36.7213, -4.4214)   // Málaga
+        };
+
+        // Seleccionar una sede al azar
+        LatLng randomSede = sedes[new java.util.Random().nextInt(sedes.length)];
+        
+        map.addMarker(new MarkerOptions()
+            .position(randomSede)
+            .title("Skynet Club")
+            .snippet("Tu centro de entrenamiento inteligente")
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(randomSede, 15f));
+        
+        // Habilitar controles de UI para que se vea más profesional
+        map.getUiSettings().setZoomControlsEnabled(false);
+        map.getUiSettings().setMapToolbarEnabled(false);
     }
     private void iniciarWebSockets(long usuarioId) {
         if (usuarioId == -1) return;
@@ -1101,30 +1526,258 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         String token = prefs.getString("auth_token", "");
 
         stompManager = new com.example.skynet.data.remote.StompManager();
-        // Usamos la configuración centralizada para el WebSocket
         String url = Config.WS_URL;
         
         stompManager.connect(url, usuarioId, token, notification -> {
             runOnUiThread(() -> {
-                // Notificación visual en la campana
                 reproducirAnimacionNotificacion();
-                
-                // Mostrar Toast o Snackbar
                 Toast.makeText(this, "🔔 " + notification.getTitulo() + ": " + notification.getMensaje(), Toast.LENGTH_LONG).show();
-                
-                // Enviar notificación al sistema (Barra de estado)
                 mostrarNotificacionPush(notification.getTitulo(), notification.getMensaje());
-                
-                // Guardar en la sesión para que aparezca al abrir el fragmento
                 notificacionesSesion.add(0, notification);
-                
-                // Si el fragmento de notificaciones está visible, actualizarlo en tiempo real
                 Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                 if (currentFragment instanceof NotificacionesFragment) {
                     ((NotificacionesFragment) currentFragment).onNuevaNotificacionRecibida(notification);
                 }
             });
+        }, occupancy -> {
+            runOnUiThread(() -> actualizarUIAforo(occupancy));
+        }, payload -> {
+            runOnUiThread(() -> {
+                try {
+                    Type listType = new TypeToken<List<FriendAdapter.ActiveFriendDto>>(){}.getType();
+                    List<FriendAdapter.ActiveFriendDto> activeFriends = new Gson().fromJson(payload, listType);
+                    if (friendAdapter != null) {
+                        friendAdapter.setFriends(activeFriends);
+                    }
+                } catch (Exception e) {
+                    Log.e("STOMP_FRIENDS", "Error parsing active friends", e);
+                }
+            });
+        }, connected -> {
+            runOnUiThread(() -> {
+                if (wsStatusIndicator != null) {
+                    wsStatusIndicator.setBackgroundResource(connected ? 
+                        R.drawable.bg_circle_green_pulse : R.drawable.bg_indicator_red);
+                }
+            });
         });
+
+        // Carga inicial de aforo por REST
+        RetrofitClient.getApiService().obtenerAforoActual().enqueue(new Callback<ApiResponseDto<Long>>() {
+            @Override
+            public void onResponse(Call<ApiResponseDto<Long>> call, Response<ApiResponseDto<Long>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    actualizarUIAforo(response.body().getDatos());
+                }
+            }
+            @Override public void onFailure(Call<ApiResponseDto<Long>> call, Throwable t) {}
+        });
+    }
+
+    private void actualizarUIAforo(Long count) {
+        if (tvAforoPorcentaje == null || statusAforoIndicator == null) return;
+        
+        long personas = (count != null) ? count : 0;
+        int capacidadMaxima = 150; 
+        
+        // Usar double para que la división no sea 0 con pocas personas (ej: 1/150)
+        int porcentaje = (int) Math.ceil((personas * 100.0) / capacidadMaxima);
+        
+        android.util.Log.d("AFORO_DEBUG", "Personas recibidas: " + personas + " -> Porcentaje: " + porcentaje + "%");
+        
+        runOnUiThread(() -> {
+            tvAforoPorcentaje.setText(porcentaje + "%");
+            
+            int color;
+            if (porcentaje < 50) color = android.graphics.Color.parseColor("#4CAF50"); 
+            else if (porcentaje < 80) color = android.graphics.Color.parseColor("#FFEB3B"); 
+            else color = android.graphics.Color.parseColor("#F44336"); 
+            
+            statusAforoIndicator.setBackgroundTintList(android.content.res.ColorStateList.valueOf(color));
+            
+            statusAforoIndicator.animate().scaleX(1.2f).scaleY(1.2f).setDuration(150).withEndAction(() -> 
+                statusAforoIndicator.animate().scaleX(1.0f).scaleY(1.0f).setDuration(150).start()
+            ).start();
+        });
+    }
+
+    private void updateWeightChart() {
+        if (weightLineChart == null) return;
+
+        SharedPreferences prefs = getSharedPreferences("DatosUsuario", MODE_PRIVATE);
+        long usuarioId = prefs.getLong("user_id", -1);
+        if (usuarioId == -1) return;
+
+        RetrofitClient.getApiService().getEvolucionPeso(usuarioId).enqueue(new Callback<ApiResponseDto<List<EvolucionPesoDto>>>() {
+            @Override
+            public void onResponse(Call<ApiResponseDto<List<EvolucionPesoDto>>> call, Response<ApiResponseDto<List<EvolucionPesoDto>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getDatos() != null) {
+                    List<EvolucionPesoDto> evolucion = response.body().getDatos();
+                    runOnUiThread(() -> {
+                        if (tvWeightChartError != null) tvWeightChartError.setVisibility(View.GONE);
+                        weightLineChart.setVisibility(View.VISIBLE);
+                        setupWeightChartFromEvolucion(evolucion);
+                    });
+                } else {
+                    runOnUiThread(() -> {
+                        if (tvWeightChartError != null) tvWeightChartError.setVisibility(View.VISIBLE);
+                        weightLineChart.setVisibility(View.GONE);
+                    });
+                }
+            }
+            @Override
+            public void onFailure(Call<ApiResponseDto<List<EvolucionPesoDto>>> call, Throwable t) {
+                runOnUiThread(() -> {
+                    if (tvWeightChartError != null) {
+                        tvWeightChartError.setText("Error de red al cargar la gráfica. 🔄");
+                        tvWeightChartError.setVisibility(View.VISIBLE);
+                    }
+                    weightLineChart.setVisibility(View.GONE);
+                });
+            }
+        });
+    }
+
+    private void setupWeightChartFromEvolucion(List<EvolucionPesoDto> evolucion) {
+        if (evolucion == null || evolucion.isEmpty()) {
+            if (tvWeightChartError != null) {
+                tvWeightChartError.setText("No hay datos de evolución de peso registrados. ¡Añade tu primer peso! 📈");
+                tvWeightChartError.setVisibility(View.VISIBLE);
+            }
+            weightLineChart.setVisibility(View.GONE);
+            return;
+        }
+
+        List<Entry> entries = new ArrayList<>();
+        List<String> dates = new ArrayList<>();
+
+        for (int i = 0; i < evolucion.size(); i++) {
+            EvolucionPesoDto dato = evolucion.get(i);
+            if (dato.getPeso() != null) {
+                entries.add(new Entry(i, dato.getPeso().floatValue()));
+                dates.add(dato.getFecha() != null ? dato.getFecha().substring(5, 10) : ""); // MM-dd
+            }
+        }
+
+        LineDataSet dataSet = new LineDataSet(entries, "Evolución de Peso");
+        dataSet.setColor(Color.parseColor("#7C4DFF")); // Púrpura vibrante
+        dataSet.setCircleColor(Color.parseColor("#7C4DFF"));
+        dataSet.setLineWidth(3.5f);
+        dataSet.setCircleRadius(6f);
+        dataSet.setCircleHoleRadius(3f);
+        dataSet.setDrawCircleHole(true);
+        dataSet.setCircleHoleColor(Color.WHITE);
+        dataSet.setValueTextColor(Color.parseColor("#444444")); // Texto oscuro
+        dataSet.setValueTextSize(11f);
+        dataSet.setDrawFilled(true);
+        
+        // Efecto de degradado púrpura a transparente
+        dataSet.setFillDrawable(new android.graphics.drawable.GradientDrawable(
+                android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{Color.parseColor("#4D7C4DFF"), Color.TRANSPARENT}
+        ));
+        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+
+        LineData lineData = new LineData(dataSet);
+        weightLineChart.setData(lineData);
+
+        // Configuración visual del Chart
+        weightLineChart.getDescription().setEnabled(false);
+        weightLineChart.getLegend().setEnabled(false);
+        weightLineChart.setDrawGridBackground(false);
+        weightLineChart.setTouchEnabled(true);
+        weightLineChart.setPinchZoom(true);
+        weightLineChart.setBackgroundColor(Color.TRANSPARENT);
+
+        XAxis xAxis = weightLineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextColor(Color.parseColor("#666666")); // Gris para legibilidad
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setAxisLineColor(Color.parseColor("#DDDDDD"));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
+        xAxis.setGranularity(1f);
+
+        YAxis leftAxis = weightLineChart.getAxisLeft();
+        leftAxis.setTextColor(Color.parseColor("#666666"));
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setGridColor(Color.parseColor("#EEEEEE")); // Rejilla suave
+        leftAxis.setDrawAxisLine(false);
+
+        weightLineChart.getAxisRight().setEnabled(false);
+        weightLineChart.animateX(1000);
+        weightLineChart.invalidate();
+    }
+
+    private void mostrarDialogoLogSalud() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_manual_log_salud);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+
+        com.google.android.material.textfield.TextInputEditText etPeso = dialog.findViewById(R.id.etManualPeso);
+        com.google.android.material.textfield.TextInputEditText etEstatura = dialog.findViewById(R.id.etManualEstatura);
+        LottieAnimationView lottieSuccess = dialog.findViewById(R.id.lottieSuccess);
+        View layoutForm = dialog.findViewById(R.id.layoutForm);
+
+        dialog.findViewById(R.id.btnGuardarSalud).setOnClickListener(v -> {
+            String pesoStr = etPeso.getText().toString();
+            String estaturaStr = etEstatura.getText().toString();
+
+            if (pesoStr.isEmpty() || estaturaStr.isEmpty()) {
+                Toast.makeText(this, "Completa los datos", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            double peso = Double.parseDouble(pesoStr);
+            double estatura = Double.parseDouble(estaturaStr);
+
+            SharedPreferences prefs = getSharedPreferences("DatosUsuario", MODE_PRIVATE);
+            long usuarioId = prefs.getLong("user_id", -1);
+
+            com.example.skynet.data.remote.dto.SaludRequestDto request = new com.example.skynet.data.remote.dto.SaludRequestDto();
+            request.setPeso(peso);
+            request.setEstatura(estatura);
+            request.setNivelActividad("MODERADO");
+
+            RetrofitClient.getApiService().registrarSalud(usuarioId, request).enqueue(new Callback<ApiResponseDto<com.example.skynet.data.remote.dto.SaludResponseDto>>() {
+                @Override
+                public void onResponse(Call<ApiResponseDto<com.example.skynet.data.remote.dto.SaludResponseDto>> call, Response<ApiResponseDto<com.example.skynet.data.remote.dto.SaludResponseDto>> response) {
+                    if (response.isSuccessful()) {
+                        layoutForm.setVisibility(View.GONE);
+                        lottieSuccess.setVisibility(View.VISIBLE);
+                        lottieSuccess.playAnimation();
+                        
+                        lottieSuccess.addAnimatorListener(new android.animation.AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(android.animation.Animator animation) {
+                                updateWeightChart();
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                }
+                @Override public void onFailure(Call<ApiResponseDto<com.example.skynet.data.remote.dto.SaludResponseDto>> call, Throwable t) {
+                    Toast.makeText(DesarrolloActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+
+        dialog.findViewById(R.id.btnCerrarManual).setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+    }
+
+    private void mostrarBroadcast(String titulo, String contenido) {
+        if (layoutBroadcast != null && tvBroadcastTitle != null && tvBroadcastContent != null) {
+            tvBroadcastTitle.setText(titulo);
+            tvBroadcastContent.setText(contenido);
+            layoutBroadcast.setVisibility(View.VISIBLE);
+            
+            // Auto-ocultar después de 10 segundos
+            layoutBroadcast.postDelayed(() -> layoutBroadcast.setVisibility(View.GONE), 10000);
+        }
     }
 
     public void reproducirAnimacionNotificacion() {
@@ -1204,6 +1857,18 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
     public void ocultarBadgeNotificacion() {
         if (notificationBadge != null) {
             notificationBadge.setVisibility(View.GONE);
+        }
+    }
+
+    private void simulateActiveFriendsUpdate() {
+        List<FriendAdapter.ActiveFriendDto> mockFriends = java.util.Arrays.asList(
+            new FriendAdapter.ActiveFriendDto(1L, "Alex Pro", null, "Press Banca"),
+            new FriendAdapter.ActiveFriendDto(2L, "Maria Fit", null, "Sentadillas"),
+            new FriendAdapter.ActiveFriendDto(3L, "Dani Iron", null, "Cardio")
+        );
+        if (friendAdapter != null) {
+            friendAdapter.setFriends(mockFriends);
+            Toast.makeText(this, "Simulando amigos activos...", Toast.LENGTH_SHORT).show();
         }
     }
 

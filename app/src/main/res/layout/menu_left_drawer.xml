@@ -1,266 +1,303 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:id="@+id/menu_items_container"
+    android:layout_width="85dp"
     android:layout_height="match_parent"
-    android:background="#000000"
-    android:fillViewport="true">
+    android:background="@android:color/transparent"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
 
+    <!-- Hidden required views to avoid NullPointerException in DesarrolloActivity.java -->
     <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <!-- Header -->
-        <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone">
+        <ImageView
             android:id="@+id/img_logo_header_modern"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="32dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/bg_chip_global"
-            app:shapeAppearanceOverlay="@style/CircleImage"
-            app:strokeColor="@color/azulito"
-            app:strokeWidth="2dp" />
-
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:src="@drawable/logo" />
         <TextView
             android:id="@+id/tv_nombre_header_modern"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Usuario GymCrush"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="" />
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_socio_header_modern"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Socio Premium"
-            android:textColor="#B3FFFFFF"
-            android:textSize="13sp" />
+    <!-- Main Capsule Container Bar centered vertically -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="6dp"
+        app:cardPreventCornerOverlap="false"
+        app:strokeWidth="1.5dp"
+        app:strokeColor="#7C4DFF">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginVertical="24dp"
-            android:background="#1AFFFFFF" />
-
-        <!-- Menu Items -->
         <LinearLayout
-            android:id="@+id/menu_items_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
 
-            <!-- Item: QR -->
-            <LinearLayout
-                android:id="@+id/menu_qr"
-                style="@style/ModernMenuItem">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_qr_code"
-                    app:tint="#000000" />
-                <TextView
-                    style="@style/ModernMenuText"
-                    android:textColor="@color/black"
-                    android:text="Mi QR" />
-            </LinearLayout>
+            <!-- Top Button Layout with Badge -->
+            <FrameLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="20dp">
 
-            <!-- Item: Entrenamiento -->
-            <LinearLayout
-                android:id="@+id/menu_entrenamiento"
-                style="@style/ModernMenuItem">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_workout"
-                    app:tint="#000000" />
-                <TextView
-                    style="@style/ModernMenuText"
-                    android:textColor="@color/black"
-                    android:text="Entrenamiento" />
-            </LinearLayout>
+                <!-- White Rounded Square Menu Button -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    app:cardBackgroundColor="@color/accent_purple"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    android:clickable="true"
+                    android:focusable="true">
 
-            <!-- Item: Dieta -->
-            <LinearLayout
-                android:id="@+id/menu_dieta"
-                style="@style/ModernMenuItem">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_contrataciones"
-                    app:tint="#000000" />
-                <TextView
-                    style="@style/ModernMenuText"
-                    android:textColor="@color/black"
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_menu"
+                        app:tint="@color/white" />
+                </androidx.cardview.widget.CardView>
 
-                    android:text="Mi Dieta" />
-            </LinearLayout>
+                <!-- Red Action/Notification Badge at Top-Right Corner -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="top|end"
+                    app:cardBackgroundColor="#E53935"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp">
 
-            <!-- Item: Reservas -->
-            <LinearLayout
-                android:id="@+id/menu_reservas"
-                style="@style/ModernMenuItem">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_reservaclases"
-                    app:tint="#000000" />
-                <TextView
-                    style="@style/ModernMenuText"
-                    android:textColor="@color/black"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="◀"
+                        android:textColor="@color/white"
+                        android:textSize="9sp"
+                        android:textStyle="bold" />
+                </androidx.cardview.widget.CardView>
+            </FrameLayout>
 
-                    android:text="Mis Reservas" />
-            </LinearLayout>
+            <!-- Scrollable List of Menu Icons -->
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scrollbars="none">
 
-            <!-- Item: Salud -->
-            <LinearLayout
-                android:id="@+id/menu_salud"
-                style="@style/ModernMenuItem">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_salud"
-                    app:tint="#000000" />
-                <TextView
-                    style="@style/ModernMenuText"
-                    android:textColor="@color/black"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
 
-                    android:text="Mi Salud" />
-            </LinearLayout>
+                    <!-- Admin Section -->
+                    <FrameLayout
+                        android:id="@+id/menu_admin_dashboard"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:visibility="gone">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_menu"
+                            app:tint="@color/accent_purple" />
+                    </FrameLayout>
 
-            <!-- Item: Suplementación -->
-            <LinearLayout
-                android:id="@+id/menu_suplementacion"
-                style="@style/ModernMenuItem">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_compras"
-                    app:tint="#000000" />
-                <TextView
-                    style="@style/ModernMenuText"
-                    android:textColor="@color/black"
+                    <FrameLayout
+                        android:id="@+id/menu_staff_admin"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:visibility="gone">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_equipo"
+                            app:tint="@color/accent_purple" />
+                    </FrameLayout>
 
-                    android:text="Suplementación" />
-            </LinearLayout>
+                    <FrameLayout
+                        android:id="@+id/menu_escanear_qr"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:visibility="gone">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_qr_code"
+                            app:tint="@color/accent_purple" />
+                    </FrameLayout>
 
-            <!-- Item: Equipo -->
-            <LinearLayout
-                android:id="@+id/menu_equipo"
-                style="@style/ModernMenuItem">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_equipo"
-                    app:tint="#000000" />
-                <TextView
-                    style="@style/ModernMenuText"
-                    android:textColor="@color/black"
+                    <!-- User Section -->
+                    <FrameLayout
+                        android:id="@+id/menu_qr"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_qr_code"
+                            app:tint="@color/accent_purple" />
+                    </FrameLayout>
 
-                    android:text="Nuestro Equipo" />
-            </LinearLayout>
+                    <FrameLayout
+                        android:id="@+id/menu_entrenamiento"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_workout"
+                            app:tint="@color/accent_purple" />
+                    </FrameLayout>
 
-            <!-- Item: Contacto -->
-            <LinearLayout
-                android:id="@+id/menu_contacto"
-                style="@style/ModernMenuItem">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_contacto"
-                    app:tint="#000000" />
-                <TextView
-                    style="@style/ModernMenuText"
-                    android:textColor="@color/black"
+                    <FrameLayout
+                        android:id="@+id/menu_dieta"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_dieta"
+                            app:tint="@color/accent_purple" />
+                    </FrameLayout>
 
-                    android:text="Contacto" />
-            </LinearLayout>
+                    <FrameLayout
+                        android:id="@+id/menu_reservas"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_calendario"
+                            app:tint="@color/accent_purple" />
+                    </FrameLayout>
 
-            <!-- Item: Espacio -->
-            <LinearLayout
-                android:id="@+id/menu_espacio"
-                style="@style/ModernMenuItem">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_homee"
-                    app:tint="#000000" />
-                <TextView
-                    style="@style/ModernMenuText"
-                    android:textColor="@color/black"
+                    <FrameLayout
+                        android:id="@+id/menu_salud"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_salud"
+                            app:tint="@color/accent_purple" />
+                    </FrameLayout>
 
-                    android:text="Nuestro Espacio" />
-            </LinearLayout>
+                    <FrameLayout
+                        android:id="@+id/menu_suplementacion"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_price"
+                            app:tint="@color/accent_purple" />
+                    </FrameLayout>
 
-            <!-- Item: Back-Office / CMS (Solo Admin) -->
-            <LinearLayout
-                android:id="@+id/menu_admin_dashboard"
-                style="@style/ModernMenuItem"
-                android:visibility="gone">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_equipo"
-                    app:tint="#000000" />
-                <TextView
-                    style="@style/ModernMenuText"
-                    android:textColor="@color/black"
+                    <FrameLayout
+                        android:id="@+id/menu_equipo"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_equipo"
+                            app:tint="@color/accent_purple" />
+                    </FrameLayout>
 
-                    android:text="Back-Office / CMS" />
-            </LinearLayout>
+                    <FrameLayout
+                        android:id="@+id/menu_contacto"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_contacto"
+                            app:tint="@color/accent_purple" />
+                    </FrameLayout>
 
-            <!-- Item: Gestión de Staff (Solo Admin) -->
-            <LinearLayout
-                android:id="@+id/menu_staff_admin"
-                style="@style/ModernMenuItem"
-                android:visibility="gone">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_equipo"
-                    app:tint="#3F51B5" />
-                <TextView
-                    style="@style/ModernMenuText"
-                    android:text="Gestión de Staff" />
-            </LinearLayout>
+                    <FrameLayout
+                        android:id="@+id/menu_espacio"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_location"
+                            app:tint="@color/accent_purple" />
+                    </FrameLayout>
 
-            <!-- Item: Escanear QR (Solo Admin/Staff) -->
-            <LinearLayout
-                android:id="@+id/menu_escanear_qr"
-                style="@style/ModernMenuItem"
-                android:visibility="gone">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_qr_code"
-                    app:tint="#3F51B5" />
-                <TextView
-                    style="@style/ModernMenuText"
-                    android:text="Escanear QR" />
-            </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
 
-            <!-- Item: Salir -->
-            <LinearLayout
+            <!-- Footer: Cerrar Sesión (Logout Icon) -->
+            <FrameLayout
                 android:id="@+id/menu_salir"
-                style="@style/ModernMenuItem"
-                android:layout_marginTop="32dp">
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="12dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true">
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
                     android:src="@drawable/ic_salir"
-                    app:tint="#FF5252" />
-                <TextView
-                    style="@style/ModernMenuText"
-                    android:text="Cerrar Sesión"
-                    android:textColor="#FF5252" />
-            </LinearLayout>
+                    app:tint="@color/accent_purple" />
+            </FrameLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

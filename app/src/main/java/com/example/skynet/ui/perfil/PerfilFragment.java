@@ -42,6 +42,8 @@ public class PerfilFragment extends Fragment {
     private ImageView ivFotoPerfil;
     private TextView tvNombrePerfil, tvEmailPerfil, tvTelefono, tvDireccion, tvBio;
     private TextView tvPeso, tvAltura, tvEdad;
+    private TextView tvTiempoTotal, tvKcalTotal;
+    private View dotL, dotM, dotMi, dotJ, dotV, dotS, dotD;
     private SharedPreferences prefs;
     private Long userId;
     private PerfilResponseDto currentPerfil;
@@ -91,6 +93,7 @@ public class PerfilFragment extends Fragment {
 
         if (userId != -1L) {
             viewModel.cargarDatosCompletos(userId);
+            cargarEstadisticasSemanales();
         } else {
             Toast.makeText(getContext(), "Error: No se encontró el ID de usuario", Toast.LENGTH_SHORT).show();
         }
@@ -119,6 +122,15 @@ public class PerfilFragment extends Fragment {
         tvPeso = view.findViewById(R.id.tvPeso);
         tvAltura = view.findViewById(R.id.tvAltura);
         tvEdad = view.findViewById(R.id.tvEdad);
+        tvTiempoTotal = view.findViewById(R.id.tvTiempoTotalSemanal);
+        tvKcalTotal = view.findViewById(R.id.tvKcalTotalesSemanal);
+        dotL = view.findViewById(R.id.dotL);
+        dotM = view.findViewById(R.id.dotM);
+        dotMi = view.findViewById(R.id.dotMi);
+        dotJ = view.findViewById(R.id.dotJ);
+        dotV = view.findViewById(R.id.dotV);
+        dotS = view.findViewById(R.id.dotS);
+        dotD = view.findViewById(R.id.dotD);
     }
 
     private void setupObservers() {
@@ -224,6 +236,82 @@ public class PerfilFragment extends Fragment {
         if (salud.getImc() != null && currentPerfil != null) {
             currentPerfil.setImc(salud.getImc());
         }
+    }
+
+    private void cargarEstadisticasSemanales() {
+        if (userId == -1L) return;
+
+        LocalDate hoy = LocalDate.now();
+        LocalDate lunes = hoy.minusDays(hoy.getDayOfWeek().getValue() - 1);
+        
+        final int[] totalKcal = {0};
+        final int[] totalMinutos = {0};
+        final boolean[] diasCompletados = new boolean[7];
+        final int[] respuestasRecibidas = {0};
+
+        com.example.skynet.data.remote.ApiService apiService = com.example.skynet.data.remote.RetrofitClient.getApiService();
+
+        for (int i = 0; i < 7; i++) {
+            final int index = i;
+            String fecha = lunes.plusDays(i).toString();
+            
+            apiService.getRutinaDiaria(userId, fecha).enqueue(new retrofit2.Callback<com.example.skynet.data.remote.dto.ApiResponseDto<java.util.List<com.example.skynet.data.remote.dto.RutinaResponseDto>>>() {
+                @Override
+                public void onResponse(retrofit2.Call<com.example.skynet.data.remote.dto.ApiResponseDto<java.util.List<com.example.skynet.data.remote.dto.RutinaResponseDto>>> call, 
+                                       retrofit2.Response<com.example.skynet.data.remote.dto.ApiResponseDto<java.util.List<com.example.skynet.data.remote.dto.RutinaResponseDto>>> response) {
+                    
+                    if (response.isSuccessful() && response.body() != null && response.body().getDatos() != null) {
+                        java.util.List<com.example.skynet.data.remote.dto.RutinaResponseDto> rutinas = response.body().getDatos();
+                        boolean algunCompletado = false;
+                        for (com.example.skynet.data.remote.dto.RutinaResponseDto r : rutinas) {
+                            if (Boolean.TRUE.equals(r.getCompletado())) {
+                                algunCompletado = true;
+                                if (r.getDuracion() != null) {
+                                    totalMinutos[0] += r.getDuracion();
+                                    // Estimación simple: 7 kcal por minuto si no viene del backend
+                                    totalKcal[0] += (r.getDuracion() * 7); 
+                                }
+                            }
+                        }
+                        diasCompletados[index] = algunCompletado;
+                    }
+                    
+                    incrementarYVerificar();
+                }
+
+                @Override
+                public void onFailure(retrofit2.Call<com.example.skynet.data.remote.dto.ApiResponseDto<java.util.List<com.example.skynet.data.remote.dto.RutinaResponseDto>>> call, Throwable t) {
+                    incrementarYVerificar();
+                }
+
+                private void incrementarYVerificar() {
+                    synchronized (respuestasRecibidas) {
+                        respuestasRecibidas[0]++;
+                        if (respuestasRecibidas[0] == 7) {
+                            actualizarUIEstadisticas(totalMinutos[0], totalKcal[0], diasCompletados);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void actualizarUIEstadisticas(int minutos, int kcal, boolean[] dias) {
+        if (!isAdded()) return;
+        requireActivity().runOnUiThread(() -> {
+            tvTiempoTotal.setText(minutos + " min");
+            tvKcalTotal.setText(kcal + " Kcal");
+            
+            View[] dots = {dotL, dotM, dotMi, dotJ, dotV, dotS, dotD};
+            int colorActivo = android.graphics.Color.parseColor("#CD0277"); // Neon pink
+            int colorInactivo = android.graphics.Color.parseColor("#2AFFFFFF");
+
+            for (int i = 0; i < dots.length; i++) {
+                if (dots[i] != null) {
+                    dots[i].setBackgroundTintList(android.content.res.ColorStateList.valueOf(dias[i] ? colorActivo : colorInactivo));
+                }
+            }
+        });
     }
 
     private void abrirGaleria() {

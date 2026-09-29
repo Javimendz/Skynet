@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
@@ -27,6 +28,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.skynet.R
 
+import com.example.skynet.ui.theme.*
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AgregarEjercicioScreen(
@@ -37,78 +40,113 @@ fun AgregarEjercicioScreen(
     val uiState by viewModel.uiState.observeAsState(AgregarEjercicioUiState.Loading())
     val searchQuery by viewModel.searchQuery.observeAsState("")
 
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        "Agregar Ejercicio",
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF111111)
+    GYMCrushTheme {
+        MainBackground {
+            Scaffold(
+                topBar = {
+                    CenterAlignedTopAppBar(
+                        title = {
+                            Text(
+                                "EJERCICIOS",
+                                style = MaterialTheme.typography.headlineMedium.copy(
+                                    fontWeight = FontWeight.Black,
+                                    color = Color.White,
+                                    letterSpacing = 2.sp
+                                )
+                            )
+                        },
+                        navigationIcon = {
+                            TextButton(onClick = onCancel) {
+                                Text("VOLVER", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                            }
+                        },
+                        actions = {
+                            IconButton(
+                                onClick = onCreateNew,
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f), CircleShape)
+                            ) {
+                                Icon(Icons.Default.Add, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                            }
+                        },
+                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = Color.Transparent
                         )
                     )
                 },
-                navigationIcon = {
-                    TextButton(onClick = onCancel) {
-                        Text("Cancelar", color = Color(0xFF0088CC))
-                    }
-                },
-                actions = {
-                    TextButton(onClick = onCreateNew) {
-                        Text("Crear", color = Color(0xFF0088CC), fontWeight = FontWeight.Bold)
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.White
-                )
-            )
-        },
-        containerColor = Color.White
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize()
-        ) {
-            SearchBar(
-                query = searchQuery,
-                onQueryChange = { viewModel.onSearchQueryChange(it) },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-            )
+                containerColor = Color.Transparent
+            ) { padding ->
+                Column(
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxSize()
+                        .padding(horizontal = 20.dp)
+                ) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    GlassSearchBar(
+                        query = searchQuery,
+                        onQueryChange = { viewModel.onSearchQueryChange(it) },
+                        placeholder = "Buscar movimiento..."
+                    )
 
-            FilterChipsRow(
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
+                    Spacer(modifier = Modifier.height(24.dp))
 
-            Text(
-                text = "Ejercicios populares",
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = Color.Gray,
-                    fontSize = 16.sp
-                )
-            )
+                    Text(
+                        text = "POPULARES",
+                        style = MaterialTheme.typography.labelMedium.copy(
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 2.sp
+                        )
+                    )
 
-            when (val state = uiState) {
-                is AgregarEjercicioUiState.Loading -> {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(color = Color(0xFF0088CC))
-                    }
-                }
-                is AgregarEjercicioUiState.Success -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(bottom = 16.dp)
-                    ) {
-                        items(state.ejercicios) { ejercicio ->
-                            EjercicioItem(ejercicio = ejercicio)
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    when (val state = uiState) {
+                        is AgregarEjercicioUiState.Loading -> {
+                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                            }
                         }
-                    }
-                }
-                is AgregarEjercicioUiState.Error -> {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(state.message, textAlign = TextAlign.Center, modifier = Modifier.padding(16.dp))
+                        is AgregarEjercicioUiState.Success -> {
+                            LazyColumn(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.spacedBy(16.dp),
+                                contentPadding = PaddingValues(bottom = 100.dp)
+                            ) {
+                                items(state.ejercicios) { ejercicio ->
+                                    GlassWorkoutCard(
+                                        title = ejercicio.nombre,
+                                        subtitle = ejercicio.musculo,
+                                        onClick = { /* Seleccionar */ },
+                                        leadingIcon = {
+                                            AsyncImage(
+                                                model = ejercicio.imagenUrl ?: "file:///android_asset/login.jpg",
+                                                contentDescription = null,
+                                                modifier = Modifier
+                                                    .size(50.dp)
+                                                    .clip(RoundedCornerShape(12.dp)),
+                                                contentScale = ContentScale.Crop
+                                            )
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                        is AgregarEjercicioUiState.Error -> {
+                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                GlassCard(modifier = Modifier.padding(24.dp)) {
+                                    Text(
+                                        state.message, 
+                                        color = Color.White,
+                                        textAlign = TextAlign.Center, 
+                                        modifier = Modifier.padding(24.dp)
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }

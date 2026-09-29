@@ -29,7 +29,14 @@ public class HistorialEjercicioAdapter extends RecyclerView.Adapter<HistorialEje
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         EjercicioHistorialDto dto = historial.get(position);
-        holder.tvFecha.setText(dto.getFecha());
+        
+        // Formatear fecha si viene como ISO (ej: 2023-10-12T10:30:00 -> 2023-10-12)
+        String fecha = dto.getFecha();
+        if (fecha != null && fecha.contains("T")) {
+            fecha = fecha.split("T")[0];
+        }
+        holder.tvFecha.setText(fecha);
+        
         holder.tvStats.setText(String.format(Locale.getDefault(), "Volumen: %.1f kg | 1RM: %.1f kg", dto.getVolumenTotal(), dto.getMejor1RM()));
         
         if (dto.getDuracion() != null && !dto.getDuracion().isEmpty()) {
@@ -39,14 +46,9 @@ public class HistorialEjercicioAdapter extends RecyclerView.Adapter<HistorialEje
             holder.tvDuracion.setVisibility(View.GONE);
         }
 
-        StringBuilder seriesStr = new StringBuilder();
-        if (dto.getSeries() != null) {
-            for (EjercicioHistorialDto.SerieDto s : dto.getSeries()) {
-                seriesStr.append(s.getReps()).append(" x ").append(s.getKg()).append("kg, ");
-            }
-            if (seriesStr.length() > 2) seriesStr.setLength(seriesStr.length() - 2);
-        }
-        holder.tvSeriesDetalle.setText(seriesStr.toString());
+        // Mostramos el detalle de la serie individual
+        String detalle = String.format(Locale.getDefault(), "%d reps x %.1f kg", dto.getRepeticiones(), dto.getPeso());
+        holder.tvSeriesDetalle.setText(detalle);
     }
 
     @Override

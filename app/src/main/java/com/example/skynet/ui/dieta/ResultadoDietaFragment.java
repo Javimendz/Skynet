@@ -3,9 +3,11 @@ package com.example.skynet.ui.dieta;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -505,8 +507,13 @@ public class ResultadoDietaFragment extends Fragment {
 
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_search_food, null);
         androidx.appcompat.widget.SearchView searchView = dialogView.findViewById(R.id.searchViewFood);
+        // Fix para el crash de AppSearch/OneSearchSuggestProvider
         searchView.setSuggestionsAdapter(null);
-        searchView.setInputType(android.text.InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        android.widget.EditText searchEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        if (searchEditText != null) {
+            searchEditText.setInputType(android.text.InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | android.text.InputType.TYPE_CLASS_TEXT);
+            searchEditText.setImeOptions(searchEditText.getImeOptions() | android.view.inputmethod.EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING);
+        }
         android.widget.AutoCompleteTextView spinnerMomento = dialogView.findViewById(R.id.spinnerMomentoBusqueda);
         android.widget.ProgressBar progressBar = dialogView.findViewById(R.id.pbSearchLoading);
         RecyclerView rvResults = dialogView.findViewById(R.id.rvFoodSearchResults);

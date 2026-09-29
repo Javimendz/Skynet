@@ -11,14 +11,14 @@
         android:layout_height="wrap_content"
         android:maxWidth="280dp"
         android:orientation="vertical"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="8dp">
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp">
 
         <TextView
             android:id="@+id/tvMessageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/text_black"
             android:textSize="15sp" />
 
         <TextView
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="2dp"
-            android:textColor="#B0B0B0"
+            android:textColor="@color/text_gray"
             android:textSize="10sp" />
     </LinearLayout>
 

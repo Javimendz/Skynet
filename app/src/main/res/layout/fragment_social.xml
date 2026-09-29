@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A1128"
+    android:background="@color/bg_light"
     android:orientation="vertical">
 
     <LinearLayout
@@ -19,14 +19,14 @@
             android:layout_height="40dp"
             android:padding="8dp"
             android:src="@drawable/ic_back"
-            app:tint="@color/white" />
+            app:tint="@color/accent_purple" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="COMUNIDAD"
-            android:textColor="@color/white"
+            android:textColor="@color/text_black"
             android:textSize="24sp"
             android:textStyle="bold"
             android:letterSpacing="0.1" />
@@ -40,13 +40,14 @@
         android:padding="8dp"
         android:clipToPadding="false"/>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:cardBackgroundColor="#1A2238"
+        android:layout_margin="12dp"
+        app:cardBackgroundColor="@color/surface_white"
         app:cardCornerRadius="24dp"
-        app:cardElevation="4dp">
+        app:cardElevation="3dp"
+        app:strokeWidth="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,8 +63,8 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:hint="Escribe un mensaje..."
-                android:textColorHint="#99FFFFFF"
-                android:textColor="@color/white"
+                android:textColorHint="@color/text_gray"
+                android:textColor="@color/text_black"
                 android:padding="12dp"
                 android:maxLines="4"/>
 
@@ -74,10 +75,10 @@
                 android:layout_margin="4dp"
                 app:fabSize="mini"
                 app:srcCompat="@android:drawable/ic_menu_send"
-                app:backgroundTint="#CD0277"
+                app:backgroundTint="@color/accent_purple"
                 app:tint="@color/white"
                 app:elevation="0dp"/>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

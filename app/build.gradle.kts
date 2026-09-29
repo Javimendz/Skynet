@@ -86,6 +86,7 @@ dependencies {
 
     // UI Libraries
     implementation(libs.glide)
+    implementation(libs.circleimageview)
     implementation(libs.glide.okhttp)
     annotationProcessor(libs.glide.compiler)
     implementation(libs.lottie)
