@@ -27,12 +27,12 @@
     <color name="bg_light">#F5F5F5</color>
     <color name="surface_white">#FFFFFF</color>
     <color name="text_black">#000000</color>
-    <color name="accent_purple">#7000FF</color>
+    <color name="accent_purple">#7C3AED</color>
     <color name="text_gray">#808080</color>
     <color name="macro_protein">#FF4500</color>
     <color name="macro_carbs">#32CD32</color>
     <color name="macro_fats">#1E90FF</color>
-    <color name="accent_blue">#2196F3</color>
+    <color name="accent_blue">#3B82F6</color>
     <color name="soft_blue">#ADD8E6</color>
     <color name="soft_purple">#E6E6FA</color>
 
@@ -54,12 +54,17 @@
     <color name="purple_700">#6D28D9</color>
     <color name="purple_900">#4C1D95</color>
     <color name="purple_text">#2E1065</color>
-    <color name="body_background">#F0F0F5</color>
-    <color name="header_dark">#0F0F1A</color>
-    <color name="card_white">#FFFFFF</color>
-    <color name="card_stroke">#000000</color>
-    <color name="text_title">#111111</color>
-    <color name="text_caption">#6B6B7B</color>
-    <color name="accent_purple_brand">#6200FF</color>
-    <color name="pill_indicator">#E9E7FF</color>
+    <color name="bg_screen">#FFFFFF</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_soft">#F5F3FF</color>
+    <color name="bar_dark">#0B0B14</color>
+    <color name="text_primary_modern">#0B0B14</color>
+    <color name="text_secondary_modern">#6B6B7B</color>
+    <color name="accent_purple_dark">#5B21B6</color>
+    <color name="accent_purple_light">#EDE9FE</color>
+    <color name="accent_orange">#FF6B2C</color>
+    <color name="accent_green">#22C55E</color>
+    <color name="nav_inactive">#8E8EA0</color>
+    <color name="nav_indicator_purple">#337C3AED</color>
+    <color name="nav_text_purple">#C4B5FD</color>
 </resources>

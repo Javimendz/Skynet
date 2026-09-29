@@ -5,19 +5,19 @@
     android:id="@+id/drawer_layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/body_background"
+    android:background="@color/bg_screen"
     android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/body_background">
+        android:background="@color/bg_screen">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/headerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/header_dark"
+            android:background="@color/bar_dark"
             android:paddingHorizontal="24dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
@@ -29,8 +29,7 @@
                 android:layout_height="48dp"
                 android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/CircleImage"
-                app:strokeWidth="2dp"
-                app:strokeColor="@color/card_stroke"
+                app:strokeWidth="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/logo" />
@@ -50,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"
                     android:text="Hola, Alex 👋"
-                    android:textColor="@color/skynet_text_main"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
                 <TextView
@@ -58,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Lunes, 22 Mayo"
-                    android:textColor="@color/skynet_text_secondary"
+                    android:textColor="@color/nav_inactive"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -131,7 +130,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="16dp"
                     android:orientation="horizontal"
                     android:baselineAligned="false">
@@ -142,25 +141,32 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginEnd="8dp">
+                        android:layout_marginEnd="6dp"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:padding="12dp"
+                            android:padding="16dp"
                             android:gravity="center_vertical">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="🔥"
-                                android:textSize="20sp"/>
+                            <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/bg_circle_purple_light">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="🔥"
+                                    android:textSize="20sp"
+                                    android:layout_gravity="center"/>
+                            </FrameLayout>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="12dp"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -168,16 +174,16 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0 días"
-                                    android:textColor="@color/text_title"
-                                    android:textSize="14sp"
+                                    android:textColor="@color/text_primary_modern"
+                                    android:textSize="22sp"
                                     android:textStyle="bold"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Racha actual"
-                                    android:textColor="@color/text_caption"
-                                    android:textSize="11sp"/>
+                                    android:textColor="@color/text_secondary_modern"
+                                    android:textSize="12sp"/>
                             </LinearLayout>
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
@@ -189,25 +195,32 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginStart="8dp">
+                        android:layout_marginStart="6dp"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:padding="12dp"
+                            android:padding="16dp"
                             android:gravity="center_vertical">
 
-                            <View
-                                android:id="@+id/statusAforoIndicator"
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:background="@drawable/bg_circle_green"/>
+                            <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/bg_circle_purple_light">
+                                <View
+                                    android:id="@+id/statusAforoIndicator"
+                                    android:layout_width="12dp"
+                                    android:layout_height="12dp"
+                                    android:background="@drawable/bg_circle_green"
+                                    android:layout_gravity="center"/>
+                            </FrameLayout>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="12dp"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -215,16 +228,16 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="--"
-                                    android:textColor="@color/text_title"
-                                    android:textSize="14sp"
+                                    android:textColor="@color/text_primary_modern"
+                                    android:textSize="22sp"
                                     android:textStyle="bold"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Aforo en vivo"
-                                    android:textColor="@color/text_caption"
-                                    android:textSize="11sp"/>
+                                    android:textColor="@color/text_secondary_modern"
+                                    android:textSize="12sp"/>
                             </LinearLayout>
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
@@ -234,7 +247,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="12dp"
                     android:orientation="horizontal">
 
@@ -244,30 +257,50 @@
                         android:layout_width="0dp"
                         android:layout_height="80dp"
                         android:layout_weight="1"
-                        android:layout_marginEnd="6dp">
+                        android:layout_marginEnd="6dp"
+                        app:cardBackgroundColor="@color/surface_soft"
+                        android:foreground="?attr/selectableItemBackground">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:padding="8dp">
-                            <TextView
-                                android:layout_width="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:padding="12dp">
+                            <FrameLayout
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:background="@drawable/bg_circle_blue_light">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="🔄"
+                                    android:textSize="16sp"
+                                    android:layout_gravity="center"/>
+                            </FrameLayout>
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:text="🔄 Retomar"
-                                android:textColor="@color/azulito"
-                                android:textStyle="bold"
-                                android:textSize="12sp"/>
-                            <TextView
-                                android:id="@+id/tvLastExerciseName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Press Banca"
-                                android:textColor="@color/text_title"
-                                android:textSize="11sp"
-                                android:maxLines="1"
-                                android:ellipsize="end"
-                                android:layout_marginTop="4dp"/>
+                                android:layout_weight="1"
+                                android:layout_marginStart="10dp"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Retomar"
+                                    android:textColor="@color/accent_blue"
+                                    android:textStyle="bold"
+                                    android:textSize="13sp"/>
+                                <TextView
+                                    android:id="@+id/tvLastExerciseName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Press Banca"
+                                    android:textColor="@color/text_secondary_modern"
+                                    android:textSize="11sp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:layout_marginTop="2dp"/>
+                            </LinearLayout>
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
@@ -277,27 +310,47 @@
                         android:layout_width="0dp"
                         android:layout_height="80dp"
                         android:layout_weight="1"
-                        android:layout_marginStart="6dp">
+                        android:layout_marginStart="6dp"
+                        app:cardBackgroundColor="@color/surface_soft"
+                        android:foreground="?attr/selectableItemBackground">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:padding="8dp">
-                            <TextView
-                                android:layout_width="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:padding="12dp">
+                            <FrameLayout
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:background="@drawable/bg_circle_orange_light">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="🍎"
+                                    android:textSize="16sp"
+                                    android:layout_gravity="center"/>
+                            </FrameLayout>
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:text="🍎 Log Comida"
-                                android:textColor="#FF4500"
-                                android:textStyle="bold"
-                                android:textSize="12sp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="FatSecret Search"
-                                android:textColor="@color/text_caption"
-                                android:textSize="10sp"
-                                android:layout_marginTop="4dp"/>
+                                android:layout_weight="1"
+                                android:layout_marginStart="10dp"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Log Comida"
+                                    android:textColor="@color/accent_orange"
+                                    android:textStyle="bold"
+                                    android:textSize="13sp"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="FatSecret Search"
+                                    android:textColor="@color/text_secondary_modern"
+                                    android:textSize="11sp"
+                                    android:layout_marginTop="2dp"/>
+                            </LinearLayout>
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
@@ -306,11 +359,16 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="220dp"
-                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="16dp"
-                    style="@style/Widget.App.Card">
+                    style="@style/Widget.App.Card"
+                    app:cardElevation="0dp"
+                    android:foreground="?attr/selectableItemBackground">
 
-                    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_gradient_purple">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -323,7 +381,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="PRÓXIMO ENTRENAMIENTO"
-                                android:textColor="@color/accent_purple_brand"
+                                android:textColor="#DDD6FE"
                                 android:textSize="10sp"
                                 android:letterSpacing="0.1"
                                 android:fontFamily="sans-serif-black"/>
@@ -332,7 +390,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Hipertrofia Piernas"
-                                android:textColor="@color/text_title"
+                                android:textColor="@color/white"
                                 android:textSize="24sp"
                                 android:textStyle="bold"
                                 android:layout_marginTop="4dp"/>
@@ -347,14 +405,14 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Media Intensidad"
-                                    android:textColor="@color/text_caption"
+                                    android:textColor="#B3FFFFFF"
                                     android:textSize="12sp"/>
-                                <View android:layout_width="4dp" android:layout_height="4dp" android:layout_marginHorizontal="8dp" android:background="@color/text_caption" />
+                                <View android:layout_width="4dp" android:layout_height="4dp" android:layout_marginHorizontal="8dp" android:background="#B3FFFFFF" />
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="60 min"
-                                    android:textColor="@color/text_caption"
+                                    android:textColor="#B3FFFFFF"
                                     android:textSize="12sp"/>
                             </LinearLayout>
 
@@ -363,10 +421,10 @@
                                 android:layout_height="48dp"
                                 android:layout_marginTop="16dp"
                                 android:text="Empezar"
-                                android:textColor="@color/white"
+                                android:textColor="@color/accent_purple"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
-                                app:backgroundTint="@color/accent_purple_brand"
+                                app:backgroundTint="@color/white"
                                 app:cornerRadius="24dp"
                                 android:insetTop="0dp"
                                 android:insetBottom="0dp"
@@ -382,33 +440,99 @@
                     android:layout_marginTop="32dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
-                        android:fontFamily="sans-serif-black"
-                        android:text="Reserva tu clase"
-                        android:textColor="@color/text_title"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_marginHorizontal="16dp">
+
+                        <View
+                            android:id="@+id/accentBarReservas"
+                            android:layout_width="4dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:background="@color/accent_purple" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/accentBarReservas"
+                            android:layout_marginStart="8dp"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Reserva tu clase"
+                            android:textColor="@color/text_primary_modern"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="Ver todo"
+                            android:textColor="@color/accent_purple"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
 
                     <com.google.android.material.card.MaterialCardView
                         style="@style/Widget.App.Card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="12dp">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rvReservasRapidas"
+                        <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clipToPadding="false"
-                            android:orientation="horizontal"
-                            android:paddingVertical="12dp"
-                            android:paddingHorizontal="8dp"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            tools:listitem="@layout/item_reservation_card" />
+                            android:minHeight="12dp">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvReservasRapidas"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clipToPadding="false"
+                                android:orientation="horizontal"
+                                android:paddingVertical="12dp"
+                                android:paddingHorizontal="8dp"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:listitem="@layout/item_reservation_card" />
+
+                            <!-- Estado vacío atractivo para Reserva tu clase -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:minHeight="120dp"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:padding="16dp"
+                                android:background="@color/surface"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="🗓️"
+                                    android:textSize="40sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="Aún no hay clases reservadas"
+                                    android:textColor="@color/text_secondary_modern"
+                                    android:textSize="14sp" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    style="@style/Widget.Material3.Button.TextButton"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="Reservar ahora"
+                                    android:textColor="@color/accent_purple"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </FrameLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
@@ -416,26 +540,53 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="32dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-black"
-                        android:text="Tu plan nutricional"
-                        android:textColor="@color/text_title"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_marginHorizontal="16dp">
+
+                        <View
+                            android:id="@+id/accentBarNutricion"
+                            android:layout_width="4dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:background="@color/accent_purple" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/accentBarNutricion"
+                            android:layout_marginStart="8dp"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Tu plan nutricional"
+                            android:textColor="@color/text_primary_modern"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="Ver dieta"
+                            android:textColor="@color/accent_purple"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
 
                     <com.google.android.material.card.MaterialCardView
                         style="@style/Widget.App.Card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp">
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp">
 
                         <LinearLayout
+                            android:id="@+id/layoutNutricionContent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
@@ -456,9 +607,7 @@
                                 android:layout_marginTop="16dp"
                                 app:cardCornerRadius="20dp"
                                 app:cardElevation="0dp"
-                                app:cardBackgroundColor="#F7F7FA"
-                                app:strokeWidth="1dp"
-                                app:strokeColor="@color/card_stroke">
+                                app:cardBackgroundColor="@color/surface_soft">
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -469,7 +618,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="IA Insight"
-                                        android:textColor="@color/accent_purple_brand"
+                                        android:textColor="@color/accent_purple"
                                         android:textStyle="bold"
                                         android:textSize="14sp"/>
                                     <TextView
@@ -477,7 +626,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Analizando tus datos..."
-                                        android:textColor="@color/text_caption"
+                                        android:textColor="@color/text_secondary_modern"
                                         android:textSize="12sp"
                                         android:layout_marginTop="4dp"/>
                                 </LinearLayout>
@@ -491,9 +640,7 @@
                                 android:layout_marginTop="16dp"
                                 app:cardCornerRadius="24dp"
                                 app:cardElevation="0dp"
-                                app:cardBackgroundColor="#F7F7FA"
-                                app:strokeWidth="1dp"
-                                app:strokeColor="@color/card_stroke">
+                                app:cardBackgroundColor="@color/surface_soft">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -516,7 +663,7 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:text="Definición Smart"
-                                                android:textColor="@color/text_title"
+                                                android:textColor="@color/text_primary_modern"
                                                 android:textSize="16sp"
                                                 android:textStyle="bold"/>
                                             <TextView
@@ -524,7 +671,7 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:text="1,240 / 2,000 kcal"
-                                                android:textColor="@color/text_caption"
+                                                android:textColor="@color/text_secondary_modern"
                                                 android:textSize="13sp"
                                                 android:layout_marginTop="2dp"/>
                                         </LinearLayout>
@@ -535,8 +682,8 @@
                                             android:progress="65"
                                             app:indicatorSize="48dp"
                                             app:trackThickness="4dp"
-                                            app:indicatorColor="@color/accent_purple_brand"
-                                            app:trackColor="#E9E7FF" />
+                                            app:indicatorColor="@color/accent_purple"
+                                            app:trackColor="@color/accent_purple_light" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -546,39 +693,72 @@
                                         android:orientation="horizontal">
 
                                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                                            <TextView android:id="@+id/tvProtLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Prot: 120g" android:textColor="@color/text_caption" android:textSize="11sp"/>
+                                            <TextView android:id="@+id/tvProtLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Prot: 120g" android:textColor="@color/text_secondary_modern" android:textSize="11sp"/>
                                             <com.google.android.material.progressindicator.LinearProgressIndicator
-                                                android:id="@+id/progressProt" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:progress="70" app:indicatorColor="#FF4500" app:trackColor="#F0F0F4" app:trackThickness="3dp" app:trackCornerRadius="2dp"/>
+                                                android:id="@+id/progressProt" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:progress="70" app:indicatorColor="@color/macro_protein" app:trackColor="@color/purple_100" app:trackThickness="3dp" app:trackCornerRadius="2dp"/>
                                         </LinearLayout>
                                         <View android:layout_width="16dp" android:layout_height="1dp"/>
                                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                                            <TextView android:id="@+id/tvCarbLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Carb: 150g" android:textColor="@color/text_caption" android:textSize="11sp"/>
+                                            <TextView android:id="@+id/tvCarbLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Carb: 150g" android:textColor="@color/text_secondary_modern" android:textSize="11sp"/>
                                             <com.google.android.material.progressindicator.LinearProgressIndicator
-                                                android:id="@+id/progressCarb" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:progress="45" app:indicatorColor="#32CD32" app:trackColor="#F0F0F4" app:trackThickness="3dp" app:trackCornerRadius="2dp"/>
+                                                android:id="@+id/progressCarb" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:progress="45" app:indicatorColor="@color/macro_carbs" app:trackColor="@color/purple_100" app:trackThickness="3dp" app:trackCornerRadius="2dp"/>
                                         </LinearLayout>
                                         <View android:layout_width="16dp" android:layout_height="1dp"/>
                                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                                            <TextView android:id="@+id/tvGrasLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Grasas: 50g" android:textColor="@color/text_caption" android:textSize="11sp"/>
+                                            <TextView android:id="@+id/tvGrasLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Grasas: 50g" android:textColor="@color/text_secondary_modern" android:textSize="11sp"/>
                                             <com.google.android.material.progressindicator.LinearProgressIndicator
-                                                android:id="@+id/progressGras" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:progress="30" app:indicatorColor="#1E90FF" app:trackColor="#F0F0F4" app:trackThickness="3dp" app:trackCornerRadius="2dp"/>
+                                                android:id="@+id/progressGras" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:progress="30" app:indicatorColor="@color/macro_fats" app:trackColor="@color/purple_100" app:trackThickness="3dp" app:trackCornerRadius="2dp"/>
                                         </LinearLayout>
 
                                     </LinearLayout>
 
                                     <com.google.android.material.button.MaterialButton
+                                        style="@style/Widget.App.Button.Pill"
                                         android:layout_width="match_parent"
-                                        android:layout_height="48dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_marginTop="20dp"
                                         android:text="Ver plan completo"
                                         android:textColor="@color/white"
-                                        android:textStyle="bold"
-                                        app:backgroundTint="@color/accent_purple_brand"
-                                        app:cornerRadius="24dp"
-                                        android:insetTop="0dp"
-                                        android:insetBottom="0dp"/>
+                                        app:backgroundTint="@color/accent_purple"/>
 
                                 </LinearLayout>
                             </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
+
+                        <!-- Estado vacío atractivo para Nutrición -->
+                        <LinearLayout
+                            android:id="@+id/layoutNutricionEmpty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="120dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="16dp"
+                            android:background="@color/surface"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="🥗"
+                                android:textSize="40sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Optimiza tu progreso con un plan"
+                                android:textColor="@color/text_secondary_modern"
+                                android:textSize="14sp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                style="@style/Widget.Material3.Button.TextButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="Crear plan IA"
+                                android:textColor="@color/accent_purple"
+                                android:textStyle="bold" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
@@ -596,7 +776,7 @@
                         android:layout_marginHorizontal="24dp"
                         android:fontFamily="sans-serif-black"
                         android:text="Explorar entrenamientos"
-                        android:textColor="@color/text_title"
+                        android:textColor="@color/text_primary_modern"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -634,7 +814,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-black"
                         android:text="Ubicación Skynet Club"
-                        android:textColor="@color/text_title"
+                        android:textColor="@color/text_primary_modern"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -664,7 +844,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-black"
                         android:text="Tus Logros"
-                        android:textColor="@color/text_title"
+                        android:textColor="@color/text_primary_modern"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -675,7 +855,7 @@
                         android:layout_marginTop="12dp"
                         android:gravity="center"
                         android:text="Aún no tienes logros. ¡Empieza a entrenar para desbloquearlos! 🚀"
-                        android:textColor="@color/text_caption"
+                        android:textColor="@color/text_secondary_modern"
                         android:textSize="14sp"
                         android:visibility="gone" />
 
@@ -702,7 +882,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-black"
                         android:text="Evolución de Peso (Progress)"
-                        android:textColor="@color/text_title"
+                        android:textColor="@color/text_primary_modern"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -750,7 +930,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-black"
                         android:text="Amigos Entrenando Ahora"
-                        android:textColor="@color/text_title"
+                        android:textColor="@color/text_primary_modern"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -785,9 +965,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                app:itemIconTint="@color/bottom_nav_colors"
-                app:itemTextColor="@color/bottom_nav_colors"
-                app:itemRippleColor="#1A7C4DFF"
+                app:itemIconTint="@color/bottom_nav_colors_modern"
+                app:itemTextColor="@color/bottom_nav_colors_modern"
+                app:itemRippleColor="#1AFFFFFF"
                 app:labelVisibilityMode="unlabeled"
                 app:menu="@menu/nav_menu"
                 app:elevation="0dp" />
