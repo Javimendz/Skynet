@@ -190,7 +190,7 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         TextView tvSaludo = findViewById(R.id.tvSaludo);
         if (tvSaludo != null) {
             String nombreUsuario = prefs.getString("nombre_usuario", "Usuario GymCrush");
-            tvSaludo.setText("¡A tope, " + nombreUsuario + "!");
+            tvSaludo.setText("¡A tope, " + nombreUsuario.replace("GymCrush", "").trim() + "!");
         }
         
         // Widget Nutrición initialization
@@ -1337,7 +1337,7 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
                         if (nombrePerfil.equalsIgnoreCase("admin") || nombrePerfil.equalsIgnoreCase("user")) {
                             nombrePerfil = prefs.getString("nombre_usuario", nombrePerfil);
                         }
-                        tvSaludo.setText("¡A tope, " + nombrePerfil + "!");
+                        tvSaludo.setText("¡A tope, " + nombrePerfil.replace("GymCrush", "").trim() + "!");
                     }
 
                     // 2. Cargar Foto si existe

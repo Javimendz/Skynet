@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.App.Card"
     android:layout_width="160dp"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="0dp"
-    app:cardBackgroundColor="@color/skynet_card"
-    app:strokeWidth="1dp"
-    app:strokeColor="@color/skynet_border">
+    android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lunes"
-            android:textColor="@color/skynet_text_secondary"
+            android:textColor="@color/text_secondary_modern"
             android:textSize="12sp"
             android:fontFamily="sans-serif-medium"/>
 
@@ -30,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="09:00 AM"
-            android:textColor="@color/skynet_text_main"
+            android:textColor="@color/text_primary_modern"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="4dp"/>
@@ -40,20 +37,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="12/20 plazas"
-            android:textColor="#00E676"
+            android:textColor="@color/accent_green"
             android:textSize="12sp"
             android:layout_marginTop="8dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnQuickReserve"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_marginTop="12dp"
             android:text="Reservar"
             android:textColor="@color/white"
             android:textSize="12sp"
-            app:backgroundTint="@color/skynet_primary"
+            android:textStyle="bold"
+            app:backgroundTint="@color/accent_purple"
             app:cornerRadius="18dp"
             android:padding="0dp"
             android:insetTop="0dp"

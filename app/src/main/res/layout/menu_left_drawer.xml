@@ -32,12 +32,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        app:cardBackgroundColor="#FFFFFF"
+        app:cardBackgroundColor="@color/black"
         app:cardCornerRadius="32dp"
         app:cardElevation="6dp"
         app:cardPreventCornerOverlap="false"
-        app:strokeWidth="1.5dp"
-        app:strokeColor="#7C4DFF">
+        app:strokeWidth="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +57,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="bottom|center_horizontal"
-                    app:cardBackgroundColor="@color/accent_purple"
+                    app:cardBackgroundColor="@color/black"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="0dp"
                     android:clickable="true"
@@ -118,7 +117,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_menu"
-                            app:tint="@color/accent_purple" />
+                            app:tint="@color/white" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -133,7 +132,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_equipo"
-                            app:tint="@color/accent_purple" />
+                            app:tint="@color/white" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -148,7 +147,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_qr_code"
-                            app:tint="@color/accent_purple" />
+                            app:tint="@color/white" />
                     </FrameLayout>
 
                     <!-- User Section -->
@@ -163,7 +162,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_qr_code"
-                            app:tint="@color/accent_purple" />
+                            app:tint="@color/white" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -177,7 +176,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_workout"
-                            app:tint="@color/accent_purple" />
+                            app:tint="@color/white" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -191,7 +190,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_dieta"
-                            app:tint="@color/accent_purple" />
+                            app:tint="@color/white" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -205,7 +204,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_calendario"
-                            app:tint="@color/accent_purple" />
+                            app:tint="@color/white" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -219,7 +218,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_salud"
-                            app:tint="@color/accent_purple" />
+                            app:tint="@color/white" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -233,7 +232,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_price"
-                            app:tint="@color/accent_purple" />
+                            app:tint="@color/white" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -247,7 +246,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_equipo"
-                            app:tint="@color/accent_purple" />
+                            app:tint="@color/white" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -261,7 +260,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_contacto"
-                            app:tint="@color/accent_purple" />
+                            app:tint="@color/white" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -275,7 +274,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_location"
-                            app:tint="@color/accent_purple" />
+                            app:tint="@color/white" />
                     </FrameLayout>
 
                 </LinearLayout>
@@ -295,7 +294,7 @@
                     android:layout_height="22dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_salir"
-                    app:tint="@color/accent_purple" />
+                    app:tint="@color/white" />
             </FrameLayout>
 
         </LinearLayout>
