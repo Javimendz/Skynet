@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A1128">
+    android:background="@color/bg_screen">
 
     <!-- Header -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/chatHeader"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="#0A1128"
+        android:background="@color/accent_blue"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -24,7 +24,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#00F2FF" />
+            app:tint="@color/white" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="En línea"
-                android:textColor="#00FF88"
+                android:textColor="#E0E0E0"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -63,7 +63,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#00F2FF" />
+            app:tint="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="12dp"
-        android:background="#121B35"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <EditText
@@ -93,8 +93,8 @@
             android:layout_weight="1"
             android:background="@drawable/bg_chat_input"
             android:hint="Escribe un mensaje..."
-            android:textColor="@color/white"
-            android:textColorHint="#80FFFFFF"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
             android:padding="12dp"
             android:maxLines="4"
             android:inputType="textMultiLine" />
@@ -104,8 +104,9 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
-            android:background="@drawable/bg_circle_neon"
-            android:src="@drawable/ic_send_neon"
+            android:background="@drawable/bg_circle_blue_light"
+            android:backgroundTint="@color/accent_blue"
+            android:src="@android:drawable/ic_menu_send"
             app:tint="@color/white"
             android:padding="12dp"
             android:scaleType="centerInside" />

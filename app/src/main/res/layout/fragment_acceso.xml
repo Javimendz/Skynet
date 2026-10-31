@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="#0A1128">
+    android:background="@color/bg_screen">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_back_arrow"
             android:contentDescription="Atrás"
-            app:tint="@color/brand_pink"
+            app:tint="@color/accent_blue"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="PASE AL TEMPLO"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_primary"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Escanea este QR en la entrada"
-            android:textColor="#8A8A8E"
+            android:textColor="@color/text_secondary"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/tvTitleAcceso"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Expira en: 30s"
-            android:textColor="#FF4081"
+            android:textColor="@color/accent_blue"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/cardQr"
@@ -90,8 +90,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="REFRESCAR PASE"
-            android:backgroundTint="#FF4081"
-            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/accent_blue"
+            android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/tvTimerQr"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="¿Probar con lector externo? Haz clic aquí"
-            android:textColor="#8A8A8E"
+            android:textColor="@color/text_secondary"
             android:textSize="12sp"
             android:padding="8dp"
             app:layout_constraintTop_toBottomOf="@id/btnRefrescarQr"
@@ -115,7 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="#1C1F2E"
+            android:background="@color/surface"
             android:padding="16dp"
             android:layout_marginTop="24dp"
             app:layout_constraintTop_toBottomOf="@id/tvTestManual"
@@ -127,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Aforo actual: Cargando..."
-                android:textColor="#FFFFFF"
+                android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -139,13 +139,13 @@
                 android:layout_marginTop="8dp"
                 android:max="100"
                 android:progress="0"
-                android:progressTint="#4CAF50" />
+                android:progressTint="@color/accent_blue" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="* El aforo máximo es de 100 personas"
-                android:textColor="#8A8A8E"
+                android:textColor="@color/text_secondary"
                 android:textSize="12sp"
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
@@ -155,7 +155,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="HISTORIAL RECIENTE"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_primary"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="24dp"

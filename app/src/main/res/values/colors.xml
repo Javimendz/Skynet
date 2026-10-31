@@ -25,9 +25,9 @@
     <color name="glass_border">#33FFFFFF</color>
     <color name="neon_primary">#00F2FF</color>
     <color name="neon_secondary">#7000FF</color>
-    <color name="neon_accent">#FF007A</color>
-    <color name="accent_color">#FF007A</color>
-    <color name="brand_pink">#FF007A</color>
+    <color name="neon_accent">#2563EB</color>
+    <color name="accent_color">#2563EB</color>
+    <color name="brand_pink">#2563EB</color>
     <color name="card_surface">#1A2238</color>
 
     <color name="card_background">#1A2238</color>

@@ -952,7 +952,7 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
                                 tvNombrePlanWidget.setText("Mi Plan Nutricional");
                             }
                             tvNombrePlanWidget.setTextColor(Color.WHITE);
-                            tvCaloriasWidget.setTextColor(getResources().getColor(R.color.brand_pink));
+                            tvCaloriasWidget.setTextColor(getResources().getColor(R.color.accent_blue));
                             actualizarProgresoMacros(plan);
                         });
                     } else {
@@ -1168,11 +1168,11 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
             // Colores Neon Dinámicos
             int color;
             if (activas >= 3) {
-                color = Color.parseColor("#CD0277"); // Rosa (Mucho compromiso)
+                color = getResources().getColor(R.color.accent_blue_dark); // Azul oscuro (Mucho compromiso)
             } else if (activas >= 1) {
-                color = Color.parseColor("#FFD600"); // Amarillo (Activo)
+                color = Color.parseColor("#3B82F6"); // Azul medio (Activo)
             } else {
-                color = Color.parseColor("#4FC3F7"); // Azul (Sin reservas)
+                color = Color.parseColor("#94A3B8"); // Gris azulado (Sin reservas)
             }
             
             if (tvReservasValor != null) tvReservasValor.setTextColor(color);
@@ -1793,8 +1793,8 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         }
 
         LineDataSet dataSet = new LineDataSet(entries, "Evolución de Peso");
-        dataSet.setColor(Color.parseColor("#7C4DFF")); // Púrpura vibrante
-        dataSet.setCircleColor(Color.parseColor("#7C4DFF"));
+        dataSet.setColor(getResources().getColor(R.color.accent_blue)); // Azul branding
+        dataSet.setCircleColor(getResources().getColor(R.color.accent_blue));
         dataSet.setLineWidth(3.5f);
         dataSet.setCircleRadius(6f);
         dataSet.setCircleHoleRadius(3f);
@@ -1804,10 +1804,10 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         dataSet.setValueTextSize(11f);
         dataSet.setDrawFilled(true);
         
-        // Efecto de degradado púrpura a transparente
+        // Efecto de degradado azul a transparente
         dataSet.setFillDrawable(new android.graphics.drawable.GradientDrawable(
                 android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{Color.parseColor("#4D7C4DFF"), Color.TRANSPARENT}
+                new int[]{Color.parseColor("#4D2563EB"), Color.TRANSPARENT}
         ));
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 

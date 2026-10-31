@@ -632,18 +632,18 @@ public class RutinasFragment extends Fragment {
         }
 
         LineDataSet dataSet = new LineDataSet(entries, "Ejercicios Completados");
-        dataSet.setColor(Color.parseColor("#CD0277"));
+        dataSet.setColor(Color.parseColor("#2563EB"));
         dataSet.setCircleColor(Color.WHITE);
         dataSet.setLineWidth(2f);
         dataSet.setCircleRadius(3f);
         dataSet.setDrawCircleHole(true);
-        dataSet.setCircleHoleColor(Color.parseColor("#CD0277"));
+        dataSet.setCircleHoleColor(Color.parseColor("#2563EB"));
         dataSet.setValueTextColor(Color.WHITE);
         dataSet.setValueTextSize(8f);
         dataSet.setDrawFilled(true);
         dataSet.setFillDrawable(new android.graphics.drawable.GradientDrawable(
                 android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{Color.parseColor("#4DCD0277"), Color.TRANSPARENT}
+                new int[]{Color.parseColor("#4D2563EB"), Color.TRANSPARENT}
         ));
         dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
 

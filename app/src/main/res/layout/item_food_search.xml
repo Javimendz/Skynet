@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    app:cardBackgroundColor="#323C5F"
+    app:cardBackgroundColor="@color/surface"
     app:cardCornerRadius="12dp"
-    app:strokeColor="#3AFFFFFF"
+    app:strokeColor="@color/divider"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -20,7 +20,7 @@
             android:id="@+id/cbSelected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="@color/brand_pink" />
+            android:buttonTint="@color/accent_blue" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivFoodImage"
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nombre Alimento"
-                android:textColor="@color/white"
+                android:textColor="@color/text_primary"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100 kcal | P: 10g | C: 20g | G: 5g"
-                android:textColor="#BDBDBD"
+                android:textColor="@color/text_secondary"
                 android:textSize="12sp"
                 android:layout_marginTop="2dp" />
         </LinearLayout>

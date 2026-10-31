@@ -66,24 +66,24 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         int marginPx = (int) (80 * holder.itemView.getContext().getResources().getDisplayMetrics().density);
         
         if (esMio) {
-            // MIS MENSAJES: Derecha + Rosa
+            // MIS MENSAJES: Derecha + Azul
             params.gravity = android.view.Gravity.END;
             params.setMargins(marginPx, 8, 0, 8); 
-            holder.cvMensaje.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.brand_pink));
+            holder.cvMensaje.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.accent_blue));
             
             holder.tvUsuario.setVisibility(View.GONE); // Ocultamos el nombre en tus propios mensajes
             holder.tvTexto.setTextColor(Color.WHITE);
             holder.tvHora.setTextColor(Color.parseColor("#E0E0E0"));
         } else {
-            // OTROS: Izquierda + Azul
+            // OTROS: Izquierda + Blanco
             params.gravity = android.view.Gravity.START;
             params.setMargins(0, 8, marginPx, 8);
-            holder.cvMensaje.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.card_surface));
+            holder.cvMensaje.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.white));
             
             holder.tvUsuario.setVisibility(View.VISIBLE);
-            holder.tvUsuario.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.brand_pink));
-            holder.tvTexto.setTextColor(Color.WHITE);
-            holder.tvHora.setTextColor(Color.parseColor("#99FFFFFF"));
+            holder.tvUsuario.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.accent_blue));
+            holder.tvTexto.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.text_primary));
+            holder.tvHora.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.text_secondary));
         }
         
         holder.cvMensaje.setLayoutParams(params);
