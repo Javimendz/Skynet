@@ -5,9 +5,9 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="12dp"
     android:layout_marginBottom="12dp"
-    app:cardBackgroundColor="@color/card_background"
+    app:cardBackgroundColor="@color/surface_white"
     app:cardCornerRadius="16dp"
-    app:strokeColor="#1AFFFFFF"
+    app:strokeColor="@color/accent_blue_light"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -21,7 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="15 de Mayo, 2024"
-            android:textColor="#99FFFFFF"
+            android:textColor="@color/accent_blue"
+            android:textStyle="bold"
             android:textSize="12sp" />
 
         <TextView
@@ -30,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Plan Hipercalórico"
-            android:textColor="@color/white"
+            android:textColor="@color/text_primary"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -50,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Pollo, Arroz, Ensalada..."
-            android:textColor="#B3FFFFFF"
+            android:textColor="@color/text_secondary"
             android:textSize="12sp"
             android:maxLines="2"
             android:ellipsize="end"

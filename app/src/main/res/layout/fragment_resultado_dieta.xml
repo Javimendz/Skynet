@@ -10,8 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="@color/surface_white"
-        android:elevation="2dp">
+        android:background="@color/accent_blue"
+        android:elevation="4dp">
 
         <ImageView
             android:id="@+id/btnBackResultadoDieta"
@@ -23,7 +23,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/accent_blue" />
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/tvTituloPlan"
@@ -32,7 +32,7 @@
             android:layout_marginHorizontal="8dp"
             android:gravity="center"
             android:text="Tu Plan Nutricional"
-            android:textColor="@color/text_primary"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -49,7 +49,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnRenombrarPlan"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/accent_blue" />
+            app:tint="@color/white" />
 
         <ImageView
             android:id="@+id/btnRenombrarPlan"
@@ -61,7 +61,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/accent_blue" />
+            app:tint="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

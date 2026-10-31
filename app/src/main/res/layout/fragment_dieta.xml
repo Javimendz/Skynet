@@ -11,8 +11,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="@color/surface_white"
-        android:elevation="2dp">
+        android:background="@color/accent_blue"
+        android:elevation="4dp">
 
         <ImageView
             android:id="@+id/btnBackDieta"
@@ -24,13 +24,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/accent_blue" />
+            app:tint="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nutrición Inteligente"
-            android:textColor="@color/text_primary"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -207,7 +207,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Preferencias"
-                        android:textColor="@color/text_secondary"
+                        android:textColor="@color/accent_blue"
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:layout_marginTop="16dp"
@@ -246,8 +246,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Alergias e Intolerancias"
-                        android:textColor="@color/text_secondary"
+                        android:textColor="@color/accent_blue"
                         android:textSize="12sp"
+                        android:textStyle="bold"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="4dp"/>
 
@@ -261,25 +262,37 @@
                             style="@style/Widget.MaterialComponents.Chip.Filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Gluten" />
+                            android:text="Gluten"
+                            app:chipBackgroundColor="@color/accent_blue_light"
+                            android:textColor="@color/accent_blue_dark"
+                            app:chipIconTint="@color/accent_blue" />
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipLactosa"
                             style="@style/Widget.MaterialComponents.Chip.Filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Lactosa" />
+                            android:text="Lactosa"
+                            app:chipBackgroundColor="@color/accent_blue_light"
+                            android:textColor="@color/accent_blue_dark"
+                            app:chipIconTint="@color/accent_blue" />
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipFrutosSecos"
                             style="@style/Widget.MaterialComponents.Chip.Filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Frutos Secos" />
+                            android:text="Frutos Secos"
+                            app:chipBackgroundColor="@color/accent_blue_light"
+                            android:textColor="@color/accent_blue_dark"
+                            app:chipIconTint="@color/accent_blue" />
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipHuevo"
                             style="@style/Widget.MaterialComponents.Chip.Filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Huevo" />
+                            android:text="Huevo"
+                            app:chipBackgroundColor="@color/accent_blue_light"
+                            android:textColor="@color/accent_blue_dark"
+                            app:chipIconTint="@color/accent_blue" />
                     </com.google.android.material.chip.ChipGroup>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -327,11 +340,11 @@
                 android:id="@+id/cardIAAdvice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#F0F7FF"
+                app:cardBackgroundColor="@color/accent_blue_light"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="1dp"
-                app:strokeColor="#CCE5FF"
+                app:strokeColor="@color/accent_blue"
                 android:layout_marginBottom="16dp"
                 android:visibility="gone">
 
@@ -397,8 +410,8 @@
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:src="@drawable/ic_compras"
-                        app:tint="@color/text_secondary"
-                        android:alpha="0.5" />
+                        app:tint="@color/accent_blue"
+                        android:alpha="0.3" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -561,7 +574,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         app:indicatorColor="@color/accent_blue"
-                        app:trackColor="#E0E0E0"
+                        app:trackColor="@color/accent_blue_light"
                         app:trackThickness="8dp"
                         app:trackCornerRadius="4dp"
                         android:progress="0" />
@@ -686,7 +699,7 @@
         android:id="@+id/loadingOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#AAFFFFFF"
+        android:background="#E6F0F7FF"
         android:clickable="true"
         android:focusable="true"
         android:visibility="gone">
