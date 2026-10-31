@@ -73,7 +73,13 @@ public class SaludFragment extends Fragment {
             Toast.makeText(getContext(), "Error: Usuario no identificado", Toast.LENGTH_SHORT).show();
         }
 
-        btnEditar.setOnClickListener(v -> mostrarDialogoEdicion());
+        btnEditar.setOnClickListener(v -> {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new RegistroSaludFragment())
+                    .addToBackStack(null)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit();
+        });
 
         cardHistorial.setOnClickListener(v -> {
             HistorialSaludFragment historialFragment = new HistorialSaludFragment();

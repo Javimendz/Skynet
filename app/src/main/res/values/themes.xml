@@ -25,7 +25,9 @@
     <!-- Theme specifying white background for standalone light screens like RegistroSalud -->
     <style name="Theme.GYMCrush.Light" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/white</item>
-        <item name="android:statusBarColor">@color/accent_blue</item>
+        <item name="android:statusBarColor">@color/bar_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">@color/bar_dark</item>
     </style>
 
     <!-- Estilo personalizado para el Calendario (DatePicker) -->

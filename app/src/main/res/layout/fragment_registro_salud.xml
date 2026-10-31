@@ -3,40 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/bg_screen"
     android:orientation="vertical">
-
-    <!-- Purple Header / Toolbar -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:background="@color/accent_blue">
-
-        <ImageView
-            android:id="@+id/btnBackRegistroSalud"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:padding="12dp"
-            android:src="@drawable/ic_back_arrow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/white" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Registro de Salud"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -53,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ACTUALIZA TUS MÉTRICAS FÍSICAS"
-                android:textColor="@color/black"
+                android:textColor="@color/text_primary"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.1"
@@ -67,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:hint="Peso Actual (kg)"
-                android:textColorHint="@color/gray"
+                android:textColorHint="@color/text_secondary"
                 app:boxStrokeColor="@color/accent_blue"
                 app:hintTextColor="@color/accent_blue"
                 app:startIconDrawable="@drawable/ic_salud"
@@ -81,7 +49,7 @@
                     android:id="@+id/etRegistroPeso"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="@color/text_primary"
                     android:inputType="numberDecimal"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:hint="Estatura (cm)"
-                android:textColorHint="@color/gray"
+                android:textColorHint="@color/text_secondary"
                 app:boxStrokeColor="@color/accent_blue"
                 app:hintTextColor="@color/accent_blue"
                 app:startIconDrawable="@drawable/ic_salud"
@@ -106,7 +74,7 @@
                     android:id="@+id/etRegistroEstatura"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="@color/text_primary"
                     android:inputType="numberDecimal"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:hint="Nivel de Actividad"
-                android:textColorHint="@color/gray"
+                android:textColorHint="@color/text_secondary"
                 app:boxStrokeColor="@color/accent_blue"
                 app:hintTextColor="@color/accent_blue"
                 app:startIconDrawable="@drawable/ic_workout"
@@ -131,7 +99,7 @@
                     android:id="@+id/actvRegistroActividad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="@color/text_primary"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -142,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
                 android:hint="Comentarios u Objetivos adicionales"
-                android:textColorHint="@color/gray"
+                android:textColorHint="@color/text_secondary"
                 app:boxStrokeColor="@color/accent_blue"
                 app:hintTextColor="@color/accent_blue"
                 app:startIconDrawable="@drawable/ic_contacto"
@@ -156,7 +124,7 @@
                     android:id="@+id/etRegistroComentario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="@color/text_primary"
                     android:inputType="textMultiLine"
                     android:lines="3"/>
             </com.google.android.material.textfield.TextInputLayout>

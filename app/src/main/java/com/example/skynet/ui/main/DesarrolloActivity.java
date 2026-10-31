@@ -296,8 +296,7 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         View cardWeightChart = findViewById(R.id.cardWeightChart);
         if (cardWeightChart != null) {
             cardWeightChart.setOnClickListener(v -> {
-                Intent intent = new Intent(DesarrolloActivity.this, com.example.skynet.ui.salud.RegistroSaludActivity.class);
-                startActivityForResult(intent, 102);
+                cargarFragmento(new com.example.skynet.ui.salud.SaludFragment());
             });
         }
         updateWeightChart();
@@ -1335,8 +1334,7 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         if (vSalud != null) {
             vSalud.setOnClickListener(v -> {
                 slidingRootNav.closeMenu();
-                Intent intent = new Intent(DesarrolloActivity.this, com.example.skynet.ui.salud.RegistroSaludActivity.class);
-                startActivityForResult(intent, 102);
+                cargarFragmento(new com.example.skynet.ui.salud.SaludFragment());
             });
         }
 

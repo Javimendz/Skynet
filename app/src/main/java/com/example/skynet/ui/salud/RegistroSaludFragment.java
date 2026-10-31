@@ -1,13 +1,18 @@
 package com.example.skynet.ui.salud;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.skynet.R;
 import com.example.skynet.data.remote.RetrofitClient;
@@ -21,52 +26,55 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegistroSaludActivity extends AppCompatActivity {
+public class RegistroSaludFragment extends Fragment {
 
     private TextInputEditText etPeso, etEstatura, etComentario;
     private AutoCompleteTextView actvActividad;
     private MaterialButton btnGuardar;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro_salud);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_registro_salud, container, false);
 
-        etPeso = findViewById(R.id.etRegistroPeso);
-        etEstatura = findViewById(R.id.etRegistroEstatura);
-        etComentario = findViewById(R.id.etRegistroComentario);
-        actvActividad = findViewById(R.id.actvRegistroActividad);
-        btnGuardar = findViewById(R.id.btnGuardarRegistroSalud);
-
-        findViewById(R.id.btnBackRegistroSalud).setOnClickListener(v -> finish());
+        etPeso = view.findViewById(R.id.etRegistroPeso);
+        etEstatura = view.findViewById(R.id.etRegistroEstatura);
+        etComentario = view.findViewById(R.id.etRegistroComentario);
+        actvActividad = view.findViewById(R.id.actvRegistroActividad);
+        btnGuardar = view.findViewById(R.id.btnGuardarRegistroSalud);
 
         setupDropdownActividad();
 
         btnGuardar.setOnClickListener(v -> guardarRegistro());
-        
+
         cargarDatosActuales();
+
+        return view;
     }
 
     private void setupDropdownActividad() {
         String[] niveles = {"SEDENTARIO", "LIGERO", "MODERADO", "INTENSO", "ATLETA"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, niveles);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, niveles);
         actvActividad.setAdapter(adapter);
         actvActividad.setText(niveles[2], false); // Moderado por defecto
-        actvActividad.setInputType(android.text.InputType.TYPE_NULL); // Previene crash por OneSearchSuggestProvider
+        actvActividad.setInputType(android.text.InputType.TYPE_NULL);
     }
 
     private void cargarDatosActuales() {
-        SharedPreferences prefs = getSharedPreferences("DatosUsuario", MODE_PRIVATE);
+        SharedPreferences prefs = requireActivity().getSharedPreferences("DatosUsuario", Context.MODE_PRIVATE);
         long usuarioId = prefs.getLong("user_id", -1);
         if (usuarioId == -1) return;
 
         RetrofitClient.getApiService().getSaludActual(usuarioId).enqueue(new Callback<ApiResponseDto<SaludResponseDto>>() {
             @Override
             public void onResponse(Call<ApiResponseDto<SaludResponseDto>> call, Response<ApiResponseDto<SaludResponseDto>> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().getDatos() != null) {
+                if (isAdded() && response.isSuccessful() && response.body() != null && response.body().getDatos() != null) {
                     SaludResponseDto salud = response.body().getDatos();
                     if (salud.getPeso() != null) etPeso.setText(String.valueOf(salud.getPeso()));
-                    if (salud.getEstatura() != null) etEstatura.setText(String.valueOf(salud.getEstatura()));
+                    if (salud.getEstatura() != null) {
+                        double estatura = salud.getEstatura();
+                        etEstatura.setText(String.valueOf(estatura < 3 ? (int)(estatura * 100) : (int)estatura));
+                    }
                     if (salud.getNivelActividad() != null) actvActividad.setText(salud.getNivelActividad(), false);
                 }
             }
@@ -82,15 +90,15 @@ public class RegistroSaludActivity extends AppCompatActivity {
         String comentario = etComentario.getText().toString();
 
         if (pesoStr.isEmpty() || estaturaStr.isEmpty()) {
-            Toast.makeText(this, "Por favor, completa peso y estatura", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Por favor, completa peso y estatura", Toast.LENGTH_SHORT).show();
             return;
         }
 
         double peso = Double.parseDouble(pesoStr);
         double estaturaCm = Double.parseDouble(estaturaStr);
-        double estaturaMetros = estaturaCm / 100.0; // Conversión a metros para el Backend
+        double estaturaMetros = estaturaCm / 100.0;
 
-        SharedPreferences prefs = getSharedPreferences("DatosUsuario", MODE_PRIVATE);
+        SharedPreferences prefs = requireActivity().getSharedPreferences("DatosUsuario", Context.MODE_PRIVATE);
         long usuarioId = prefs.getLong("user_id", -1);
 
         SaludRequestDto request = new SaludRequestDto();
@@ -105,22 +113,25 @@ public class RegistroSaludActivity extends AppCompatActivity {
         RetrofitClient.getApiService().registrarSalud(usuarioId, request).enqueue(new Callback<ApiResponseDto<SaludResponseDto>>() {
             @Override
             public void onResponse(Call<ApiResponseDto<SaludResponseDto>> call, Response<ApiResponseDto<SaludResponseDto>> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(RegistroSaludActivity.this, "¡Progreso guardado correctamente!", Toast.LENGTH_SHORT).show();
-                    setResult(RESULT_OK);
-                    finish();
-                } else {
-                    Toast.makeText(RegistroSaludActivity.this, "Error al guardar registro", Toast.LENGTH_SHORT).show();
-                    btnGuardar.setEnabled(true);
-                    btnGuardar.setText("GUARDAR REGISTRO");
+                if (isAdded()) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(getContext(), "¡Progreso guardado correctamente!", Toast.LENGTH_SHORT).show();
+                        getParentFragmentManager().popBackStack();
+                    } else {
+                        Toast.makeText(getContext(), "Error al guardar registro", Toast.LENGTH_SHORT).show();
+                        btnGuardar.setEnabled(true);
+                        btnGuardar.setText("GUARDAR REGISTRO");
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponseDto<SaludResponseDto>> call, Throwable t) {
-                Toast.makeText(RegistroSaludActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
-                btnGuardar.setEnabled(true);
-                btnGuardar.setText("GUARDAR REGISTRO");
+                if (isAdded()) {
+                    Toast.makeText(getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                    btnGuardar.setEnabled(true);
+                    btnGuardar.setText("GUARDAR REGISTRO");
+                }
             }
         });
     }
