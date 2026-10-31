@@ -19,7 +19,7 @@
             android:layout_height="40dp"
             android:padding="8dp"
             android:src="@drawable/ic_back"
-            app:tint="@color/accent_purple" />
+            app:tint="@color/accent_blue" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
                 android:layout_margin="4dp"
                 app:fabSize="mini"
                 app:srcCompat="@android:drawable/ic_menu_send"
-                app:backgroundTint="@color/accent_purple"
+                app:backgroundTint="@color/accent_blue"
                 app:tint="@color/white"
                 app:elevation="0dp"/>
         </LinearLayout>

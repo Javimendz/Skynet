@@ -22,7 +22,7 @@
             android:layout_height="56dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/accent_purple_light"
+            app:cardBackgroundColor="@color/accent_blue_light"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
@@ -33,7 +33,7 @@
                 android:layout_height="32dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_trophy"
-                app:tint="@color/accent_purple" />
+                app:tint="@color/accent_blue" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="80%"
-            android:textColor="@color/accent_purple"
+            android:textColor="@color/accent_blue"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -78,8 +78,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            app:indicatorColor="@color/accent_purple"
-            app:trackColor="@color/accent_purple_light"
+            app:indicatorColor="@color/accent_blue"
+            app:trackColor="@color/accent_blue_light"
             app:trackCornerRadius="4dp"
             app:trackThickness="6dp"
             app:layout_constraintEnd_toEndOf="parent"

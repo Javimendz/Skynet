@@ -151,7 +151,7 @@
                             android:layout_width="88dp"
                             android:layout_height="88dp"
                             android:scaleType="centerCrop"
-                            android:background="@color/accent_purple_light"
+                            android:background="@color/accent_blue_light"
                             app:shapeAppearanceOverlay="@style/RoundedImage"/>
 
                         <LinearLayout
@@ -174,7 +174,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/bg_nav_item"
-                                android:backgroundTint="@color/accent_purple_light"
+                                android:backgroundTint="@color/accent_blue_light"
                                 android:paddingHorizontal="8dp"
                                 android:paddingVertical="2dp"
                                 android:layout_marginTop="4dp">
@@ -183,7 +183,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="Dificultad: 🔥🔥🔥"
                                     android:textSize="12sp"
-                                    android:textColor="@color/accent_purple"
+                                    android:textColor="@color/accent_blue"
                                     android:textStyle="bold"/>
                             </LinearLayout>
 
@@ -203,7 +203,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:buttonTint="@color/accent_purple"/>
+                            android:buttonTint="@color/accent_blue"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -224,7 +224,7 @@
                             android:layout_width="88dp"
                             android:layout_height="88dp"
                             android:scaleType="centerCrop"
-                            android:background="@color/accent_purple_light"
+                            android:background="@color/accent_blue_light"
                             app:shapeAppearanceOverlay="@style/RoundedImage"/>
 
                         <LinearLayout
@@ -247,7 +247,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/bg_nav_item"
-                                android:backgroundTint="@color/accent_purple_light"
+                                android:backgroundTint="@color/accent_blue_light"
                                 android:paddingHorizontal="8dp"
                                 android:paddingVertical="2dp"
                                 android:layout_marginTop="4dp">
@@ -256,7 +256,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="Dificultad: 🔥🔥"
                                     android:textSize="12sp"
-                                    android:textColor="@color/accent_purple"
+                                    android:textColor="@color/accent_blue"
                                     android:textStyle="bold"/>
                             </LinearLayout>
 
@@ -276,7 +276,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:buttonTint="@color/accent_purple"/>
+                            android:buttonTint="@color/accent_blue"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -295,7 +295,7 @@
         app:menu="@menu/nav_menu"
         app:itemIconTint="@color/bottom_nav_colors"
         app:itemTextColor="@color/bottom_nav_colors"
-        app:itemRippleColor="@color/accent_purple_light"
+        app:itemRippleColor="@color/accent_blue_light"
         app:itemActiveIndicatorStyle="@style/Widget.Material3.BottomNavigationView.ActiveIndicator"
         app:layout_constraintBottom_toBottomOf="parent" />
 

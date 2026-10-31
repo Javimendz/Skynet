@@ -6,8 +6,10 @@
     <color name="text_primary">#0B0B14</color>
     <color name="text_secondary">#6B6B7B</color>
     <color name="divider">#E4E4EC</color>
-    <color name="accent_purple">#2563EB</color>
-    <color name="accent_purple_light">#DBEAFE</color>
+    <color name="accent_blue">#2563EB</color>
+    <color name="accent_blue_light">#DBEAFE</color>
+    <color name="accent_blue_dark">#1E40AF</color>
+    <color name="accent_blue_brand">#2563EB</color>
     <color name="icon_inactive">#8E8EA0</color>
 
     <color name="white">#FFFFFF</color>
@@ -39,7 +41,6 @@
     <color name="macro_protein">#FF4500</color>
     <color name="macro_carbs">#32CD32</color>
     <color name="macro_fats">#1E90FF</color>
-    <color name="accent_blue">#3B82F6</color>
     <color name="soft_blue">#ADD8E6</color>
     <color name="soft_purple">#E6E6FA</color>
 
@@ -65,11 +66,9 @@
     <color name="bar_dark">#0B0B14</color>
     <color name="text_primary_modern">#0B0B14</color>
     <color name="text_secondary_modern">#6B6B7B</color>
-    <color name="accent_purple_dark">#1E40AF</color>
     <color name="accent_orange">#FF6B2C</color>
     <color name="accent_green">#22C55E</color>
     <color name="nav_inactive">#8E8EA0</color>
-    <color name="nav_indicator_purple">#332563EB</color>
-    <color name="nav_text_purple">#93C5FD</color>
-    <color name="accent_purple_brand">#2563EB</color>
+    <color name="nav_indicator_blue">#332563EB</color>
+    <color name="nav_text_blue">#2563EB</color>
 </resources>

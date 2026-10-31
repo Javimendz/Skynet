@@ -303,8 +303,8 @@ public class PerfilFragment extends Fragment {
             tvKcalTotal.setText(kcal + " Kcal");
             
             View[] dots = {dotL, dotM, dotMi, dotJ, dotV, dotS, dotD};
-            int colorActivo = android.graphics.Color.parseColor("#CD0277"); // Neon pink
-            int colorInactivo = android.graphics.Color.parseColor("#2AFFFFFF");
+            int colorActivo = android.graphics.Color.parseColor("#2563EB"); // Modern Blue
+            int colorInactivo = android.graphics.Color.parseColor("#DBEAFE"); // Light Blue (purple_100)
 
             for (int i = 0; i < dots.length; i++) {
                 if (dots[i] != null) {

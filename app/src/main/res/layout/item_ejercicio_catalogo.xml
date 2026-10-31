@@ -45,8 +45,8 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:padding="8dp"
-        android:background="@drawable/bg_circle_purple_light"
+        android:background="@drawable/bg_circle_blue_light"
         android:src="@drawable/ic_arrow_forward"
-        app:tint="@color/accent_purple" />
+        app:tint="@color/accent_blue" />
 
 </LinearLayout>

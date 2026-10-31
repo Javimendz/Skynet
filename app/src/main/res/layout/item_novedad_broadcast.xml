@@ -7,7 +7,7 @@
     android:layout_marginHorizontal="24dp"
     android:layout_marginTop="12dp"
     app:cardBackgroundColor="@color/surface_soft"
-    app:strokeColor="@color/accent_purple_light"
+    app:strokeColor="@color/accent_blue_light"
     app:strokeWidth="1dp">
 
     <LinearLayout

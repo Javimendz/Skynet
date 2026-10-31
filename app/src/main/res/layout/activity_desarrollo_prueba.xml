@@ -154,7 +154,7 @@
                             <FrameLayout
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:background="@drawable/bg_circle_purple_light">
+                                android:background="@drawable/bg_circle_blue_light">
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -208,7 +208,7 @@
                             <FrameLayout
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:background="@drawable/bg_circle_purple_light">
+                                android:background="@drawable/bg_circle_blue_light">
                                 <View
                                     android:id="@+id/statusAforoIndicator"
                                     android:layout_width="12dp"
@@ -452,7 +452,7 @@
                             android:layout_width="4dp"
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
-                            android:background="@color/accent_purple" />
+                            android:background="@color/accent_blue" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -473,7 +473,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:text="Ver todos"
-                            android:textColor="@color/accent_purple"
+                            android:textColor="@color/accent_blue"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:background="?attr/selectableItemBackground"
@@ -500,7 +500,7 @@
                                 android:layout_height="56dp"
                                 app:cardCornerRadius="16dp"
                                 app:cardElevation="0dp"
-                                app:cardBackgroundColor="@color/accent_purple_light"
+                                app:cardBackgroundColor="@color/accent_blue_light"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent">
@@ -511,7 +511,7 @@
                                     android:layout_height="32dp"
                                     android:layout_gravity="center"
                                     android:src="@drawable/ic_trophy"
-                                    app:tint="@color/accent_purple" />
+                                    app:tint="@color/accent_blue" />
                             </com.google.android.material.card.MaterialCardView>
 
                             <TextView
@@ -545,7 +545,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-medium"
                                 android:text="75%"
-                                android:textColor="@color/accent_purple"
+                                android:textColor="@color/accent_blue"
                                 android:textSize="12sp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -555,8 +555,8 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
-                                app:indicatorColor="@color/accent_purple"
-                                app:trackColor="@color/accent_purple_light"
+                                app:indicatorColor="@color/accent_blue"
+                                app:trackColor="@color/accent_blue_light"
                                 app:trackCornerRadius="4dp"
                                 app:trackThickness="6dp"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -585,7 +585,7 @@
                             android:layout_width="4dp"
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
-                            android:background="@color/accent_purple" />
+                            android:background="@color/accent_blue" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -605,7 +605,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:text="Ver todo"
-                            android:textColor="@color/accent_purple"
+                            android:textColor="@color/accent_blue"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -664,7 +664,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
                                     android:text="Reservar ahora"
-                                    android:textColor="@color/accent_purple"
+                                    android:textColor="@color/accent_blue"
                                     android:textStyle="bold" />
                             </LinearLayout>
                         </FrameLayout>
@@ -688,7 +688,7 @@
                             android:layout_width="4dp"
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
-                            android:background="@color/accent_purple" />
+                            android:background="@color/accent_blue" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -708,7 +708,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:text="Ver dieta"
-                            android:textColor="@color/accent_purple"
+                            android:textColor="@color/accent_blue"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -753,7 +753,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="IA Insight"
-                                        android:textColor="@color/accent_purple"
+                                        android:textColor="@color/accent_blue"
                                         android:textStyle="bold"
                                         android:textSize="14sp"/>
                                     <TextView
@@ -817,8 +817,8 @@
                                             android:progress="65"
                                             app:indicatorSize="48dp"
                                             app:trackThickness="4dp"
-                                            app:indicatorColor="@color/accent_purple"
-                                            app:trackColor="@color/accent_purple_light" />
+                                            app:indicatorColor="@color/accent_blue"
+                                            app:trackColor="@color/accent_blue_light" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -854,7 +854,7 @@
                                         android:layout_marginTop="20dp"
                                         android:text="Ver plan completo"
                                         android:textColor="@color/white"
-                                        app:backgroundTint="@color/accent_purple"/>
+                                        app:backgroundTint="@color/accent_blue"/>
 
                                 </LinearLayout>
                             </com.google.android.material.card.MaterialCardView>
@@ -892,7 +892,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:text="Crear plan IA"
-                                android:textColor="@color/accent_purple"
+                                android:textColor="@color/accent_blue"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>

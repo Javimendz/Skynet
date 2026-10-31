@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:text="Todos"
                 android:checked="true"
-                app:chipBackgroundColor="@color/accent_purple_light"
+                app:chipBackgroundColor="@color/accent_blue_light"
                 app:chipSurfaceColor="@color/white" />
 
             <com.google.android.material.chip.Chip

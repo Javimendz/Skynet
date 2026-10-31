@@ -99,10 +99,10 @@ public class LogroAdapter extends RecyclerView.Adapter<LogroAdapter.LogroViewHol
                 } else {
                     tvStatus.setText((int) pct + "%");
                 }
-                tvStatus.setTextColor(itemView.getContext().getResources().getColor(R.color.accent_purple));
-                cardIcono.setCardBackgroundColor(itemView.getContext().getResources().getColor(R.color.accent_purple_light));
-                imgIcono.setColorFilter(itemView.getContext().getResources().getColor(R.color.accent_purple));
-                progressIndicator.setIndicatorColor(itemView.getContext().getResources().getColor(R.color.accent_purple));
+                tvStatus.setTextColor(itemView.getContext().getResources().getColor(R.color.accent_blue));
+                cardIcono.setCardBackgroundColor(itemView.getContext().getResources().getColor(R.color.accent_blue_light));
+                imgIcono.setColorFilter(itemView.getContext().getResources().getColor(R.color.accent_blue));
+                progressIndicator.setIndicatorColor(itemView.getContext().getResources().getColor(R.color.accent_blue));
                 tvFecha.setVisibility(View.GONE);
             }
         }

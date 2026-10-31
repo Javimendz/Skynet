@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Usuario"
-                android:textColor="@color/accent_purple"
+                android:textColor="@color/accent_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 

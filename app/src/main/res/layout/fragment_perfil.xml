@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_main_gradient"
+    android:background="@color/bg_light"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,12 +19,25 @@
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/bg_search_glass"
-            android:padding="12dp"
+            android:padding="10dp"
             android:src="@drawable/ic_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/text_black" />
+            app:tint="@color/accent_blue" />
+
+        <TextView
+            android:id="@+id/tvTituloPerfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mi Perfil"
+            android:textColor="@color/text_black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/btnVolverPerfil"
+            app:layout_constraintBottom_toBottomOf="@id/btnVolverPerfil"
+            app:layout_constraintStart_toEndOf="@id/btnVolverPerfil"
+            android:layout_marginStart="8dp"/>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardPerfil"
@@ -32,8 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="32dp"
-            app:cardElevation="8dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="2dp"
             app:strokeWidth="0dp"
             app:layout_constraintTop_toBottomOf="@id/btnVolverPerfil">
 
@@ -71,7 +84,7 @@
                         app:maxImageSize="20dp"
                         app:srcCompat="@android:drawable/ic_menu_camera"
                         app:tint="@color/white"
-                        android:backgroundTint="@color/accent_purple"
+                        android:backgroundTint="@color/accent_blue"
                         app:elevation="6dp"/>
                 </FrameLayout>
 
@@ -118,7 +131,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="PESO"
-                            android:textColor="@color/accent_purple"
+                            android:textColor="@color/accent_blue"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                         <TextView
@@ -141,7 +154,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="ALTURA"
-                            android:textColor="@color/accent_purple"
+                            android:textColor="@color/accent_blue"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                         <TextView
@@ -164,7 +177,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="EDAD"
-                            android:textColor="@color/accent_purple"
+                            android:textColor="@color/accent_blue"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                         <TextView
@@ -201,8 +214,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="8dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="2dp"
             app:strokeWidth="0dp"
             app:layout_constraintTop_toBottomOf="@id/labelActividad">
 
@@ -285,13 +298,13 @@
                     android:weightSum="7"
                     app:layout_constraintTop_toBottomOf="@id/tvActividadProgresoLabel">
 
-                    <View android:id="@+id/dotL" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/soft_purple" />
-                    <View android:id="@+id/dotM" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/soft_purple" />
-                    <View android:id="@+id/dotMi" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/soft_purple" />
-                    <View android:id="@+id/dotJ" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/soft_purple" />
-                    <View android:id="@+id/dotV" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/soft_purple" />
-                    <View android:id="@+id/dotS" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/soft_purple" />
-                    <View android:id="@+id/dotD" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/soft_purple" />
+                    <View android:id="@+id/dotL" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/purple_100" />
+                    <View android:id="@+id/dotM" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/purple_100" />
+                    <View android:id="@+id/dotMi" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/purple_100" />
+                    <View android:id="@+id/dotJ" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/purple_100" />
+                    <View android:id="@+id/dotV" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/purple_100" />
+                    <View android:id="@+id/dotS" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/purple_100" />
+                    <View android:id="@+id/dotD" android:layout_width="12dp" android:layout_height="12dp" android:layout_margin="6dp" android:background="@drawable/bg_circle_neon" android:backgroundTint="@color/purple_100" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -317,8 +330,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="8dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="2dp"
             app:strokeWidth="0dp"
             app:layout_constraintTop_toBottomOf="@id/labelDetalles">
 
@@ -338,7 +351,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_phone_neon"
-                        app:tint="@color/accent_purple"/>
+                        app:tint="@color/accent_blue"/>
                     <TextView
                         android:id="@+id/tvTelefono"
                         android:layout_width="wrap_content"
@@ -359,7 +372,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_homee"
-                        app:tint="@color/accent_purple"/>
+                        app:tint="@color/accent_blue"/>
                     <TextView
                         android:id="@+id/tvDireccion"
                         android:layout_width="wrap_content"
@@ -379,7 +392,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_perfil"
-                        app:tint="@color/accent_purple"/>
+                        app:tint="@color/accent_blue"/>
                     <TextView
                         android:id="@+id/tvBio"
                         android:layout_width="wrap_content"
@@ -400,7 +413,7 @@
             android:layout_height="56dp"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="24dp"
-            android:backgroundTint="@color/accent_purple"
+            android:backgroundTint="@color/accent_blue"
             android:text="EDITAR PERFIL"
             android:textColor="@color/white"
             android:textSize="16sp"
