@@ -277,6 +277,21 @@
                             app:tint="@color/white" />
                     </FrameLayout>
 
+                    <!-- Achievements Section -->
+                    <FrameLayout
+                        android:id="@+id/menu_logros"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_trophy"
+                            app:tint="@color/white" />
+                    </FrameLayout>
+
                 </LinearLayout>
             </ScrollView>
 

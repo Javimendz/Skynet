@@ -15,9 +15,9 @@ public class CustomDonutChart extends View {
     private float carbsPercentage = 0;
     private float fatsPercentage = 0;
 
-    private int proteinColor = 0xFFF06292; // Rosa
-    private int carbsColor = 0xFF4FC3F7;    // Azul
-    private int fatsColor = 0xFFFFD54F;     // Amarillo
+    private int proteinColor = 0xFFFF4500; // Naranja/Rojo (macro_protein)
+    private int carbsColor = 0xFF32CD32;   // Verde (macro_carbs)
+    private int fatsColor = 0xFF1E90FF;    // Azul (macro_fats)
     private int emptyColor = 0x33FFFFFF;    // Gris transparente
 
     public CustomDonutChart(Context context, @Nullable AttributeSet attrs) {

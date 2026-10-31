@@ -371,6 +371,12 @@ public interface ApiService {
     @GET("api/v1/nutricion/buscar")
     Call<ApiResponseDto<String>> buscarAlimentos(@Query("query") String query);
 
+    @GET("api/v1/nutricion/ia/consejo")
+    Call<ApiResponseDto<String>> obtenerConsejoIA(
+            @Query("perfil") String perfil,
+            @Query("pregunta") String pregunta
+    );
+
     // --- ENDPOINTS WGER (EJERCICIOS EXTERNOS) ---
     @GET("api/v1/wger/ejercicios")
     Call<ApiResponseDto<com.example.skynet.data.remote.dto.WgerEjerciciosResponseDto>> getWgerEjercicios(

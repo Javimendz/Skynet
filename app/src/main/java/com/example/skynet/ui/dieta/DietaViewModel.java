@@ -42,6 +42,7 @@ public class DietaViewModel extends ViewModel {
     private final MutableLiveData<String> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
     private final MutableLiveData<NutricionResponseDto> planGeneradoEvent = new MutableLiveData<>();
+    private final MutableLiveData<String> consejoIA = new MutableLiveData<>();
 
     private final PublishSubject<String> searchSubject = PublishSubject.create();
     private final CompositeDisposable disposables = new CompositeDisposable();
@@ -79,6 +80,7 @@ public class DietaViewModel extends ViewModel {
     public LiveData<String> getError() { return error; }
     public LiveData<Boolean> getLoading() { return loading; }
     public LiveData<NutricionResponseDto> getPlanGeneradoEvent() { return planGeneradoEvent; }
+    public LiveData<String> getConsejoIA() { return consejoIA; }
 
     public void consumirEventoPlan() {
         planGeneradoEvent.setValue(null);
@@ -430,6 +432,27 @@ public class DietaViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<ApiResponseDto<NutricionResponseDto>> call, Throwable t) {
+                loading.setValue(false);
+                error.setValue("Error de red: " + t.getMessage());
+            }
+        });
+    }
+
+    public void solicitarConsejoIA(String perfil, String pregunta) {
+        loading.setValue(true);
+        nutricionRepository.obtenerConsejoIA(perfil, pregunta, new Callback<ApiResponseDto<String>>() {
+            @Override
+            public void onResponse(Call<ApiResponseDto<String>> call, Response<ApiResponseDto<String>> response) {
+                loading.setValue(false);
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    consejoIA.setValue(response.body().getDatos());
+                } else {
+                    error.setValue("No se pudo obtener el consejo de la IA");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponseDto<String>> call, Throwable t) {
                 loading.setValue(false);
                 error.setValue("Error de red: " + t.getMessage());
             }

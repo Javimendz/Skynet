@@ -28,6 +28,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.skynet.R;
+import com.example.skynet.ui.logros.LogroViewModel;
 import com.example.skynet.data.remote.ApiService;
 import com.example.skynet.data.remote.RetrofitClient;
 import com.example.skynet.data.remote.dto.ApiResponseDto;
@@ -76,6 +77,8 @@ import com.github.mikephil.charting.components.YAxis;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -148,6 +151,12 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
     private TextView tvWeightChartError;
     private androidx.recyclerview.widget.RecyclerView rvFriendsTraining;
 
+    // Logros Widget
+    private View layoutNextAchievementWidget;
+    private TextView tvNombreProximo, tvDescProximo, tvPctProximo;
+    private com.google.android.material.progressindicator.LinearProgressIndicator progressProximo;
+    private LogroViewModel logroViewModel;
+
     // Carrusel
     private androidx.viewpager2.widget.ViewPager2 viewPagerCarousel, viewPagerExerciseCarousel;
     private CarouselAdapter carouselAdapter, exerciseCarouselAdapter;
@@ -198,6 +207,16 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         tvNombrePlanWidget = findViewById(R.id.tvNombrePlanWidget);
         tvCaloriasWidget = findViewById(R.id.tvCaloriasWidget);
         tvIANewsTitle = findViewById(R.id.tvIANewsTitle);
+
+        // Logros Initialization
+        layoutNextAchievementWidget = findViewById(R.id.layoutNextAchievementWidget);
+        tvNombreProximo = findViewById(R.id.tvNombreProximo);
+        tvDescProximo = findViewById(R.id.tvDescProximo);
+        tvPctProximo = findViewById(R.id.tvPctProximo);
+        progressProximo = findViewById(R.id.progressProximo);
+        logroViewModel = new ViewModelProvider(this).get(LogroViewModel.class);
+
+        setupNextAchievementWidget();
         tvIANewsContent = findViewById(R.id.tvIANewsContent);
         
         tvActividadPorcentaje = findViewById(R.id.tvActividadPorcentaje);
@@ -386,10 +405,16 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         });
 
         // 5. Google Maps
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
+        if (checkPlayServices()) {
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            if (mapFragment != null) {
+                mapFragment.getMapAsync(this);
+            }
+        } else {
+            View mapContainer = findViewById(R.id.map);
+            if (mapContainer != null) mapContainer.setVisibility(View.GONE);
+            Log.w("GMS_CHECK", "Google Play Services no disponible o congelado.");
         }
 
         notificationsAnim = findViewById(R.id.btnNotificationsAnim);
@@ -1300,10 +1325,49 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
             slidingRootNav.closeMenu();
             cargarFragmento(new EspacioFragment());
         });
+
+        View menuLogros = menuView.findViewById(R.id.menu_logros);
+        if (menuLogros != null) {
+            menuLogros.setOnClickListener(v -> {
+                slidingRootNav.closeMenu();
+                startActivity(new Intent(this, com.example.skynet.ui.logros.LogrosActivity.class));
+            });
+        }
         menuView.findViewById(R.id.menu_salir).setOnClickListener(v -> {
             slidingRootNav.closeMenu();
             mostrarDialogoCerrarSesion();
         });
+    }
+
+    private void setupNextAchievementWidget() {
+        if (layoutNextAchievementWidget == null) return;
+
+        findViewById(R.id.btnVerTodosLogros).setOnClickListener(v -> {
+            startActivity(new Intent(this, com.example.skynet.ui.logros.LogrosActivity.class));
+        });
+
+        findViewById(R.id.cardProximoLogroHome).setOnClickListener(v -> {
+            startActivity(new Intent(this, com.example.skynet.ui.logros.LogrosActivity.class));
+        });
+
+        logroViewModel.getProximoLogro().observe(this, logro -> {
+            if (logro != null) {
+                layoutNextAchievementWidget.setVisibility(View.VISIBLE);
+                tvNombreProximo.setText(logro.getNombre());
+                tvDescProximo.setText(logro.getDescripcion());
+                
+                double pct = logro.getPorcentajeProgreso() != null ? logro.getPorcentajeProgreso() : 0.0;
+                tvPctProximo.setText((int) pct + "%");
+                progressProximo.setProgress((int) pct);
+            } else {
+                layoutNextAchievementWidget.setVisibility(View.GONE);
+            }
+        });
+
+        logroViewModel.cargarProximoLogro();
+        
+        // Refresh achievements list if exists
+        setupAchievements();
     }
 
     private void cargarDatosYFotoPerfil() {
@@ -1479,6 +1543,26 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
         dialog.findViewById(R.id.btn_cancelar_exit).setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
+    }
+
+    private boolean checkPlayServices() {
+        try {
+            GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+            int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+            if (resultCode != ConnectionResult.SUCCESS) {
+                if (apiAvailability.isUserResolvableError(resultCode)) {
+                    apiAvailability.getErrorDialog(this, resultCode, 9000).show();
+                }
+                return false;
+            }
+            return true;
+        } catch (SecurityException e) {
+            // Captura el error de "Package frozen" si ocurre durante la verificación
+            Log.e("GMS_CHECK", "Error de seguridad al verificar GMS (posiblemente congelado): " + e.getMessage());
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override

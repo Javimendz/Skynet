@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:hint="Nombre del Plan"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:boxStrokeColor="@color/brand_pink"
-        app:hintTextColor="@color/brand_pink"
+        app:boxStrokeColor="@color/accent_blue"
+        app:hintTextColor="@color/accent_blue"
         android:textColorHint="#99FFFFFF"
         app:placeholderTextColor="#99FFFFFF">
         <com.google.android.material.textfield.TextInputEditText
@@ -40,8 +40,8 @@
         android:layout_marginTop="12dp"
         android:hint="Descripción"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:boxStrokeColor="@color/brand_pink"
-        app:hintTextColor="@color/brand_pink"
+        app:boxStrokeColor="@color/accent_blue"
+        app:hintTextColor="@color/accent_blue"
         android:textColorHint="#99FFFFFF"
         app:placeholderTextColor="#99FFFFFF">
         <com.google.android.material.textfield.TextInputEditText
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:text="Objetivo"
         android:layout_marginTop="16dp"
-        android:textColor="@color/brand_pink"
+        android:textColor="@color/accent_blue"
         android:textStyle="bold"/>
     <Spinner
         android:id="@+id/spinnerObjetivo"
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:text="Nivel"
         android:layout_marginTop="16dp"
-        android:textColor="@color/brand_pink"
+        android:textColor="@color/accent_blue"
         android:textStyle="bold"/>
     <Spinner
         android:id="@+id/spinnerNivel"
@@ -90,7 +90,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:cornerRadius="12dp"
-        android:backgroundTint="@color/brand_pink"
+        android:backgroundTint="@color/accent_blue"
         app:rippleColor="#4DFFFFFF"/>
 
 </LinearLayout>

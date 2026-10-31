@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.secrets.gradle.plugin)
 }
@@ -15,7 +16,7 @@ android {
     defaultConfig {
         applicationId = "com.example.skynet"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 

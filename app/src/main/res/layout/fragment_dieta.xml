@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_light"
+    android:background="@color/bg_screen"
     android:orientation="vertical">
 
     <!-- Header -->
@@ -24,13 +24,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/accent_purple" />
+            app:tint="@color/accent_blue" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nutrición Inteligente"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_primary"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -51,12 +51,11 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- BLOQUE A: MI ESTADO ACTUAL -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mi Estado Actual"
-                android:textColor="@color/text_black"
+                android:text="Configura tu Plan IA"
+                android:textColor="@color/text_primary"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="12dp"/>
@@ -76,6 +75,7 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
+                    <!-- Fila 1: Peso y Altura -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -83,48 +83,43 @@
                         android:weightSum="2">
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilPeso"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginEnd="8dp"
                             android:hint="Peso"
-                            app:startIconDrawable="@android:drawable/ic_menu_sort_by_size"
-                            app:startIconTint="@color/accent_purple"
                             app:suffixText="kg"
-                            app:suffixTextColor="@color/accent_purple"
-                            app:boxStrokeColor="@color/accent_purple"
-                            app:hintTextColor="@color/text_gray">
+                            app:boxStrokeColor="@color/accent_blue">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/etPeso"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="numberDecimal"
-                                android:textColor="@color/text_black" />
+                                android:textColor="@color/text_primary" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilAltura"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginStart="8dp"
                             android:hint="Altura"
-                            app:startIconDrawable="@android:drawable/ic_menu_compass"
-                            app:startIconTint="@color/accent_purple"
                             app:suffixText="cm"
-                            app:suffixTextColor="@color/accent_purple"
-                            app:boxStrokeColor="@color/accent_purple"
-                            app:hintTextColor="@color/text_gray">
+                            app:boxStrokeColor="@color/accent_blue">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/etAltura"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="number"
-                                android:textColor="@color/text_black" />
+                                android:textColor="@color/text_primary" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
+                    <!-- Fila 2: Edad y Sexo -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -133,22 +128,20 @@
                         android:weightSum="2">
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilEdad"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginEnd="8dp"
                             android:hint="Edad"
-                            app:startIconDrawable="@android:drawable/ic_menu_my_calendar"
-                            app:startIconTint="@color/accent_purple"
-                            app:boxStrokeColor="@color/accent_purple"
-                            app:hintTextColor="@color/text_gray">
+                            app:boxStrokeColor="@color/accent_blue">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/etEdad"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="number"
-                                android:textColor="@color/text_black" />
+                                android:textColor="@color/text_primary" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -157,58 +150,232 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginStart="8dp"
+                            android:hint="Sexo"
+                            app:boxStrokeColor="@color/accent_blue">
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/spinnerSexo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:textColor="@color/text_primary" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <!-- Fila 3: Actividad y Objetivo -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
                             android:hint="Actividad"
-                            app:boxStrokeColor="@color/accent_purple"
-                            app:hintTextColor="@color/text_gray">
+                            app:boxStrokeColor="@color/accent_blue">
                             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                 android:id="@+id/spinnerActividad"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="none"
-                                android:textColor="@color/text_black" />
+                                android:textColor="@color/text_primary" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:hint="Objetivo"
+                            app:boxStrokeColor="@color/accent_blue">
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/spinnerObjetivo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:textColor="@color/text_primary" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
+
+                    <!-- Preferencias y Filtros -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Preferencias"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Patrón de Alimentación"
+                        app:boxStrokeColor="@color/accent_blue">
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/spinnerPatron"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:textColor="@color/text_primary" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:hint="Objetivo"
-                        app:boxStrokeColor="@color/accent_purple"
-                        app:hintTextColor="@color/text_gray">
+                        android:hint="Número de Comidas"
+                        app:boxStrokeColor="@color/accent_blue">
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                            android:id="@+id/spinnerObjetivo"
+                            android:id="@+id/spinnerNumComidas"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
-                            android:textColor="@color/text_black" />
+                            android:textColor="@color/text_primary" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Alergias e Intolerancias"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="4dp"/>
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cgAlergias"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:chipSpacingHorizontal="8dp">
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipGluten"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Gluten" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipLactosa"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lactosa" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipFrutosSecos"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Frutos Secos" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipHuevo"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Huevo" />
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="Otras alergias o alimentos rechazados"
+                        app:boxStrokeColor="@color/accent_blue"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="200">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etRechazados"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine"
+                            android:maxLines="3"
+                            android:textColor="@color/text_primary" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnActualizarDatos"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="56dp"
                         android:layout_marginTop="16dp"
                         android:text="Generar Mi Plan Personalizado"
-                        android:backgroundTint="@color/accent_purple"
+                        android:backgroundTint="@color/accent_blue"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        app:cornerRadius="12dp" />
+                        app:cornerRadius="16dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- BLOQUE B: SUGERENCIA DEL COACH AI -->
+            <!-- BLOQUE B: SUGERENCIA ACTUAL -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sugerencia del Coach AI"
-                android:textColor="@color/text_black"
+                android:text="Mi Plan Activo"
+                android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
 
-            <!-- Empty State Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardIAAdvice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#F0F7FF"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#CCE5FF"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_help_outline"
+                            app:tint="@color/accent_blue" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Consejo de Nutrición IA"
+                            android:textColor="@color/accent_blue"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvIAAdvice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Analizando tu perfil para darte el mejor consejo..."
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardEmptySuggestion"
                 android:layout_width="match_parent"
@@ -217,8 +384,7 @@
                 app:cardCornerRadius="24dp"
                 app:cardElevation="2dp"
                 app:strokeWidth="0dp"
-                android:layout_marginBottom="24dp"
-                android:visibility="gone">
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -230,16 +396,16 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:src="@android:drawable/ic_menu_my_calendar"
-                        app:tint="@color/text_gray"
+                        android:src="@drawable/ic_compras"
+                        app:tint="@color/text_secondary"
                         android:alpha="0.5" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Aún no tienes un plan"
-                        android:textColor="@color/text_black"
+                        android:text="Sin plan activo"
+                        android:textColor="@color/text_primary"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -247,14 +413,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Completa tus datos arriba para generar una dieta personalizada con IA."
-                        android:textColor="@color/text_gray"
+                        android:text="Completa el formulario para que nuestra IA diseñe tu dieta con alimentos reales."
+                        android:textColor="@color/text_secondary"
                         android:textSize="14sp"
                         android:gravity="center" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Active Suggestion Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardSuggestion"
                 android:layout_width="match_parent"
@@ -263,7 +428,8 @@
                 app:cardCornerRadius="24dp"
                 app:cardElevation="4dp"
                 app:strokeWidth="0dp"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="24dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -272,21 +438,11 @@
                     android:padding="20dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TU PLAN IDEAL"
-                        android:textColor="@color/accent_purple"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:letterSpacing="0.1" />
-
-                    <TextView
                         android:id="@+id/tvNombreDietaSugerida"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:text="Dieta Hipercalórica"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/text_primary"
                         android:textSize="22sp"
                         android:textStyle="bold" />
 
@@ -297,19 +453,46 @@
                         android:layout_marginTop="20dp"
                         android:gravity="center_vertical">
 
-                        <!-- Donut Chart -->
-                        <com.example.skynet.ui.custom.CustomDonutChart
-                            android:id="@+id/donutChartMacros"
+                        <FrameLayout
                             android:layout_width="100dp"
-                            android:layout_height="100dp" />
+                            android:layout_height="100dp">
 
-                        <!-- Macros Data -->
+                            <com.example.skynet.ui.custom.CustomDonutChart
+                                android:id="@+id/donutChartMacros"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvCaloriasRestantes"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="2000"
+                                    android:textColor="@color/text_primary"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="kcal rest."
+                                    android:textColor="@color/text_secondary"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+                        </FrameLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="24dp"
                             android:orientation="vertical">
-
+                            <!-- Macro Items -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -321,8 +504,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="8dp"
-                                    android:text="180g Proteína"
-                                    android:textColor="@color/text_black"
+                                    android:text="--g Prot"
+                                    android:textColor="@color/text_primary"
                                     android:textSize="14sp" />
                             </LinearLayout>
 
@@ -338,8 +521,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="8dp"
-                                    android:text="350g Carbos"
-                                    android:textColor="@color/text_black"
+                                    android:text="--g Carbs"
+                                    android:textColor="@color/text_primary"
                                     android:textSize="14sp" />
                             </LinearLayout>
 
@@ -355,131 +538,77 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="8dp"
-                                    android:text="80g Grasas"
-                                    android:textColor="@color/text_black"
+                                    android:text="--g Grasas"
+                                    android:textColor="@color/text_primary"
                                     android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tvCaloriasSugeridas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="0 kcal de 2000"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/progressCalorias"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="20dp">
+                        android:layout_marginTop="8dp"
+                        app:indicatorColor="@color/accent_blue"
+                        app:trackColor="#E0E0E0"
+                        app:trackThickness="8dp"
+                        app:trackCornerRadius="4dp"
+                        android:progress="0" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:id="@+id/tvCaloriasSugeridas"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0 kcal consumidas"
-                                android:textColor="@color/text_black"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:gravity="bottom"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:id="@+id/tvCaloriasRestantes"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="2000"
-                                    android:textColor="@color/accent_blue"
-                                    android:textSize="18sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="4dp"
-                                    android:text="restantes"
-                                    android:textColor="@color/text_gray"
-                                    android:textSize="12sp" />
-                            </LinearLayout>
-                        </RelativeLayout>
-
-                        <com.google.android.material.progressindicator.LinearProgressIndicator
-                            android:id="@+id/progressCalorias"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            app:indicatorColor="@color/accent_blue"
-                            app:trackColor="#E0E0E0"
-                            app:trackThickness="8dp"
-                            app:trackCornerRadius="4dp"
-                            android:progress="0" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#E0E0E0"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="12dp" />
-
+                    <!-- Nuevas Acciones y Listado de Comidas -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="24dp"
                         android:layout_marginBottom="12dp">
 
                         <TextView
-                            android:id="@+id/tvTituloComidas"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="TU MENÚ DIARIO"
-                            android:textColor="@color/text_gray"
+                            android:text="MI REGISTRO DE HOY"
+                            android:textColor="@color/text_secondary"
                             android:textSize="12sp"
-                            android:textStyle="bold"
-                            android:singleLine="true" />
+                            android:textStyle="bold" />
 
-                        <LinearLayout
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnBuscarComida"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
+                            android:minWidth="0dp"
+                            android:paddingHorizontal="8dp"
+                            android:text="Buscar"
+                            android:textColor="@color/accent_blue"
+                            android:textSize="12sp"
+                            app:icon="@android:drawable/ic_menu_search"
+                            app:iconSize="16dp" />
 
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btnBuscarComida"
-                                style="@style/Widget.MaterialComponents.Button.TextButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:minWidth="0dp"
-                                android:paddingHorizontal="4dp"
-                                android:text="Buscar"
-                                android:textColor="@color/accent_purple"
-                                android:textSize="10sp"
-                                app:icon="@android:drawable/ic_menu_search"
-                                app:iconPadding="2dp"
-                                app:iconSize="14dp"
-                                app:iconTint="@color/accent_purple" />
-
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btnAddComidaManual"
-                                style="@style/Widget.MaterialComponents.Button.TextButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:minWidth="0dp"
-                                android:paddingHorizontal="4dp"
-                                android:text="Añadir"
-                                android:textColor="@color/accent_purple"
-                                android:textSize="10sp"
-                                app:icon="@android:drawable/ic_input_add"
-                                app:iconPadding="2dp"
-                                app:iconSize="14dp"
-                                app:iconTint="@color/accent_purple" />
-                        </LinearLayout>
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAddComidaManual"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="0dp"
+                            android:paddingHorizontal="8dp"
+                            android:text="Añadir"
+                            android:textColor="@color/accent_blue"
+                            android:textSize="12sp"
+                            app:icon="@android:drawable/ic_input_add"
+                            app:iconSize="16dp" />
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -489,15 +618,36 @@
                         android:nestedScrollingEnabled="false"
                         tools:listitem="@layout/item_comida_dieta" />
 
+                    <TextView
+                        android:id="@+id/tvTituloRecetas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="RECETAS RECOMENDADAS"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvRecetasSugeridas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_receta_card" />
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- BLOQUE C: HISTORIAL DE PLANES -->
+            <!-- BLOQUE C: HISTORIAL -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mis Planes Anteriores"
-                android:textColor="@color/text_black"
+                android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
@@ -511,13 +661,12 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_nutricion_historial" />
 
-            <!-- BLOQUE D: EXPLORAR TODAS LAS DIETAS -->
+            <!-- BLOQUE D: CATALOGO -->
             <TextView
-                android:id="@+id/tvTituloCatalogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Catálogo de Dietas"
-                android:textColor="@color/text_black"
+                android:text="Explorar Otros Planes"
+                android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
@@ -527,29 +676,55 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_dieta_catalogo"
-                android:layout_marginBottom="24dp"/>
-
-            <!-- BLOQUE E: RECETAS SALUDABLES -->
-            <TextView
-                android:id="@+id/tvTituloRecetas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Recetas de la Comunidad"
-                android:textColor="@color/text_black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvRecetasSugeridas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_receta_card"
-                android:layout_marginBottom="24dp"/>
+                tools:listitem="@layout/item_dieta_catalogo" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <!-- Overlay de Carga Inteligente -->
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#AAFFFFFF"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                app:indicatorColor="@color/accent_blue"
+                app:indicatorSize="48dp" />
+
+            <TextView
+                android:id="@+id/tvLoadingMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Calculando objetivos..."
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelGenerate"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Cancelar"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

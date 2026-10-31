@@ -28,10 +28,15 @@ public class ComidaAdapter extends RecyclerView.Adapter<ComidaAdapter.ComidaView
         void onMenuClick(View view, ComidaDiariaResponseDto comida);
     }
 
+    public interface OnComidaCheckedChangeListener {
+        void onCheckedChanged(ComidaDiariaResponseDto comida, boolean isChecked);
+    }
+
     private List<ComidaDiariaResponseDto> comidas = new ArrayList<>();
     private OnComidaClickListener clickListener;
     private OnComidaLongClickListener longClickListener;
     private OnMenuClickListener menuClickListener;
+    private OnComidaCheckedChangeListener checkedChangeListener;
 
     public void setComidas(List<ComidaDiariaResponseDto> comidas) {
         this.comidas = comidas;
@@ -54,6 +59,10 @@ public class ComidaAdapter extends RecyclerView.Adapter<ComidaAdapter.ComidaView
         this.menuClickListener = listener;
     }
 
+    public void setOnComidaCheckedChangeListener(OnComidaCheckedChangeListener listener) {
+        this.checkedChangeListener = listener;
+    }
+
     @NonNull
     @Override
     public ComidaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -64,7 +73,7 @@ public class ComidaAdapter extends RecyclerView.Adapter<ComidaAdapter.ComidaView
     @Override
     public void onBindViewHolder(@NonNull ComidaViewHolder holder, int position) {
         ComidaDiariaResponseDto comida = comidas.get(position);
-        holder.bind(comida, clickListener, longClickListener, menuClickListener);
+        holder.bind(comida, clickListener, longClickListener, menuClickListener, checkedChangeListener);
     }
 
     @Override
@@ -75,6 +84,7 @@ public class ComidaAdapter extends RecyclerView.Adapter<ComidaAdapter.ComidaView
     static class ComidaViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitulo, tvDesc, tvHora, tvMacros;
         ImageView ivIcono, ivMenu;
+        android.widget.CheckBox cbCompletada;
 
         public ComidaViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,11 +94,34 @@ public class ComidaAdapter extends RecyclerView.Adapter<ComidaAdapter.ComidaView
             tvMacros = itemView.findViewById(R.id.tvMacrosComida);
             ivIcono = itemView.findViewById(R.id.ivIconoComida);
             ivMenu = itemView.findViewById(R.id.ivMenuComida);
+            cbCompletada = itemView.findViewById(R.id.cbCompletada);
         }
 
-        public void bind(ComidaDiariaResponseDto comida, OnComidaClickListener clickListener, OnComidaLongClickListener longClickListener, OnMenuClickListener menuClickListener) {
+        public void bind(ComidaDiariaResponseDto comida, OnComidaClickListener clickListener, OnComidaLongClickListener longClickListener, OnMenuClickListener menuClickListener, OnComidaCheckedChangeListener checkedChangeListener) {
             tvTitulo.setText(comida.getNombreAlimento() != null ? comida.getNombreAlimento() : comida.getMomento());
             tvDesc.setText(comida.getMomento()); // Invertimos para que el plato sea el título
+
+            if (cbCompletada != null) {
+                cbCompletada.setOnCheckedChangeListener(null);
+                cbCompletada.setChecked(comida.isSelected());
+                cbCompletada.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    comida.setSelected(isChecked);
+                    if (checkedChangeListener != null) {
+                        checkedChangeListener.onCheckedChanged(comida, isChecked);
+                    }
+                });
+                
+                // Si ya tiene ID, significa que es una comida registrada, no una sugerencia
+                // Podríamos ocultar el checkbox o mostrarlo marcado y deshabilitado
+                if (comida.getId() != null) {
+                    cbCompletada.setVisibility(View.VISIBLE);
+                    cbCompletada.setChecked(true);
+                    cbCompletada.setEnabled(false);
+                } else {
+                    cbCompletada.setVisibility(View.VISIBLE);
+                    cbCompletada.setEnabled(true);
+                }
+            }
 
             if (comida.getCalorias() != null) {
                 String macros = String.format(Locale.getDefault(), "%.0f kcal | P: %.0fg | C: %.0fg | G: %.0fg",

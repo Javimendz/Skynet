@@ -60,6 +60,7 @@ public class DetalleComidaFragment extends DialogFragment {
     }
 
     private void setupUI(View view) {
+        String[] momentos = {"DESAYUNO", "ALMUERZO", "COMIDA", "MERIENDA", "CENA"};
         ImageView ivComida = view.findViewById(R.id.ivComidaDetalle);
         TextView tvNombre = view.findViewById(R.id.tvNombreComidaDetalle);
         TextView tvMomento = view.findViewById(R.id.tvMomentoDetalle);
@@ -68,10 +69,13 @@ public class DetalleComidaFragment extends DialogFragment {
         TextView tvCarb = view.findViewById(R.id.tvCarbDetail);
         TextView tvGras = view.findViewById(R.id.tvGrasDetail);
         AutoCompleteTextView spinnerMomento = view.findViewById(R.id.spinnerMomentoDetalle);
-
-        String[] momentos = {"DESAYUNO", "ALMUERZO", "COMIDA", "MERIENDA", "CENA"};
-        NoFilterAdapter adapter = new NoFilterAdapter(requireContext(), momentos);
-        spinnerMomento.setAdapter(adapter);
+        spinnerMomento.setInputType(android.text.InputType.TYPE_NULL);
+        if (spinnerMomento instanceof com.google.android.material.textfield.MaterialAutoCompleteTextView) {
+            ((com.google.android.material.textfield.MaterialAutoCompleteTextView) spinnerMomento).setSimpleItems(momentos);
+        } else {
+            NoFilterAdapter adapter = new NoFilterAdapter(requireContext(), momentos);
+            spinnerMomento.setAdapter(adapter);
+        }
 
         // Preseleccionar momento si existe
         if (comida != null && comida.getMomento() != null) {
@@ -97,9 +101,8 @@ public class DetalleComidaFragment extends DialogFragment {
         });
 
         view.findViewById(R.id.btnBackDetalleComida).setOnClickListener(v -> {
-            // Como este es un fragmento secundario (detalle),
-            // siempre debe volver a la pantalla de la que vino (la lista de comidas)
-            getParentFragmentManager().popBackStack();
+            // Siendo un DialogFragment, lo correcto es usar dismiss()
+            dismiss();
         });
 
         if (comida != null) {
@@ -216,7 +219,7 @@ public class DetalleComidaFragment extends DialogFragment {
 
                     viewModel.añadirComida(request, usuarioId);
                     Toast.makeText(requireContext(), "Añadiendo " + comida.getNombreAlimento() + " a tu plan...", Toast.LENGTH_SHORT).show();
-                    getParentFragmentManager().popBackStack();
+                    dismiss();
                 } else {
                     Toast.makeText(requireContext(), "No tienes un plan activo donde añadir la comida", Toast.LENGTH_LONG).show();
                 }

@@ -139,6 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
         String[] generos = {"Hombre", "Mujer"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, generos);
         spinnerGenero.setAdapter(adapter);
+        spinnerGenero.setInputType(android.text.InputType.TYPE_NULL); // Previene teclado y sugerencias que causan crash
 
         // Botón Escanear Rostro
         findViewById(R.id.btnScanFace).setOnClickListener(v -> {

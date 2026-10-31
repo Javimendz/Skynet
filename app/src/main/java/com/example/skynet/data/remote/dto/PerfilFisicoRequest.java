@@ -24,6 +24,21 @@ public class PerfilFisicoRequest {
     @SerializedName("genero")
     private String genero;
 
+    @SerializedName("patronAlimentacion")
+    private String patronAlimentacion;
+
+    @SerializedName("alergias")
+    private java.util.List<String> alergias;
+
+    @SerializedName("alergiasLibre")
+    private String alergiasLibre;
+
+    @SerializedName("alimentosRechazados")
+    private String alimentosRechazados;
+
+    @SerializedName("numComidas")
+    private Integer numComidas;
+
     // Getters y Setters
     public Long getUsuarioId() { return usuarioId; }
     public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }
@@ -39,4 +54,14 @@ public class PerfilFisicoRequest {
     public void setObjetivo(String objetivo) { this.objetivo = objetivo; }
     public String getGenero() { return genero; }
     public void setGenero(String genero) { this.genero = genero; }
+    public String getPatronAlimentacion() { return patronAlimentacion; }
+    public void setPatronAlimentacion(String patronAlimentacion) { this.patronAlimentacion = patronAlimentacion; }
+    public java.util.List<String> getAlergias() { return alergias; }
+    public void setAlergias(java.util.List<String> alergias) { this.alergias = alergias; }
+    public String getAlergiasLibre() { return alergiasLibre; }
+    public void setAlergiasLibre(String alergiasLibre) { this.alergiasLibre = alergiasLibre; }
+    public String getAlimentosRechazados() { return alimentosRechazados; }
+    public void setAlimentosRechazados(String alimentosRechazados) { this.alimentosRechazados = alimentosRechazados; }
+    public Integer getNumComidas() { return numComidas; }
+    public void setNumComidas(Integer numComidas) { this.numComidas = numComidas; }
 }

@@ -52,6 +52,7 @@ public class RegistroSaludActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, niveles);
         actvActividad.setAdapter(adapter);
         actvActividad.setText(niveles[2], false); // Moderado por defecto
+        actvActividad.setInputType(android.text.InputType.TYPE_NULL); // Previene crash por OneSearchSuggestProvider
     }
 
     private void cargarDatosActuales() {

@@ -412,6 +412,7 @@ public class ResultadoDietaFragment extends Fragment {
         String[] momentos = {"DESAYUNO", "ALMUERZO", "COMIDA", "MERIENDA", "CENA"};
         spinnerMomento.setAdapter(new NoFilterAdapter(requireContext(), momentos));
         spinnerMomento.setText(momentos[0], false);
+        spinnerMomento.setInputType(android.text.InputType.TYPE_NULL);
         spinnerMomento.setOnClickListener(v -> {
             spinnerMomento.showDropDown();
         });
@@ -515,6 +516,7 @@ public class ResultadoDietaFragment extends Fragment {
             searchEditText.setImeOptions(searchEditText.getImeOptions() | android.view.inputmethod.EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING);
         }
         android.widget.AutoCompleteTextView spinnerMomento = dialogView.findViewById(R.id.spinnerMomentoBusqueda);
+        spinnerMomento.setInputType(android.text.InputType.TYPE_NULL);
         android.widget.ProgressBar progressBar = dialogView.findViewById(R.id.pbSearchLoading);
         RecyclerView rvResults = dialogView.findViewById(R.id.rvFoodSearchResults);
         TextView tvNoResults = dialogView.findViewById(R.id.tvNoSearchResults);

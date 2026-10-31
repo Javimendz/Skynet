@@ -41,7 +41,7 @@
                     android:id="@+id/tvNivelPlan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/brand_pink"
+                    android:background="@color/accent_blue"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="4dp"
                     android:text="INTERMEDIO"
@@ -123,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:backgroundTint="@color/brand_pink"
+                    android:backgroundTint="@color/accent_blue"
                     android:text="ACTIVAR PLAN"
                     android:textColor="@color/white"
                     app:cornerRadius="20dp" />

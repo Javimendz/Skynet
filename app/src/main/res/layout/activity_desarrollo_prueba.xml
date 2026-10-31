@@ -368,7 +368,7 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/bg_gradient_purple">
+                        android:background="@drawable/bg_gradient_blue">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -381,7 +381,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="PRÓXIMO ENTRENAMIENTO"
-                                android:textColor="#DDD6FE"
+                                android:textColor="#DBEAFE"
                                 android:textSize="10sp"
                                 android:letterSpacing="0.1"
                                 android:fontFamily="sans-serif-black"/>
@@ -421,7 +421,7 @@
                                 android:layout_height="48dp"
                                 android:layout_marginTop="16dp"
                                 android:text="Empezar"
-                                android:textColor="@color/accent_purple"
+                                android:textColor="@color/accent_blue"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
                                 app:backgroundTint="@color/white"
@@ -432,6 +432,141 @@
                         </LinearLayout>
                     </FrameLayout>
                 </com.google.android.material.card.MaterialCardView>
+
+                <!-- WIDGET PROXIMO LOGRO -->
+                <LinearLayout
+                    android:id="@+id/layoutNextAchievementWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp">
+
+                        <View
+                            android:id="@+id/accentBarLogros"
+                            android:layout_width="4dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:background="@color/accent_purple" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/accentBarLogros"
+                            android:layout_marginStart="8dp"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Tu próximo desafío"
+                            android:textColor="@color/text_primary_modern"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/btnVerTodosLogros"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="Ver todos"
+                            android:textColor="@color/accent_purple"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:background="?attr/selectableItemBackground"
+                            android:padding="4dp" />
+                    </RelativeLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardProximoLogroHome"
+                        style="@style/Widget.App.Card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp"
+                        android:foreground="?attr/selectableItemBackground">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/cardIconoProximo"
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                app:cardCornerRadius="16dp"
+                                app:cardElevation="0dp"
+                                app:cardBackgroundColor="@color/accent_purple_light"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent">
+
+                                <ImageView
+                                    android:id="@+id/imgIconoProximo"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_trophy"
+                                    app:tint="@color/accent_purple" />
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <TextView
+                                android:id="@+id/tvNombreProximo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="Logro"
+                                android:textColor="@color/text_primary"
+                                android:textSize="16sp"
+                                app:layout_constraintEnd_toStartOf="@+id/tvPctProximo"
+                                app:layout_constraintStart_toEndOf="@id/cardIconoProximo"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvDescProximo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif"
+                                android:text="Descripción del logro..."
+                                android:textColor="@color/text_secondary"
+                                android:textSize="12sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@id/tvNombreProximo"
+                                app:layout_constraintTop_toBottomOf="@id/tvNombreProximo" />
+
+                            <TextView
+                                android:id="@+id/tvPctProximo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="75%"
+                                android:textColor="@color/accent_purple"
+                                android:textSize="12sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <com.google.android.material.progressindicator.LinearProgressIndicator
+                                android:id="@+id/progressProximo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                app:indicatorColor="@color/accent_purple"
+                                app:trackColor="@color/accent_purple_light"
+                                app:trackCornerRadius="4dp"
+                                app:trackThickness="6dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@id/tvNombreProximo"
+                                app:layout_constraintTop_toBottomOf="@id/tvDescProximo"
+                                android:progress="75" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
                 <!-- SECCIÓN RESERVAS -->
                 <LinearLayout

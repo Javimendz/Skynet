@@ -59,4 +59,8 @@ public class NutricionRepository {
     public void guardarPlan(Long usuarioId, NutricionResponseDto plan, Callback<ApiResponseDto<NutricionResponseDto>> callback) {
         apiService.guardarPlan(usuarioId, plan).enqueue(callback);
     }
+
+    public void obtenerConsejoIA(String perfil, String pregunta, Callback<ApiResponseDto<String>> callback) {
+        apiService.obtenerConsejoIA(perfil, pregunta).enqueue(callback);
+    }
 }

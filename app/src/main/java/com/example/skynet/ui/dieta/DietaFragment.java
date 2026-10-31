@@ -42,11 +42,15 @@ public class DietaFragment extends Fragment {
 
     private DietaViewModel viewModel;
     private TextInputEditText etPeso, etAltura, etEdad;
-    private MaterialAutoCompleteTextView spinnerActividad, spinnerObjetivo;
+    private MaterialAutoCompleteTextView spinnerActividad, spinnerObjetivo, spinnerSexo, spinnerPatron, spinnerNumComidas;
     private MaterialButton btnActualizar, btnAddComida, btnBuscarComida;
+    private com.google.android.material.chip.ChipGroup cgAlergias;
+    private TextInputEditText etRechazados;
+    private View loadingOverlay;
+    private TextView tvLoadingMessage;
 
-    private MaterialCardView cardEmptySuggestion, cardSuggestion;
-    private TextView tvNombreSugerida, tvCaloriasSugeridas, tvCaloriasRestantes, tvProt, tvCarbs, tvGrasas, tvTituloRecetas;
+    private MaterialCardView cardEmptySuggestion, cardSuggestion, cardIAAdvice;
+    private TextView tvNombreSugerida, tvCaloriasSugeridas, tvCaloriasRestantes, tvProt, tvCarbs, tvGrasas, tvTituloRecetas, tvIAAdvice;
     private CustomDonutChart donutChart;
     private LinearProgressIndicator progressCalorias;
 
@@ -140,12 +144,22 @@ public class DietaFragment extends Fragment {
         etEdad = v.findViewById(R.id.etEdad);
         spinnerActividad = v.findViewById(R.id.spinnerActividad);
         spinnerObjetivo = v.findViewById(R.id.spinnerObjetivo);
+        spinnerSexo = v.findViewById(R.id.spinnerSexo);
+        spinnerPatron = v.findViewById(R.id.spinnerPatron);
+        spinnerNumComidas = v.findViewById(R.id.spinnerNumComidas);
+        cgAlergias = v.findViewById(R.id.cgAlergias);
+        etRechazados = v.findViewById(R.id.etRechazados);
+        loadingOverlay = v.findViewById(R.id.loadingOverlay);
+        tvLoadingMessage = v.findViewById(R.id.tvLoadingMessage);
+
         btnActualizar = v.findViewById(R.id.btnActualizarDatos);
         btnAddComida = v.findViewById(R.id.btnAddComidaManual);
         btnBuscarComida = v.findViewById(R.id.btnBuscarComida);
 
         cardEmptySuggestion = v.findViewById(R.id.cardEmptySuggestion);
         cardSuggestion = v.findViewById(R.id.cardSuggestion);
+        cardIAAdvice = v.findViewById(R.id.cardIAAdvice);
+        tvIAAdvice = v.findViewById(R.id.tvIAAdvice);
         tvNombreSugerida = v.findViewById(R.id.tvNombreDietaSugerida);
         tvCaloriasSugeridas = v.findViewById(R.id.tvCaloriasSugeridas);
         tvCaloriasRestantes = v.findViewById(R.id.tvCaloriasRestantes);
@@ -320,10 +334,7 @@ public class DietaFragment extends Fragment {
                     }
                 }
             }
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, DetalleComidaFragment.newInstance(comida))
-                    .addToBackStack(null)
-                    .commit();
+            DetalleComidaFragment.newInstance(comida).show(getParentFragmentManager(), "detalle_comida");
         });
         rvComidas.setLayoutManager(new LinearLayoutManager(getContext()) {
             @Override
@@ -332,6 +343,32 @@ public class DietaFragment extends Fragment {
             }
         });
         rvComidas.setAdapter(comidaAdapter);
+
+        comidaAdapter.setOnComidaCheckedChangeListener((comida, isChecked) -> {
+            if (isChecked && comida.getId() == null) {
+                NutricionResponseDto plan = viewModel.getPlanActual().getValue();
+                if (plan != null) {
+                    com.example.skynet.data.remote.dto.ComidaDiariaRequestDto request = new com.example.skynet.data.remote.dto.ComidaDiariaRequestDto();
+                    request.setNombreAlimento(comida.getNombreAlimento());
+                    request.setMomento(comida.getMomento());
+                    request.setCalorias(comida.getCalorias());
+                    request.setProteina(comida.getProteina());
+                    request.setCarbohidratos(comida.getCarbohidratos());
+                    request.setGrasas(comida.getGrasas());
+                    request.setPlanNutricionalId(plan.getId());
+                    request.setImagenUrl(comida.getImagenUrl());
+                    request.setDescripcion(comida.getDescripcion());
+                    request.setRecipeUrl(comida.getRecipeUrl());
+                    
+                    viewModel.añadirComida(request, usuarioId);
+                    
+                    // Mostrar feedback visual
+                    com.google.android.material.snackbar.Snackbar.make(getView(), 
+                        "Comida registrada: " + comida.getNombreAlimento(), 
+                        com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         recetaAdapter = new RecetaAdapter(receta -> {
             com.example.skynet.data.remote.dto.ComidaDiariaResponseDto tempComida = new com.example.skynet.data.remote.dto.ComidaDiariaResponseDto();
@@ -350,10 +387,7 @@ public class DietaFragment extends Fragment {
                 } catch (Exception ignored) {}
             }
 
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, DetalleComidaFragment.newInstance(tempComida))
-                    .addToBackStack(null)
-                    .commit();
+            DetalleComidaFragment.newInstance(tempComida).show(getParentFragmentManager(), "detalle_receta");
         });
         rvRecetas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rvRecetas.setAdapter(recetaAdapter);
@@ -414,6 +448,15 @@ public class DietaFragment extends Fragment {
                 if (!error.contains("404") && !error.contains("no tiene registros") && !error.contains("No se encontraron datos de salud")) {
                     Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        viewModel.getConsejoIA().observe(getViewLifecycleOwner(), consejo -> {
+            if (consejo != null && !consejo.isEmpty()) {
+                cardIAAdvice.setVisibility(View.VISIBLE);
+                tvIAAdvice.setText(consejo);
+            } else {
+                cardIAAdvice.setVisibility(View.GONE);
             }
         });
     }
@@ -569,65 +612,115 @@ public class DietaFragment extends Fragment {
 
         String pesoStr = etPeso.getText().toString().trim();
         String alturaStr = etAltura.getText().toString().trim();
+        String edadStr = etEdad.getText().toString().trim();
 
-        if (pesoStr.isEmpty() || alturaStr.isEmpty()) {
-            Toast.makeText(getContext(), "Por favor, completa peso y altura", Toast.LENGTH_SHORT).show();
+        if (pesoStr.isEmpty() || alturaStr.isEmpty() || edadStr.isEmpty()) {
+            Toast.makeText(getContext(), "Por favor, completa todos los campos básicos", Toast.LENGTH_SHORT).show();
             return;
         }
 
         try {
+            double peso = Double.parseDouble(pesoStr);
+            double altura = Double.parseDouble(alturaStr);
+            int edad = Integer.parseInt(edadStr);
+
+            // Validaciones
+            if (peso < 30 || peso > 250) {
+                etPeso.setError("El peso debe estar entre 30 y 250 kg");
+                return;
+            }
+            if (altura < 100 || altura > 250) {
+                etAltura.setError("La altura debe estar entre 100 y 250 cm");
+                return;
+            }
+            if (edad < 14 || edad > 100) {
+                etEdad.setError("La edad debe estar entre 14 y 100 años");
+                return;
+            }
+
             PerfilFisicoRequest request = new PerfilFisicoRequest();
             request.setUsuarioId(usuarioId);
-            request.setPeso(Double.parseDouble(pesoStr));
-            request.setAltura(Double.parseDouble(alturaStr));
-            // etEdad puede estar vacío si no se cargó del perfil
-            String edadStr = etEdad.getText().toString().trim();
-            request.setEdad(edadStr.isEmpty() ? 25 : Integer.parseInt(edadStr));
+            request.setPeso(peso);
+            request.setAltura(altura);
+            request.setEdad(edad);
 
-            // Mapeo de Nivel de Actividad al formato que espera el Backend (Enum)
-            String actividadSeleccionada = spinnerActividad.getText().toString();
-            String actividadBackend;
+            // Mapeo Sexo
+            String sexoSel = spinnerSexo.getText().toString();
+            request.setGenero(sexoSel.equals("HOMBRE") ? "MASCULINO" : "FEMENINO");
+
+            // Mapeo Actividad con normalización
+            String actividadSeleccionada = spinnerActividad.getText().toString().toUpperCase();
             switch (actividadSeleccionada) {
-                case "SEDENTARIO":
-                    actividadBackend = "SEDENTARIO";
-                    break;
-                case "LIGERO":
-                    actividadBackend = "LIGERO";
-                    break;
+                case "ACTIVO":
+                case "MODERADA":
                 case "MODERADO":
-                    actividadBackend = "MODERADO";
+                    request.setNivelActividad("MODERADO");
                     break;
+                case "MUY ACTIVO":
                 case "INTENSO":
-                    actividadBackend = "INTENSO";
+                    request.setNivelActividad("INTENSO");
                     break;
+                case "SEDENTARIO":
+                case "LIGERO":
                 case "ATLETA":
-                    actividadBackend = "ATLETA";
+                    request.setNivelActividad(actividadSeleccionada);
                     break;
                 default:
-                    actividadBackend = "MODERADO";
+                    request.setNivelActividad("MODERADO");
                     break;
             }
-            request.setNivelActividad(actividadBackend);
 
-            // Mapeo de objetivo al formato que espera el Backend (EnumObjetivo)
+            // Mapeo Objetivo
             String objetivoSeleccionado = spinnerObjetivo.getText().toString();
-            String objetivoBackend;
             switch (objetivoSeleccionado) {
-                case "PERDER_GRASA":
-                    objetivoBackend = "PERDER";
-                    break;
-                case "GANAR_MUSCULO":
-                    objetivoBackend = "GANAR";
-                    break;
-                default:
-                    objetivoBackend = "MANTENER";
-                    break;
+                case "PERDER_GRASA": request.setObjetivo("PERDER"); break;
+                case "GANAR_MUSCULO": request.setObjetivo("GANAR"); break;
+                default: request.setObjetivo("MANTENER"); break;
             }
-            request.setObjetivo(objetivoBackend);
 
+            // Mapeo Patrón
+            String patron = spinnerPatron.getText().toString();
+            request.setPatronAlimentacion(patron);
+
+            // Mapeo Num Comidas
+            try {
+                request.setNumComidas(Integer.parseInt(spinnerNumComidas.getText().toString()));
+            } catch (Exception e) {
+                request.setNumComidas(5);
+            }
+
+            // Recopilar Alergias de Chips
+            java.util.List<String> alergias = new java.util.ArrayList<>();
+            if (cgAlergias.findViewById(R.id.chipGluten) != null && ((com.google.android.material.chip.Chip)cgAlergias.findViewById(R.id.chipGluten)).isChecked()) alergias.add("GLUTEN");
+            if (cgAlergias.findViewById(R.id.chipLactosa) != null && ((com.google.android.material.chip.Chip)cgAlergias.findViewById(R.id.chipLactosa)).isChecked()) alergias.add("LACTOSA");
+            if (cgAlergias.findViewById(R.id.chipFrutosSecos) != null && ((com.google.android.material.chip.Chip)cgAlergias.findViewById(R.id.chipFrutosSecos)).isChecked()) alergias.add("FRUTOS_SECOS");
+            if (cgAlergias.findViewById(R.id.chipHuevo) != null && ((com.google.android.material.chip.Chip)cgAlergias.findViewById(R.id.chipHuevo)).isChecked()) alergias.add("HUEVO");
+            request.setAlergias(alergias);
+
+            request.setAlimentosRechazados(etRechazados.getText().toString());
+
+            if (tvLoadingMessage != null) tvLoadingMessage.setText("Diseñando tu plan con IA...");
             viewModel.generarPlan(request);
+
+            // Preparar string de alergias amigable
+            StringBuilder sbAlergias = new StringBuilder();
+            if (alergias.isEmpty()) {
+                sbAlergias.append("Ninguna");
+            } else {
+                for (int i = 0; i < alergias.size(); i++) {
+                    sbAlergias.append(alergias.get(i));
+                    if (i < alergias.size() - 1) sbAlergias.append(", ");
+                }
+            }
+
+            // Solicitar consejo IA con perfil normalizado y limpio
+            String perfilIA = String.format("Usuario de %d años, %.1f kg, %.1f cm, objetivo %s, actividad %s, patrón %s. Alergias: %s.",
+                    edad, peso, altura, request.getObjetivo(), request.getNivelActividad(), request.getPatronAlimentacion(), sbAlergias.toString());
+
+            viewModel.solicitarConsejoIA(perfilIA, "¿Qué consejo nutricional específico me das para optimizar mis resultados?");
+
         } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), "Por favor, introduce peso y altura válidos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Por favor, introduce valores numéricos válidos", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -649,6 +742,7 @@ public class DietaFragment extends Fragment {
         String[] momentos = {"DESAYUNO", "ALMUERZO", "COMIDA", "MERIENDA", "CENA"};
         spinnerMomento.setAdapter(new NoFilterAdapter(requireContext(), momentos));
         spinnerMomento.setText(momentos[0], false);
+        spinnerMomento.setInputType(InputType.TYPE_NULL);
         spinnerMomento.setOnClickListener(v -> {
             spinnerMomento.showDropDown();
         });
@@ -708,6 +802,7 @@ public class DietaFragment extends Fragment {
         String[] momentos = {"DESAYUNO", "ALMUERZO", "COMIDA", "MERIENDA", "CENA"};
         spinnerMomento.setAdapter(new NoFilterAdapter(requireContext(), momentos));
         spinnerMomento.setText(momentos[0], false);
+        spinnerMomento.setInputType(InputType.TYPE_NULL);
         spinnerMomento.setOnClickListener(v -> {
             spinnerMomento.showDropDown();
         });
@@ -745,10 +840,11 @@ public class DietaFragment extends Fragment {
         });
 
         viewModel.getLoading().observe(getViewLifecycleOwner(), isLoading -> {
-            progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            if (loadingOverlay != null) {
+                loadingOverlay.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            }
         });
-        // -------------------------------------------------------------------------
-        
+
         androidx.appcompat.app.AlertDialog dialog = new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialog_Rounded)
                 .setView(dialogView)
                 .setPositiveButton("Añadir", (d, which) -> {
@@ -779,27 +875,33 @@ public class DietaFragment extends Fragment {
     private void configurarDropdowns() {
         String[] niveles = {"SEDENTARIO", "LIGERO", "MODERADO", "INTENSO", "ATLETA"};
         String[] objetivos = {"PERDER_GRASA", "MANTENER", "GANAR_MUSCULO"};
+        String[] sexos = {"HOMBRE", "MUJER"};
+        String[] patrones = {"SIN_RESTRICCIONES", "VEGETARIANO", "VEGANO", "PALEO", "KETO"};
+        String[] numComidas = {"3", "4", "5", "6"};
 
-        // Usamos un adaptador personalizado que desactiva el filtrado
-        // Esto soluciona el problema de que solo se vea un elemento o ninguno
-        NoFilterAdapter adapterActividad = new NoFilterAdapter(requireContext(), niveles);
-        NoFilterAdapter adapterObjetivo = new NoFilterAdapter(requireContext(), objetivos);
+        spinnerActividad.setAdapter(new NoFilterAdapter(requireContext(), niveles));
+        spinnerObjetivo.setAdapter(new NoFilterAdapter(requireContext(), objetivos));
+        spinnerSexo.setAdapter(new NoFilterAdapter(requireContext(), sexos));
+        spinnerPatron.setAdapter(new NoFilterAdapter(requireContext(), patrones));
+        spinnerNumComidas.setAdapter(new NoFilterAdapter(requireContext(), numComidas));
 
-        spinnerActividad.setAdapter(adapterActividad);
-        spinnerObjetivo.setAdapter(adapterObjetivo);
+        // Valores por defecto
+        spinnerSexo.setText(sexos[0], false);
+        spinnerPatron.setText(patrones[0], false);
+        spinnerNumComidas.setText(numComidas[2], false); // 5 comidas
 
-        // Forzar comportamiento de Spinner (no teclado)
-        spinnerActividad.setInputType(android.text.InputType.TYPE_NULL);
-        spinnerObjetivo.setInputType(android.text.InputType.TYPE_NULL);
+        // Forzar comportamiento de Spinner
+        spinnerActividad.setInputType(InputType.TYPE_NULL);
+        spinnerObjetivo.setInputType(InputType.TYPE_NULL);
+        spinnerSexo.setInputType(InputType.TYPE_NULL);
+        spinnerPatron.setInputType(InputType.TYPE_NULL);
+        spinnerNumComidas.setInputType(InputType.TYPE_NULL);
 
-        // Aseguramos apertura inmediata al tocar
-        spinnerActividad.setOnClickListener(v -> {
-            spinnerActividad.showDropDown();
-        });
-
-        spinnerObjetivo.setOnClickListener(v -> {
-            spinnerObjetivo.showDropDown();
-        });
+        spinnerActividad.setOnClickListener(v -> spinnerActividad.showDropDown());
+        spinnerObjetivo.setOnClickListener(v -> spinnerObjetivo.showDropDown());
+        spinnerSexo.setOnClickListener(v -> spinnerSexo.showDropDown());
+        spinnerPatron.setOnClickListener(v -> spinnerPatron.showDropDown());
+        spinnerNumComidas.setOnClickListener(v -> spinnerNumComidas.showDropDown());
     }
 
     /**

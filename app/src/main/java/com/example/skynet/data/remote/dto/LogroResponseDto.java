@@ -15,6 +15,10 @@ public class LogroResponseDto {
     private Double porcentajeProgreso;
     @SerializedName("desbloqueado")
     private boolean desbloqueado;
+    @SerializedName("progresoActual")
+    private Integer progresoActual;
+    @SerializedName("meta")
+    private Integer meta;
 
     public String getNombre() { return nombre; }
     public String getDescripcion() { return descripcion; }
@@ -22,4 +26,6 @@ public class LogroResponseDto {
     public String getFechaDesbloqueo() { return fechaDesbloqueo; }
     public Double getPorcentajeProgreso() { return porcentajeProgreso; }
     public boolean isDesbloqueado() { return desbloqueado; }
+    public Integer getProgresoActual() { return progresoActual; }
+    public Integer getMeta() { return meta; }
 }

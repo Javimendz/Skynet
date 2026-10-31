@@ -145,10 +145,10 @@ fun GlassCategoryChip(
         onClick = onClick,
         modifier = modifier.height(40.dp),
         shape = RoundedCornerShape(20.dp),
-        color = if (isSelected) Color(0xFFE9E7FF) else Color.White,
+        color = if (isSelected) Color(0xFFDBEAFE) else Color.White,
         border = BorderStroke(
             1.dp,
-            if (isSelected) Color(0xFF6200FF).copy(alpha = 0.5f) else Color(0xFF6B6B7B).copy(alpha = 0.15f)
+            if (isSelected) Color(0xFF3B82F6).copy(alpha = 0.5f) else Color(0xFF6B6B7B).copy(alpha = 0.15f)
         )
     ) {
         Box(
@@ -158,7 +158,7 @@ fun GlassCategoryChip(
             Text(
                 text = text,
                 style = MaterialTheme.typography.labelLarge.copy(
-                    color = if (isSelected) Color(0xFF6200FF) else Color(0xFF6B6B7B),
+                    color = if (isSelected) Color(0xFF3B82F6) else Color(0xFF6B6B7B),
                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                 )
             )

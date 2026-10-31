@@ -41,7 +41,7 @@
                     android:id="@+id/tvBadgeTipo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/brand_pink"
+                    android:background="@color/accent_blue"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="2dp"
                     android:text="ALTA PROTEÍNA"
@@ -93,10 +93,10 @@
                     android:layout_alignParentEnd="true"
                     android:paddingHorizontal="16dp"
                     android:text="VER MÁS"
-                    android:textColor="@color/brand_pink"
+                    android:textColor="@color/accent_blue"
                     android:textSize="12sp"
                     app:cornerRadius="18dp"
-                    app:strokeColor="@color/brand_pink" />
+                    app:strokeColor="@color/accent_blue" />
             </RelativeLayout>
         </LinearLayout>
     </FrameLayout>

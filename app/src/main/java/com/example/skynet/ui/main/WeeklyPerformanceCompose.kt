@@ -73,9 +73,9 @@ fun WeeklyPerformanceWidget(
                     CircularProgressIndicator(
                         progress = { animatedProgress },
                         modifier = Modifier.fillMaxSize(),
-                        color = Color(0xFF6200FF),
+                        color = Color(0xFF3B82F6),
                         strokeWidth = 6.dp,
-                        trackColor = Color(0xFFE9E7FF),
+                        trackColor = Color(0xFFDBEAFE),
                         strokeCap = StrokeCap.Round
                     )
                     Text(
@@ -120,8 +120,8 @@ fun WeeklyPerformanceWidget(
                             .fillMaxWidth()
                             .height(6.dp)
                             .clip(CircleShape),
-                        color = Color(0xFF6200FF),
-                        trackColor = Color(0xFFE9E7FF),
+                        color = Color(0xFF3B82F6),
+                        trackColor = Color(0xFFDBEAFE),
                         strokeCap = StrokeCap.Round
                     )
                 }
@@ -137,7 +137,7 @@ fun WeeklyPerformanceWidget(
                 .glassmorphism(
                     shape = RoundedCornerShape(20.dp),
                     backgroundColor = Color.White,
-                    borderColor = Color(0xFF6200FF).copy(alpha = 0.1f)
+                    borderColor = Color(0xFF3B82F6).copy(alpha = 0.1f)
                 )
                 .padding(16.dp)
         ) {
@@ -171,10 +171,10 @@ fun DayDot(
                 .size(32.dp)
                 .clip(CircleShape)
                 .background(
-                    if (isCompleted) Color(0xFF6200FF) else Color(0xFFF0F0F4)
+                    if (isCompleted) Color(0xFF3B82F6) else Color(0xFFF0F0F4)
                 )
                 .then(
-                    if (!isCompleted) Modifier.border(1.dp, Color(0xFF6200FF).copy(alpha = 0.1f), CircleShape)
+                    if (!isCompleted) Modifier.border(1.dp, Color(0xFF3B82F6).copy(alpha = 0.1f), CircleShape)
                     else Modifier
                 ),
             contentAlignment = Alignment.Center
@@ -191,7 +191,7 @@ fun DayDot(
         Text(
             text = day,
             style = MaterialTheme.typography.labelSmall.copy(
-                color = if (isCompleted) Color(0xFF6200FF) else Color(0xFF6B6B7B),
+                color = if (isCompleted) Color(0xFF3B82F6) else Color(0xFF6B6B7B),
                 fontWeight = if (isCompleted) FontWeight.Bold else FontWeight.Normal
             )
         )
@@ -208,7 +208,7 @@ fun GlassStatCard(
         modifier = modifier
             .glassmorphism(
                 backgroundColor = Color.White,
-                borderColor = Color(0xFF6200FF).copy(alpha = 0.1f)
+                borderColor = Color(0xFF3B82F6).copy(alpha = 0.1f)
             )
             .padding(16.dp),
         contentAlignment = Alignment.Center

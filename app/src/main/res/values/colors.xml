@@ -6,11 +6,9 @@
     <color name="text_primary">#0B0B14</color>
     <color name="text_secondary">#6B6B7B</color>
     <color name="divider">#E4E4EC</color>
-    <color name="accent_purple">#7C3AED</color>
-    <color name="accent_purple_light">#EDE9FE</color>
+    <color name="accent_purple">#2563EB</color>
+    <color name="accent_purple_light">#DBEAFE</color>
     <color name="icon_inactive">#8E8EA0</color>
-
-    <!-- Compat colors for other layouts -->
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
@@ -48,30 +46,30 @@
     <!-- Skynet Dark Mode Palette -->
     <color name="skynet_bg">#000000</color>
     <color name="skynet_card">#1A1625</color>
-    <color name="skynet_primary">#8B5CF6</color>
-    <color name="skynet_secondary">#A78BFA</color>
-    <color name="skynet_text_main">#F5F3FF</color>
-    <color name="skynet_text_secondary">#B8B0C7</color>
-    <color name="skynet_border">#268B5CF6</color>
+    <color name="skynet_primary">#3B82F6</color>
+    <color name="skynet_secondary">#60A5FA</color>
+    <color name="skynet_text_main">#F0F9FF</color>
+    <color name="skynet_text_secondary">#B9D6F3</color>
+    <color name="skynet_border">#263B82F6</color>
 
-    <!-- Palette of Purples for Contrast and Visibility -->
-    <color name="purple_50">#F5F3FF</color>
-    <color name="purple_100">#EDE9FE</color>
-    <color name="purple_200">#DDD6FE</color>
-    <color name="purple_500">#8B5CF6</color>
-    <color name="purple_600">#7C3AED</color>
-    <color name="purple_700">#6D28D9</color>
-    <color name="purple_900">#4C1D95</color>
-    <color name="purple_text">#2E1065</color>
-    <color name="surface_soft">#F5F3FF</color>
+    <!-- Palette of Blues (Legacy Purple names for compatibility) -->
+    <color name="purple_50">#EFF6FF</color>
+    <color name="purple_100">#DBEAFE</color>
+    <color name="purple_200">#BFDBFE</color>
+    <color name="purple_500">#3B82F6</color>
+    <color name="purple_600">#2563EB</color>
+    <color name="purple_700">#1D4ED8</color>
+    <color name="purple_900">#1E3A8A</color>
+    <color name="purple_text">#172554</color>
+    <color name="surface_soft">#F0F9FF</color>
     <color name="bar_dark">#0B0B14</color>
     <color name="text_primary_modern">#0B0B14</color>
     <color name="text_secondary_modern">#6B6B7B</color>
-    <color name="accent_purple_dark">#5B21B6</color>
+    <color name="accent_purple_dark">#1E40AF</color>
     <color name="accent_orange">#FF6B2C</color>
     <color name="accent_green">#22C55E</color>
     <color name="nav_inactive">#8E8EA0</color>
-    <color name="nav_indicator_purple">#337C3AED</color>
-    <color name="nav_text_purple">#C4B5FD</color>
-    <color name="accent_purple_brand">#7C3AED</color>
+    <color name="nav_indicator_purple">#332563EB</color>
+    <color name="nav_text_purple">#93C5FD</color>
+    <color name="accent_purple_brand">#2563EB</color>
 </resources>

@@ -135,6 +135,10 @@
             android:exported="false"
             android:theme="@style/Theme.GYMCrush" />
 
+        <activity
+            android:name=".ui.logros.LogrosActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
