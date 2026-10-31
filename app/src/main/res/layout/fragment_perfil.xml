@@ -26,15 +26,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/text_black" />
 
-        <!-- Header de Perfil Mejorado -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardPerfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:cardBackgroundColor="#CCFFFFFF"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="32dp"
-            app:cardElevation="2dp"
+            app:cardElevation="8dp"
             app:strokeWidth="0dp"
             app:layout_constraintTop_toBottomOf="@id/btnVolverPerfil">
 
@@ -201,9 +200,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="#CCFFFFFF"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="28dp"
-            app:cardElevation="2dp"
+            app:cardElevation="8dp"
             app:strokeWidth="0dp"
             app:layout_constraintTop_toBottomOf="@id/labelActividad">
 
@@ -317,9 +316,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="#CCFFFFFF"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="28dp"
-            app:cardElevation="2dp"
+            app:cardElevation="8dp"
             app:strokeWidth="0dp"
             app:layout_constraintTop_toBottomOf="@id/labelDetalles">
 
