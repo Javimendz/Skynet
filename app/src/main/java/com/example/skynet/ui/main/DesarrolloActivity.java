@@ -171,6 +171,14 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
 
     private TutorialViewModel tutorialViewModel;
 
+    // --- CONFIGURACIÓN DE VISIBILIDAD DEL MENÚ (PASO 2) ---
+    // Cambiar a true para volver a mostrar los enlaces
+    private static final boolean MOSTRAR_QR = false;
+    private static final boolean MOSTRAR_TIENDA = false;
+    private static final boolean MOSTRAR_RESERVAS = false;
+    private static final boolean MOSTRAR_EQUIPO = false;
+    private static final boolean MOSTRAR_ESPACIO = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1288,43 +1296,84 @@ public class DesarrolloActivity extends AppCompatActivity implements OnMapReadyC
             });
         }
 
-        menuView.findViewById(R.id.menu_qr).setOnClickListener(v -> {
-            slidingRootNav.closeMenu();
-            cargarFragmento(new com.example.skynet.ui.acceso.AccesoFragment());
-        });
-        menuView.findViewById(R.id.menu_entrenamiento).setOnClickListener(v -> {
-            slidingRootNav.closeMenu();
-            cargarFragmento(new EntrenamientoFragment());
-        });
-        menuView.findViewById(R.id.menu_dieta).setOnClickListener(v -> {
-            slidingRootNav.closeMenu();
-            cargarFragmento(new DietaFragment());
-        });
-        menuView.findViewById(R.id.menu_reservas).setOnClickListener(v -> {
-            slidingRootNav.closeMenu();
-            cargarFragmento(new ReservasFragment());
-        });
-        menuView.findViewById(R.id.menu_salud).setOnClickListener(v -> {
-            slidingRootNav.closeMenu();
-            Intent intent = new Intent(DesarrolloActivity.this, com.example.skynet.ui.salud.RegistroSaludActivity.class);
-            startActivityForResult(intent, 102);
-        });
-        menuView.findViewById(R.id.menu_suplementacion).setOnClickListener(v -> {
-            slidingRootNav.closeMenu();
-            cargarFragmento(new SuplementacionFragment());
-        });
-        menuView.findViewById(R.id.menu_equipo).setOnClickListener(v -> {
-            slidingRootNav.closeMenu();
-            cargarFragmento(new EquipoFragment());
-        });
-        menuView.findViewById(R.id.menu_contacto).setOnClickListener(v -> {
-            slidingRootNav.closeMenu();
-            cargarFragmento(new ContactoFragment());
-        });
-        menuView.findViewById(R.id.menu_espacio).setOnClickListener(v -> {
-            slidingRootNav.closeMenu();
-            cargarFragmento(new EspacioFragment());
-        });
+        // --- CONTROL DE VISIBILIDAD (PASO 3) ---
+        View vQr = menuView.findViewById(R.id.menu_qr);
+        if (vQr != null) {
+            vQr.setVisibility(MOSTRAR_QR ? View.VISIBLE : View.GONE);
+            vQr.setOnClickListener(v -> {
+                slidingRootNav.closeMenu();
+                cargarFragmento(new com.example.skynet.ui.acceso.AccesoFragment());
+            });
+        }
+
+        View vEntrenamiento = menuView.findViewById(R.id.menu_entrenamiento);
+        if (vEntrenamiento != null) {
+            vEntrenamiento.setOnClickListener(v -> {
+                slidingRootNav.closeMenu();
+                cargarFragmento(new EntrenamientoFragment());
+            });
+        }
+
+        View vDieta = menuView.findViewById(R.id.menu_dieta);
+        if (vDieta != null) {
+            vDieta.setOnClickListener(v -> {
+                slidingRootNav.closeMenu();
+                cargarFragmento(new DietaFragment());
+            });
+        }
+
+        View vReservas = menuView.findViewById(R.id.menu_reservas);
+        if (vReservas != null) {
+            vReservas.setVisibility(MOSTRAR_RESERVAS ? View.VISIBLE : View.GONE);
+            vReservas.setOnClickListener(v -> {
+                slidingRootNav.closeMenu();
+                cargarFragmento(new ReservasFragment());
+            });
+        }
+
+        View vSalud = menuView.findViewById(R.id.menu_salud);
+        if (vSalud != null) {
+            vSalud.setOnClickListener(v -> {
+                slidingRootNav.closeMenu();
+                Intent intent = new Intent(DesarrolloActivity.this, com.example.skynet.ui.salud.RegistroSaludActivity.class);
+                startActivityForResult(intent, 102);
+            });
+        }
+
+        View vTienda = menuView.findViewById(R.id.menu_suplementacion);
+        if (vTienda != null) {
+            vTienda.setVisibility(MOSTRAR_TIENDA ? View.VISIBLE : View.GONE);
+            vTienda.setOnClickListener(v -> {
+                slidingRootNav.closeMenu();
+                cargarFragmento(new SuplementacionFragment());
+            });
+        }
+
+        View vEquipo = menuView.findViewById(R.id.menu_equipo);
+        if (vEquipo != null) {
+            vEquipo.setVisibility(MOSTRAR_EQUIPO ? View.VISIBLE : View.GONE);
+            vEquipo.setOnClickListener(v -> {
+                slidingRootNav.closeMenu();
+                cargarFragmento(new EquipoFragment());
+            });
+        }
+
+        View vContacto = menuView.findViewById(R.id.menu_contacto);
+        if (vContacto != null) {
+            vContacto.setOnClickListener(v -> {
+                slidingRootNav.closeMenu();
+                cargarFragmento(new ContactoFragment());
+            });
+        }
+
+        View vEspacio = menuView.findViewById(R.id.menu_espacio);
+        if (vEspacio != null) {
+            vEspacio.setVisibility(MOSTRAR_ESPACIO ? View.VISIBLE : View.GONE);
+            vEspacio.setOnClickListener(v -> {
+                slidingRootNav.closeMenu();
+                cargarFragmento(new EspacioFragment());
+            });
+        }
 
         View menuLogros = menuView.findViewById(R.id.menu_logros);
         if (menuLogros != null) {
